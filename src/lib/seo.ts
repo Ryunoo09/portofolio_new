@@ -1,8 +1,10 @@
 /**
  * Site-level SEO constants.
- * ponytail: SITE_URL is a placeholder until the domain is decided (Q1) and read from env in step 8.
+ * ponytail: SITE_URL follows NEXT_PUBLIC_SITE_URL; domain decision (Q1) only changes that env value.
  */
-export const SITE_URL = "http://localhost:3000";
+import { getSiteUrl } from "./env";
+
+export const SITE_URL = getSiteUrl();
 
 export const SITE_NAME = "Rakha Yuda Wicaksono";
 
