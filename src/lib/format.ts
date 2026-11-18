@@ -23,16 +23,14 @@ function parseMonth(isoDate: string): Month {
 }
 
 /**
- * "Jan 2023 – Present", "Jan – Dec 2023" inside one year, or
- * "Nov 2022 – Mar 2024" across years.
+ * Always names both years so a range is never ambiguous:
+ * "Jan 2023 – Dec 2023", "Nov 2022 – Mar 2024", "Mar 2024 – Present".
  */
 export function formatDateRange(startDate: string, endDate: string | null): string {
   const start = parseMonth(startDate);
   if (!endDate) return `${start.label} ${start.year} – Present`;
 
   const end = parseMonth(endDate);
-  if (start.year === end.year) return `${start.label} – ${end.label} ${end.year}`;
-
   return `${start.label} ${start.year} – ${end.label} ${end.year}`;
 }
 

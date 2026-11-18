@@ -101,6 +101,14 @@ Dari batasan teknis dan keamanan PRD:
 
 Panggil skill/subagent yang relevan **sebelum dan selama** mengerjakan tugas. Jangan tunggu diminta.
 
+**Hukum (ditegakkan owner, 18 Nov 2026):** tabel di bawah ini **WAJIB**, bukan saran. Alur per langkah kerja:
+
+1. **Sebelum** menulis kode: muat skill sesuai role (backend/frontend/desain/test/keamanan/db).
+2. **Sebelum** menulis kode web/frontend: jalankan `modern-web-guidance` (`search` → `retrieve`) dan patuhi panduannya, termasuk bagian `### Modern Web Guidance` di akhir jawaban.
+3. **Sebelum** commit: review dengan `code-reviewer` + `ponytail-review`, lalu commit lewat `git-commit-helper`.
+4. **Saat** menjalankan/menulis e2e: `webapp-testing`.
+5. Bila skill/subagent yang diwajibkan tidak tersedia di sesi, sebutkan namanya dan penggantinya di laporan langkah — jangan diam-diam dilewati.
+
 **Semua percakapan dan tugas koding (wajib selalu):**
 - `caveman`, `karpathy-guidelines`
 

@@ -6,8 +6,8 @@ describe("formatDateRange", () => {
     expect(formatDateRange("2024-01-01", null)).toBe("Jan 2024 – Present");
   });
 
-  it("drops the repeated year inside one year", () => {
-    expect(formatDateRange("2023-01-01", "2023-12-31")).toBe("Jan – Dec 2023");
+  it("keeps the start year when both dates are in the same year", () => {
+    expect(formatDateRange("2023-01-01", "2023-12-31")).toBe("Jan 2023 – Dec 2023");
   });
 
   it("renders both years across a year boundary", () => {

@@ -19,8 +19,15 @@ import {
   fallbackSkills,
   fallbackSocialLinks,
 } from "./fallback";
-
 type DbResult<T> = { data: T | null; error: { message: string } | null };
+
+/**
+ * Every page that reads content must export this, so a Supabase edit shows up
+ * within 5 minutes without a redeploy (PRD: ISR revalidate = 300).
+ * Route-level config: supabase-js is not fetch-cached per query, Next refreshes
+ * the whole prerendered route after this many seconds.
+ */
+export const REVALIDATE_SECONDS = 300;
 
 /**
  * Runs a Supabase read and returns null on any failure so callers fall back to

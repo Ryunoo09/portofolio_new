@@ -4,6 +4,9 @@ import "@/styles/globals.css";
 import { MobileMenu, SectionNav } from "@/features/navigation";
 import { SITE_DESCRIPTION, SITE_NAME, SITE_TITLE, SITE_URL } from "@/lib/seo";
 
+// Header/footer read content too, so the layout revalidates with the pages.
+export const revalidate = 300;
+
 const inter = Inter({
   subsets: ["latin"],
   weight: ["400", "500"],

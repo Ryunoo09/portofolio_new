@@ -1,6 +1,10 @@
 import { getProfile } from "@/data";
 import { ButtonLink, Heading, Section, Tag } from "@/components/ui";
 
+// Content pages revalidate every 5 minutes (PRD: ISR) so a Supabase edit shows
+// up without a redeploy. Layout applies the same value to the header/footer.
+export const revalidate = 300;
+
 export default async function HomePage() {
   const profile = await getProfile();
 
