@@ -50,7 +50,12 @@ const write = async (name, value) =>
 let failed = false;
 
 // Server-managed timestamps would make every export look like a content change.
-const withoutTimestamps = (rows) => rows.map(({ updated_at, ...row }) => row);
+const withoutTimestamps = (rows) =>
+  rows.map((row) => {
+    const copy = { ...row };
+    delete copy.updated_at;
+    return copy;
+  });
 
 for (const [table, file, order] of tables) {
   const { data, error } = await db.from(table).select("*").order(order);
