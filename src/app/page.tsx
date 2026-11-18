@@ -28,10 +28,24 @@ export default async function HomePage() {
         </ul>
       </Section>
 
-      <Section id="next" eyebrow="In progress" title="Sections arrive in later steps">
-        <p className="text-fg-muted text-sm">
-          About, experience, projects, skills, and contact are wired to `src/data` next.
-        </p>
+      <Section id="about" eyebrow="About" title="About">
+        <p className="text-fg-muted max-w-2xl text-sm">Content arrives in step 17.</p>
+      </Section>
+
+      <Section id="experience" eyebrow="Experience" title="Experience">
+        <p className="text-fg-muted max-w-2xl text-sm">Content arrives in step 18.</p>
+      </Section>
+
+      <Section id="projects" eyebrow="Projects" title="Projects">
+        <p className="text-fg-muted max-w-2xl text-sm">Content arrives in step 20.</p>
+      </Section>
+
+      <Section id="skills" eyebrow="Skills" title="Skills">
+        <p className="text-fg-muted max-w-2xl text-sm">Content arrives in step 22.</p>
+      </Section>
+
+      <Section id="contact" eyebrow="Contact" title="Contact">
+        <p className="text-fg-muted max-w-2xl text-sm">Content arrives in step 23.</p>
       </Section>
     </>
   );

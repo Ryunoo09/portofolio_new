@@ -8,6 +8,8 @@ export default defineConfig({
     alias: {
       "@": fileURLToPath(new URL("./src", import.meta.url)),
     },
+    // Pick the browser build (React client hooks, matchMedia-aware shims) over SSR.
+    conditions: ["browser"],
   },
   test: {
     include: ["tests/unit/**/*.test.{ts,tsx}"],

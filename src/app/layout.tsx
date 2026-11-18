@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Instrument_Serif, Inter } from "next/font/google";
 import "@/styles/globals.css";
+import { MobileMenu, SectionNav } from "@/features/navigation";
 import { SITE_DESCRIPTION, SITE_NAME, SITE_TITLE, SITE_URL } from "@/lib/seo";
 
 const inter = Inter({
@@ -48,11 +49,13 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
           Skip to content
         </a>
 
-        <header className="border-border h-[var(--header-height)] border-b">
-          <div className="mx-auto flex h-full w-full max-w-[var(--container-max)] items-center px-6">
+        <header className="border-border sticky top-0 z-[var(--z-nav)] h-[var(--header-height)] border-b bg-[color-mix(in_oklab,var(--bg)_88%,transparent)] backdrop-blur">
+          <div className="mx-auto flex h-full w-full max-w-[var(--container-max)] items-center justify-between gap-4 px-6">
             <a href="#home" className="text-fg text-sm font-medium tracking-tight">
               {SITE_NAME}
             </a>
+            <SectionNav />
+            <MobileMenu />
           </div>
         </header>
 
