@@ -16,7 +16,7 @@ test("document exposes language, landmarks, and metadata", async ({ page }) => {
   await expect(page.locator('meta[property="og:locale"]')).toHaveAttribute("content", "en_US");
   await expect(page.locator('meta[name="description"]')).not.toHaveAttribute("content", "");
 
-  await expect(page.locator("header")).toHaveCount(1);
+  await expect(page.locator("body > header")).toHaveCount(1);
   await expect(page.locator("main#main")).toHaveCount(1);
   await expect(page.locator("footer")).toHaveCount(1);
   await expect(page.getByRole("heading", { level: 1 })).toHaveCount(1);
