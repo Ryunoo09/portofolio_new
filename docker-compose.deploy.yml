@@ -1,0 +1,14 @@
+# Production overlay: run the image CI built, on the Nginx Proxy Manager network.
+# Usage: ./scripts/deploy.sh   (see docker-compose.yml for the local-dev variant)
+services:
+  web:
+    image: ${IMAGE:-ghcr.io/ryunoo09/portofolio_new}:${TAG:-latest}
+    # NPM reaches the container by name; nothing is published to the host.
+    ports: !reset {}
+    networks:
+      - proxy
+
+networks:
+  proxy:
+    external: true
+    name: ${PROXY_NETWORK:-npm_default}
