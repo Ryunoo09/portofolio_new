@@ -6,14 +6,14 @@ Status: **Phase 0 — belum diinisialisasi.** Repo masih berisi dokumen; kode di
 
 ## Tech stack
 
-| Layer | Pilihan |
-|---|---|
-| Framework | Next.js (App Router) + React + TypeScript `strict` |
-| Styling | Tailwind CSS + CSS variables (`src/styles/tokens.css`) |
-| Animasi | Satu library (Motion **atau** GSAP) — Q3, belum diputuskan |
-| Data | Supabase PostgreSQL + Storage, RLS read-only, fallback JSON |
-| Deploy | Docker + Caddy di VPS, Cloudflare di depan, CI GitHub Actions |
-| Tooling | pnpm, ESLint, Prettier, Vitest, Playwright + axe, Lighthouse CI |
+| Layer     | Pilihan                                                         |
+| --------- | --------------------------------------------------------------- |
+| Framework | Next.js (App Router) + React + TypeScript `strict`              |
+| Styling   | Tailwind CSS + CSS variables (`src/styles/tokens.css`)          |
+| Animasi   | Satu library (Motion **atau** GSAP) — Q3, belum diputuskan      |
+| Data      | Supabase PostgreSQL + Storage, RLS read-only, fallback JSON     |
+| Deploy    | Docker + Caddy di VPS, Cloudflare di depan, CI GitHub Actions   |
+| Tooling   | pnpm, ESLint, Prettier, Vitest, Playwright + axe, Lighthouse CI |
 
 ## Perintah
 
@@ -35,13 +35,13 @@ Skrip dibuat di Langkah 2. Sebelum commit: `pnpm lint && pnpm typecheck && pnpm 
 
 ## Dokumentasi
 
-| File | Isi |
-|---|---|
-| `AGENTS.md` | Aturan kerja, konvensi kode, larangan |
-| `docs/prd/PRD_PORTFOLIO_WEBSITE.md` | Sumber kebenaran requirement |
-| `docs/plan/IMPLEMENTATION_PLAN.md` | Rencana 30 langkah + dependency + risiko |
-| `docs/DECISIONS.md` | Log keputusan (Q1–Q9) |
-| `docs/ASSETS.md` | Sumber + lisensi aset |
+| File                                | Isi                                      |
+| ----------------------------------- | ---------------------------------------- |
+| `AGENTS.md`                         | Aturan kerja, konvensi kode, larangan    |
+| `docs/prd/PRD_PORTFOLIO_WEBSITE.md` | Sumber kebenaran requirement             |
+| `docs/plan/IMPLEMENTATION_PLAN.md`  | Rencana 30 langkah + dependency + risiko |
+| `docs/DECISIONS.md`                 | Log keputusan (Q1–Q9)                    |
+| `docs/ASSETS.md`                    | Sumber + lisensi aset                    |
 
 ## Struktur folder
 

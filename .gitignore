@@ -7,6 +7,7 @@ node_modules/
 /out/
 next-env.d.ts
 .turbo/
+*.tsbuildinfo
 
 # production
 /build/
