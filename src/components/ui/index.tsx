@@ -108,15 +108,21 @@ const buttonVariants = {
 
 type ButtonVariant = keyof typeof buttonVariants;
 
+/**
+ * Button styling for non-button elements (e.g. a download link that must not use
+ * `next/link`). Keeps every accent action visually in one family.
+ */
+export function buttonClassName(variant: ButtonVariant = "primary", className?: string) {
+  return cn(buttonBase, buttonVariants[variant], className);
+}
+
 type ButtonProps = Omit<ComponentProps<"button">, "className"> & {
   variant?: ButtonVariant;
   className?: string;
 };
 
 export function Button({ variant = "primary", className, type = "button", ...props }: ButtonProps) {
-  return (
-    <button type={type} className={cn(buttonBase, buttonVariants[variant], className)} {...props} />
-  );
+  return <button type={type} className={buttonClassName(variant, className)} {...props} />;
 }
 
 type ButtonLinkProps = {
@@ -137,7 +143,7 @@ export function ButtonLink({
   children,
   ...rest
 }: ButtonLinkProps) {
-  const classes = cn(buttonBase, buttonVariants[variant], className);
+  const classes = buttonClassName(variant, className);
 
   if (external) {
     return (

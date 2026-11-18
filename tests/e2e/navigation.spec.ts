@@ -30,8 +30,37 @@ for (const viewport of [
             .click();
         }
 
-        // Headless collapses the smooth scroll; this is just the settle beat.
-        await page.waitForTimeout(800);
+        // Smooth scrolling is async, so wait for it to actually happen and then
+        // stop. Watching for a stable scrollY alone exits immediately because the
+        // first frames are still at scrollY 0 before the animation starts.
+        await page.waitForFunction(
+          () =>
+            new Promise<boolean>((resolve) => {
+              let started = false;
+              let last = window.scrollY;
+              let stableFrames = 0;
+              let frames = 0;
+
+              const tick = () => {
+                frames += 1;
+                if (window.scrollY !== last) {
+                  started = true;
+                  stableFrames = 0;
+                  last = window.scrollY;
+                } else if (started) {
+                  stableFrames += 1;
+                }
+
+                if (stableFrames >= 8) return resolve(true);
+                if (frames > 180) return resolve(true);
+                requestAnimationFrame(tick);
+              };
+
+              requestAnimationFrame(tick);
+            }),
+          undefined,
+          { timeout: 10_000 },
+        );
 
         const header = await page.locator("body > header").boundingBox();
         const section = await page.locator(`#${id}`).boundingBox();

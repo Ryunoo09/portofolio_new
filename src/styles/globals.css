@@ -1,5 +1,7 @@
 @import "tailwindcss";
 @import "./tokens.css";
+@import "./hero-visual.css";
+@import "./hero-layout.css";
 
 @theme inline {
   --color-bg: var(--bg);

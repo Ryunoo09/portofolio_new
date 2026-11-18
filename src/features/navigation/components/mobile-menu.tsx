@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useEffect, useEffectEvent, useRef, useState } from "react";
+import { CvDownloadLink } from "@/components/cv-download-link";
 import { NAV_SECTIONS } from "@/lib/sections";
 
 /** Mobile-only disclosure. Not a modal: no focus trap, Escape returns focus to the trigger. */
@@ -71,6 +72,13 @@ export function MobileMenu() {
               </Link>
             </li>
           ))}
+          <li>
+            <CvDownloadLink
+              variant="plain"
+              className="text-fg block py-2 text-sm font-medium"
+              onClick={() => setOpen(false)}
+            />
+          </li>
         </ul>
       </nav>
     </div>
