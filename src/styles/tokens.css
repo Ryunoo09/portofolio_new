@@ -1,0 +1,46 @@
+/*
+ * Design tokens — dark theme only (NG-05).
+ * Raw values live here; globals.css maps them into Tailwind utilities via @theme inline.
+ */
+:root {
+  color-scheme: dark;
+
+  /* Surfaces */
+  --bg: #09090b;
+  --surface: #131316;
+  --surface-raised: #1b1b1f;
+  --border: #27272a;
+  --border-strong: #71717a;
+
+  /* Text */
+  --fg: #fafafa;
+  --fg-muted: #a1a1aa;
+
+  /* Accent */
+  --accent: #a3e635;
+  --accent-fg: #0a0a0a;
+
+  /* Typography */
+  --font-body: system-ui, -apple-system, "Segoe UI", sans-serif;
+
+  /* Layout */
+  --header-height: 4rem;
+  --container-max: 72rem;
+  --anchor-gap: 1rem;
+
+  /* Radius */
+  --r-sm: 0.375rem;
+  --r-md: 0.75rem;
+  --r-lg: 1.25rem;
+
+  /* Motion */
+  --duration-fast: 120ms;
+  --duration-base: 300ms;
+  --duration-slow: 600ms;
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+
+  /* Layers */
+  --z-nav: 40;
+  --z-player: 50;
+  --z-preloader: 100;
+}
