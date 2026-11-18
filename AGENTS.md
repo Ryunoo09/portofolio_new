@@ -16,7 +16,7 @@ portfolio/
 ├─ docs/            # PRD_PORTFOLIO_WEBSITE.md, ASSETS.md (lisensi aset)
 ├─ content/         # seed JSON = data fallback
 ├─ scripts/         # seed.ts, export.ts
-├─ docker/          # Dockerfile, docker-compose.yml, Caddyfile
+├─ docker/          # Dockerfile, npm.conf (Nginx Proxy Manager headers)
 ├─ tests/e2e/       # Playwright
 ├─ public/
 └─ src/
