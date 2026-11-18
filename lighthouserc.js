@@ -1,4 +1,5 @@
-export default {
+/** @type {import("@lhci/cli").LighthouseRcConfig} */
+const config = {
   ci: {
     collect: {
       startServerCommand: "pnpm start --port 3200",
@@ -26,3 +27,5 @@ export default {
     },
   },
 };
+
+export default config;
