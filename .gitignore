@@ -23,6 +23,7 @@ next-env.d.ts
 /test-results/
 /lighthouse-results/
 .lhci/
+.lighthouseci/
 
 # local-only docs (owner request: never commit/push)
 /docs/
