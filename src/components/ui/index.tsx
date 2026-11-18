@@ -63,22 +63,6 @@ export function Section({ id, title, eyebrow, description, className, children }
   );
 }
 
-type ProseProps = {
-  html: string;
-  className?: string;
-};
-
-/** Markdown rendered to HTML upstream (step 20); spacing only, no styling of tags. */
-export function Prose({ html, className }: ProseProps) {
-  return (
-    <div
-      className={cn("text-fg-muted text-base leading-relaxed", className)}
-      // Trusted: built from content the owner seeded, never from user input.
-      dangerouslySetInnerHTML={{ __html: html }}
-    />
-  );
-}
-
 type TagProps = {
   children: ReactNode;
   className?: string;

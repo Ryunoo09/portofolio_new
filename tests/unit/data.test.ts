@@ -60,7 +60,9 @@ describe("data fallback", () => {
   it("sorts experiences newest first", async () => {
     const experiences = await getExperiences();
 
-    expect(experiences[0]?.start_date > experiences[1]?.start_date).toBe(true);
+    expect(experiences.length).toBeGreaterThan(1);
+    const starts = experiences.map((item) => item.start_date);
+    expect(starts).toEqual([...starts].sort((a, b) => b.localeCompare(a)));
   });
 
   it("returns project with media and rejects unknown or unpublished slugs", async () => {
@@ -141,5 +143,28 @@ describe("data from database", () => {
     mocks.getSupabaseClient.mockReturnValue(stubClient({ data: [], error: null }));
 
     await expect(getProjects()).resolves.toEqual([]);
+  });
+
+  it("reorders shuffled experience rows newest first", async () => {
+    // sort_order deliberately contradicts the dates, so this only passes when the
+    // data layer sorts by start_date rather than by sort_order.
+    const shuffled = [
+      { id: "c", role: "Oldest", start_date: "2019-06-01", sort_order: 1 },
+      { id: "a", role: "Newest", start_date: "2024-01-01", sort_order: 4 },
+      { id: "d", role: "Middle", start_date: "2021-03-01", sort_order: 2 },
+      { id: "b", role: "Second", start_date: "2022-09-01", sort_order: 3 },
+    ];
+
+    mocks.hasSupabaseConfig.mockReturnValue(true);
+    mocks.getSupabaseClient.mockReturnValue(stubClient({ data: shuffled, error: null }));
+
+    const experiences = await getExperiences();
+
+    expect(experiences.map((item) => item.start_date)).toEqual([
+      "2024-01-01",
+      "2022-09-01",
+      "2021-03-01",
+      "2019-06-01",
+    ]);
   });
 });

@@ -1,6 +1,6 @@
 import { render, screen } from "@testing-library/react";
 import { describe, expect, it } from "vitest";
-import { Button, ButtonLink, Heading, Prose, Section, Tag } from "@/components/ui";
+import { Button, ButtonLink, Heading, Section, Tag } from "@/components/ui";
 
 describe("Heading", () => {
   it("renders the requested level without skipping structure", () => {
@@ -90,14 +90,5 @@ describe("ButtonLink", () => {
 
     expect(link).toHaveAttribute("target", "_blank");
     expect(link).toHaveAttribute("rel", "noreferrer noopener");
-  });
-});
-
-describe("Prose", () => {
-  it("renders trusted html", () => {
-    render(<Prose html="<h3>Problem</h3><p>Copy.</p>" />);
-
-    expect(screen.getByRole("heading", { level: 3, name: "Problem" })).toBeInTheDocument();
-    expect(screen.getByText("Copy.")).toBeInTheDocument();
   });
 });

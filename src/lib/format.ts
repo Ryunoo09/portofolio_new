@@ -27,11 +27,16 @@ function parseMonth(isoDate: string): Month {
  * "Jan 2023 – Dec 2023", "Nov 2022 – Mar 2024", "Mar 2024 – Present".
  */
 export function formatDateRange(startDate: string, endDate: string | null): string {
-  const start = parseMonth(startDate);
-  if (!endDate) return `${start.label} ${start.year} – Present`;
+  if (!endDate) return `${formatMonthYear(startDate)} – Present`;
 
-  const end = parseMonth(endDate);
-  return `${start.label} ${start.year} – ${end.label} ${end.year}`;
+  return `${formatMonthYear(startDate)} – ${formatMonthYear(endDate)}`;
+}
+
+/** A single "Mon YYYY" label, e.g. for a `<time>` element's text content. */
+export function formatMonthYear(isoDate: string): string {
+  const { year, label } = parseMonth(isoDate);
+
+  return `${label} ${year}`;
 }
 
 /** Cuts on a word boundary within `maxLength` characters. */
