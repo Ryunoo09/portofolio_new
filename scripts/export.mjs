@@ -28,13 +28,29 @@ const tables = [
   ["skills", "skills", "sort_order"],
 ];
 
+// jsonb does not preserve key order, so sort keys to keep export diffs stable.
+const stable = (value) => {
+  if (Array.isArray(value)) return value.map(stable);
+  if (value === null || typeof value !== "object") return value;
+  return Object.fromEntries(
+    Object.keys(value)
+      .sort()
+      .map((key) => [key, stable(value[key])]),
+  );
+};
+
+import { format } from "prettier";
+
 const write = async (name, value) =>
   writeFile(
     new URL(`../content/${name}.json`, import.meta.url),
-    `${JSON.stringify(value, null, 2)}\n`,
+    await format(JSON.stringify(stable(value), null, 2), { parser: "json" }),
   );
 
 let failed = false;
+
+// Server-managed timestamps would make every export look like a content change.
+const withoutTimestamps = (rows) => rows.map(({ updated_at, ...row }) => row);
 
 for (const [table, file, order] of tables) {
   const { data, error } = await db.from(table).select("*").order(order);
@@ -45,7 +61,8 @@ for (const [table, file, order] of tables) {
     continue;
   }
 
-  await write(file, table === "profile" ? (data[0] ?? {}) : data);
+  const rows = withoutTimestamps(data);
+  await write(file, table === "profile" ? (rows[0] ?? {}) : rows);
   console.log(`${table}: ${data.length} rows exported`);
 }
 
