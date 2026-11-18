@@ -1,0 +1,13 @@
+@import "tailwindcss";
+
+/* ponytail: minimal base only; design tokens land in step 5. */
+:root {
+  color-scheme: dark;
+}
+
+body {
+  margin: 0;
+  background-color: #09090b;
+  color: #fafafa;
+  font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+}
