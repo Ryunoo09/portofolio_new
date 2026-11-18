@@ -1,0 +1,4 @@
+allowBuilds:
+  esbuild: true
+# pnpm 12 reads settings here, not from package.json.
+# @lhci/cli pulls esbuild, whose postinstall installs the platform binary.

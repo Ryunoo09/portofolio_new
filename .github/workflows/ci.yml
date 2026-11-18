@@ -48,13 +48,8 @@ jobs:
       - name: Install Chromium
         run: pnpm exec playwright install --with-deps chromium
 
-      - name: E2E and axe
+      - name: E2E
         run: pnpm test:e2e
-
-      - name: Lighthouse CI
-        run: |
-          export CHROME_PATH="$(node -e "console.log(require('@playwright/test').chromium.executablePath())")"
-          pnpm lhci
 
       - name: Upload Playwright report
         if: failure()
@@ -63,6 +58,37 @@ jobs:
           name: playwright-report
           path: playwright-report/
           retention-days: 7
+
+  # Separate job: @lhci/cli pulls esbuild, whose postinstall pnpm blocks in the
+  # main job. Keeping it isolated keeps the quality job dependency-free of it.
+  lighthouse:
+    needs: quality
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    env:
+      NEXT_TELEMETRY_DISABLED: "1"
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+          cache: pnpm
+
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm build
+
+      - name: Install Chromium
+        run: pnpm exec playwright install --with-deps chromium
+
+      # Chromium from Playwright is not on PATH, so hand its path to Lighthouse.
+      - name: Lighthouse CI (KPI-1 + 250 KB script budget)
+        run: |
+          export CHROME_PATH="$(node -e "console.log(require('@playwright/test').chromium.executablePath())")"
+          echo "CHROME_PATH=$CHROME_PATH"
+          pnpm dlx @lhci/cli@0.16 autorun
 
       - name: Upload Lighthouse report
         if: always()
