@@ -18,7 +18,9 @@
     "format:check": "prettier --check .",
     "test": "vitest run",
     "test:e2e": "playwright test",
-    "budget": "node scripts/bundle-size.mjs"
+    "budget": "node scripts/bundle-size.mjs",
+    "db:seed": "node scripts/seed.mjs",
+    "db:export": "node scripts/export.mjs"
   },
   "dependencies": {
     "@supabase/supabase-js": "2.119.0",

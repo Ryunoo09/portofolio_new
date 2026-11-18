@@ -1,0 +1,31 @@
+[
+  {
+    "id": "33333333-3333-4333-8333-333333333301",
+    "role": "Software Engineer",
+    "organization": "Draft Company",
+    "location": null,
+    "start_date": "2024-01-01",
+    "end_date": null,
+    "bullets": [
+      "Draft bullet: describe one concrete outcome with a number (<= 200 characters).",
+      "Draft bullet: describe the system you owned and the trade-off you made.",
+      "Draft bullet: describe how you worked with the rest of the team."
+    ],
+    "tech": ["TypeScript", "PostgreSQL", "Next.js"],
+    "sort_order": 1
+  },
+  {
+    "id": "33333333-3333-4333-8333-333333333302",
+    "role": "Software Engineering Intern",
+    "organization": "Draft Company",
+    "location": null,
+    "start_date": "2023-01-01",
+    "end_date": "2023-12-31",
+    "bullets": [
+      "Draft bullet: describe the feature you shipped and its impact.",
+      "Draft bullet: describe what you learned about production systems."
+    ],
+    "tech": ["Node.js", "REST APIs"],
+    "sort_order": 2
+  }
+]

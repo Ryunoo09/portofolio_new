@@ -1,0 +1,72 @@
+[
+  {
+    "id": "55555555-5555-4555-8555-555555550501",
+    "name": "TypeScript",
+    "category": "Frontend",
+    "icon": null,
+    "sort_order": 1
+  },
+  {
+    "id": "55555555-5555-4555-8555-555555550502",
+    "name": "React",
+    "category": "Frontend",
+    "icon": null,
+    "sort_order": 2
+  },
+  {
+    "id": "55555555-5555-4555-8555-555555550503",
+    "name": "Next.js",
+    "category": "Frontend",
+    "icon": null,
+    "sort_order": 3
+  },
+  {
+    "id": "55555555-5555-4555-8555-555555550504",
+    "name": "Tailwind CSS",
+    "category": "Frontend",
+    "icon": null,
+    "sort_order": 4
+  },
+  {
+    "id": "55555555-5555-4555-8555-555555550505",
+    "name": "Node.js",
+    "category": "Backend",
+    "icon": null,
+    "sort_order": 5
+  },
+  {
+    "id": "55555555-5555-4555-8555-555555550506",
+    "name": "REST APIs",
+    "category": "Backend",
+    "icon": null,
+    "sort_order": 6
+  },
+  {
+    "id": "55555555-5555-4555-8555-555555550507",
+    "name": "PostgreSQL",
+    "category": "Database",
+    "icon": null,
+    "sort_order": 7
+  },
+  {
+    "id": "55555555-5555-4555-8555-555555550508",
+    "name": "Supabase",
+    "category": "Database",
+    "icon": null,
+    "sort_order": 8
+  },
+  {
+    "id": "55555555-5555-4555-8555-555555550509",
+    "name": "Docker",
+    "category": "Tools",
+    "icon": null,
+    "sort_order": 9
+  },
+  {
+    "id": "55555555-5555-4555-8555-555555550510",
+    "name": "Git",
+    "category": "Tools",
+    "icon": null,
+    "sort_order": 10
+  }
+]
