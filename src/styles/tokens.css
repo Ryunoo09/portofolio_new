@@ -21,7 +21,7 @@
   --accent-fg: #0a0a0a;
 
   /* Typography */
-  --font-body: system-ui, -apple-system, "Segoe UI", sans-serif;
+  --mono: ui-monospace, SFMono-Regular, Menlo, monospace;
 
   /* Layout */
   --header-height: 4rem;

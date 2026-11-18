@@ -16,7 +16,9 @@
   --radius-md: var(--r-md);
   --radius-lg: var(--r-lg);
 
-  --font-sans: var(--font-body);
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  --font-display: var(--font-instrument-serif), ui-serif, Georgia, serif;
+  --font-mono: var(--mono), ui-monospace, monospace;
 }
 
 @layer base {
@@ -27,7 +29,6 @@
   body {
     background-color: var(--bg);
     color: var(--fg);
-    font-family: var(--font-body);
     -webkit-font-smoothing: antialiased;
   }
 
