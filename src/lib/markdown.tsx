@@ -1,4 +1,4 @@
-import type { ReactNode } from "react";
+import { Fragment, type ReactNode } from "react";
 
 /**
  * Minimal Markdown renderer for the small subset the owner writes in
@@ -81,11 +81,47 @@ function renderInline(text: string, keyPrefix: string): ReactNode[] {
     });
 }
 
+/**
+ * A `##`/`###` line becomes a real heading, which is how case studies mark their
+ * Problem / Role / Result blocks. Text on the following lines, even without a
+ * blank line, stays a paragraph. `#` is left as text because the page owns its
+ * single `h1`. Headings keep the styles of `components/ui`'s `Heading`.
+ */
+function renderBlock(block: string, index: number): ReactNode {
+  const [firstLine = "", ...rest] = block.split("\n");
+  const heading = /^(#{2,3})\s+(.+)$/.exec(firstLine);
+
+  if (!heading) {
+    return <p key={`p-${index}`}>{renderInline(block, `b${index}`)}</p>;
+  }
+
+  const isTop = heading[1] === "##";
+  const Tag = isTop ? "h2" : "h3";
+  const remainder = rest.join("\n").trim();
+
+  return (
+    <Fragment key={`b-${index}`}>
+      <Tag
+        className={
+          isTop
+            ? "text-fg font-display text-2xl tracking-tight"
+            : "text-fg text-lg font-medium tracking-tight"
+        }
+      >
+        {renderInline(heading[2], `h${index}`)}
+      </Tag>
+      {remainder.length > 0 && (
+        <p key={`p-${index}`}>{renderInline(remainder, `b${index}-rest`)}</p>
+      )}
+    </Fragment>
+  );
+}
+
 /** Blank lines separate paragraphs, matching Markdown's block rules. */
 export function renderMarkdown(source: string): ReactNode[] {
   return source
     .split(/\n{2,}/)
     .map((block) => block.trim())
     .filter((block) => block.length > 0)
-    .map((block, index) => <p key={`p-${index}`}>{renderInline(block, `b${index}`)}</p>);
+    .map(renderBlock);
 }

@@ -70,16 +70,46 @@ describe("ProjectsList", () => {
     expect(screen.queryByText("Six")).toBeNull();
   });
 
-  it("labels a project without public links as Private build", () => {
-    const { rerender } = render(
-      <ProjectsList projects={[make({ id: "a", slug: "a", title: "A", is_private: true })]} />,
-    );
+  it("labels a project without a public link as Private build", () => {
+    const { rerender } = render(<ProjectsList projects={[make({ id: "a", slug: "a", title: "A" })]} />);
 
     expect(screen.getByText("Private build")).toBeVisible();
 
-    rerender(<ProjectsList projects={[make({ id: "a", slug: "a", title: "A" })]} />);
+    rerender(
+      <ProjectsList
+        projects={[make({ id: "a", slug: "a", title: "A", live_url: "https://a.example.com" })]}
+      />,
+    );
 
     expect(screen.queryByText("Private build")).toBeNull();
+  });
+
+  it("follows the public link, not is_private, when deciding the label", () => {
+    const { rerender } = render(
+      <ProjectsList
+        projects={[
+          make({
+            id: "a",
+            slug: "a",
+            title: "A",
+            is_private: true,
+            repo_url: "https://github.com/example/a",
+          }),
+        ]}
+      />,
+    );
+
+    // A private-labelled project that still has a repo is not a private build.
+    expect(screen.queryByText("Private build")).toBeNull();
+
+    rerender(
+      <ProjectsList
+        projects={[make({ id: "a", slug: "a", title: "A", repo_url: "javascript:alert(1)" })]}
+      />,
+    );
+
+    // An unusable scheme is not a public link.
+    expect(screen.getByText("Private build")).toBeVisible();
   });
 
   it("renders no preview when a project has no cover image", () => {

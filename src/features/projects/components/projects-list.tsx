@@ -3,6 +3,7 @@ import Link from "next/link";
 import { Section, Tag } from "@/components/ui";
 import { mediaUrl } from "@/lib/media";
 import type { Project } from "@/types/content";
+import { hasPublicLink } from "../links";
 
 /** PRD US-04: at most five technology tags per row. */
 const MAX_TAGS = 5;
@@ -51,7 +52,7 @@ export function ProjectsList({ projects }: ProjectsListProps) {
                     >
                       {project.title}
                     </h3>
-                    {project.is_private && (
+                    {!hasPublicLink(project) && (
                       <span className="border-border-strong text-fg-muted rounded-sm border px-2 py-0.5 font-mono text-xs">
                         Private build
                       </span>

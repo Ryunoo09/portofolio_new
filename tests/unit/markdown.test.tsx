@@ -111,4 +111,41 @@ describe("renderMarkdown", () => {
     expect(renderMarkdown("")).toHaveLength(0);
     expect(renderMarkdown("   \n\n  ")).toHaveLength(0);
   });
+
+  it("turns ## and ### blocks into headings instead of literal hashes", () => {
+    const { container } = renderSource("## Problem\n\nText.\n\n### Detail\n\nMore.");
+
+    const headings = [...container.querySelectorAll("h2, h3")].map((node) => [
+      node.tagName,
+      node.textContent,
+    ]);
+
+    expect(headings).toEqual([
+      ["H2", "Problem"],
+      ["H3", "Detail"],
+    ]);
+    expect(container.textContent).not.toContain("##");
+  });
+
+  it("keeps a single # as text because the page owns its h1", () => {
+    const { container } = renderSource("# Not a heading");
+
+    expect(container.querySelector("h1")).toBeNull();
+    expect(container.textContent).toBe("# Not a heading");
+  });
+
+  it("keeps text that follows a heading without a blank line", () => {
+    const { container } = renderSource("## Problem\nDetails without a gap.");
+
+    expect(container.querySelector("h2")?.textContent).toBe("Problem");
+    expect(container.querySelector("p")?.textContent).toBe("Details without a gap.");
+    expect(container.textContent).not.toContain("##");
+  });
+
+  it("treats #### as text because the page never renders deeper headings", () => {
+    const { container } = renderSource("#### Deep");
+
+    expect(container.querySelector("h4")).toBeNull();
+    expect(container.textContent).toBe("#### Deep");
+  });
 });

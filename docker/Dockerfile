@@ -14,11 +14,14 @@ COPY package.json pnpm-lock.yaml pnpm-workspace.yaml ./
 RUN pnpm install --frozen-lockfile
 
 FROM base AS build
-# next/image bakes `images.remotePatterns` into the build, so the Supabase host
-# must be known here. A runtime env_file cannot change it. Empty is fine: the
-# app then serves covers from public/ (the content/*.json fallback).
+# Both values are baked into the build: `next/image` allow-lists the Supabase
+# host, and metadata (canonical, og:url) resolves against NEXT_PUBLIC_SITE_URL.
+# A runtime env_file cannot change either. Empty is fine: covers come from
+# public/ and the site URL falls back to localhost.
 ARG NEXT_PUBLIC_SUPABASE_URL
+ARG NEXT_PUBLIC_SITE_URL
 ENV NEXT_PUBLIC_SUPABASE_URL=$NEXT_PUBLIC_SUPABASE_URL
+ENV NEXT_PUBLIC_SITE_URL=$NEXT_PUBLIC_SITE_URL
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
 RUN pnpm build

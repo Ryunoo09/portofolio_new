@@ -23,12 +23,15 @@ test.describe("projects list", () => {
   test("marks a project without public links as Private build", async ({ page }) => {
     await page.goto("/");
 
-    const privateRow = page.locator("#projects ol > li").filter({ hasText: "Draft Project Two" });
+    const rows = page.locator("#projects ol > li");
 
-    await expect(privateRow.getByText("Private build")).toBeVisible();
-    await expect(
-      page.locator("#projects ol > li").filter({ hasText: "Draft Project One" }).getByText("Private build"),
-    ).toHaveCount(0);
+    await expect(rows).toHaveCount(3);
+
+    // No seed project has a public link, so every row carries the label. A
+    // project with a repo or live site must not, regardless of `is_private`.
+    for (const row of await rows.all()) {
+      await expect(row.getByText("Private build")).toBeVisible();
+    }
   });
 
   // Enabled in Step 29, when real cover images exist in content/projects.json.
