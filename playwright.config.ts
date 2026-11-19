@@ -16,5 +16,11 @@ export default defineConfig({
     url: "http://localhost:3000",
     reuseExistingServer: !process.env.CI,
     timeout: 120_000,
+    // Pin content tests to the repository seed so a Studio edit cannot change
+    // their results. Next does not overwrite variables that are already set.
+    env: {
+      NEXT_PUBLIC_SUPABASE_URL: "",
+      NEXT_PUBLIC_SUPABASE_ANON_KEY: "",
+    },
   },
 });

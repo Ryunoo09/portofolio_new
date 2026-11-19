@@ -1,0 +1,24 @@
+/*
+ * Projects list preview.
+ *
+ * The preview is decorative: it repeats a project that is readable in the row and
+ * on the detail page, so it stays aria-hidden and is never a tap target.
+ * It only appears where the primary pointer can hover, which keeps touch users on
+ * the plain "tap the row to open" behaviour (US-04). `hover: none` alone already
+ * excludes touch devices; a coarse primary pointer is not excluded separately, so
+ * hybrids that can hover still get the preview.
+ */
+.project-preview {
+  opacity: 0;
+  pointer-events: none;
+}
+
+@media (hover: hover) {
+  .project-row:is(:hover, :focus-visible) .project-preview {
+    opacity: 1;
+  }
+
+  .project-row:is(:hover, :focus-visible) .project-index {
+    color: var(--accent);
+  }
+}

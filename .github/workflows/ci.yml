@@ -132,6 +132,9 @@ jobs:
           file: docker/Dockerfile
           load: true
           tags: portfolio-web:ci
+          # Remote image hosts are fixed at build time (next/image manifest).
+          build-args: |
+            NEXT_PUBLIC_SUPABASE_URL=${{ secrets.NEXT_PUBLIC_SUPABASE_URL }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
 

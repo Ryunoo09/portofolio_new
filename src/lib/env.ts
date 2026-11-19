@@ -23,6 +23,14 @@ export function getSupabaseUrl(): string {
   return require("NEXT_PUBLIC_SUPABASE_URL");
 }
 
+/**
+ * Project URL without requiring the anon key: public Storage objects need only
+ * the host, and `next/image` needs it at build time. Null when unset.
+ */
+export function getSupabaseUrlOrNull(): string | null {
+  return read("NEXT_PUBLIC_SUPABASE_URL") ?? null;
+}
+
 export function getSupabaseAnonKey(): string {
   return require("NEXT_PUBLIC_SUPABASE_ANON_KEY");
 }
