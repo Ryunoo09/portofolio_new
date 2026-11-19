@@ -1,4 +1,23 @@
 /*
+ * Ambient dust (US-08). Painted by `DustLayer` on a fixed canvas behind the
+ * page: no layout box, no pointer target, and no pixels at all under reduced
+ * motion.
+ */
+.dust-layer {
+  position: fixed;
+  inset: 0;
+  display: block;
+  z-index: -1;
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .dust-layer {
+    display: none;
+  }
+}
+
+/*
  * Scroll-linked details (US-08, "Opsi C").
  *
  * Both effects are decoration: they carry no information and are progressive

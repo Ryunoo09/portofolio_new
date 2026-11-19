@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Instrument_Serif, Inter } from "next/font/google";
 import "@/styles/globals.css";
 import { MobileMenu, SectionNav } from "@/features/navigation";
+import { DustLayer } from "@/features/motion";
 import { Preloader } from "@/features/preloader";
 import { SITE_DESCRIPTION, SITE_NAME, SITE_TITLE, SITE_URL } from "@/lib/seo";
 
@@ -47,6 +48,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
     <html lang="en" className={`${inter.variable} ${instrumentSerif.variable}`}>
       <body>
         <Preloader />
+        <DustLayer />
 
         <a
           href="#main"

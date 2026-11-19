@@ -13,6 +13,11 @@ for (const viewport of [
       test(`anchor #${id} lands with the heading clear of the header`, async ({ page }) => {
         await page.goto("/");
 
+        // The anchor jump is handled after hydration. Clicking while the page is
+        // still loading lets the native hash lookup run before the sections below
+        // have their final height, and the browser then clamps the jump to 0.
+        await page.waitForLoadState("networkidle");
+
         const menuButton = page.getByRole("button", { name: "Menu" });
         if (await menuButton.isVisible()) {
           await menuButton.click();

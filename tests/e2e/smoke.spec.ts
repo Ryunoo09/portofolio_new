@@ -7,7 +7,9 @@ test("home renders server-side heading", async ({ page }) => {
   await expect(page.getByRole("heading", { level: 1 })).toHaveText("Software Engineer");
   await expect(page.getByRole("heading", { level: 1 })).toHaveCSS("color", "rgb(250, 250, 250)");
   await expect(page).toHaveTitle("Rakha Yuda Wicaksono - Software Engineer");
-  await expect(page.locator("body")).toHaveCSS("background-color", "rgb(9, 9, 11)");
+  // The page colour sits on <html> so the dust canvas can paint at z-index -1
+  // (a background on <body> covers it).
+  await expect(page.locator("html")).toHaveCSS("background-color", "rgb(9, 9, 11)");
 });
 
 test("document exposes language, landmarks, and metadata", async ({ page }) => {

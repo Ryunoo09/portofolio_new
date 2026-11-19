@@ -30,10 +30,12 @@
 @layer base {
   html {
     scroll-behavior: smooth;
+    /* The page colour lives on <html> on purpose: the dust canvas paints at
+       z-index -1, and a background on <body> would cover it (verified). */
+    background-color: var(--bg);
   }
 
   body {
-    background-color: var(--bg);
     color: var(--fg);
     -webkit-font-smoothing: antialiased;
   }

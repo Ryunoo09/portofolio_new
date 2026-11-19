@@ -149,6 +149,51 @@ test.describe("scroll reveal", () => {
     expect(scrolled.hero).not.toBe(atTop.hero);
   });
 
+  test("dust paints behind the page and keeps drifting", async ({ page }) => {
+    await page.goto("/");
+    await page.waitForLoadState("networkidle");
+
+    const result = await page.evaluate(async () => {
+      const canvas = document.querySelector<HTMLCanvasElement>("canvas[data-dust]");
+      const ctx = canvas?.getContext("2d");
+
+      if (!canvas || !ctx) return null;
+
+      const sample = () => {
+        const { data } = ctx.getImageData(0, 0, canvas.width, canvas.height);
+        let painted = 0;
+        let checksum = 0;
+
+        for (let i = 3; i < data.length; i += 4) {
+          const alpha = data[i] ?? 0;
+
+          if (alpha > 0) painted += 1;
+          checksum += alpha * i;
+        }
+
+        return { painted, checksum };
+      };
+
+      const first = sample();
+
+      await new Promise((resolve) => setTimeout(resolve, 500));
+
+      return {
+        first,
+        second: sample(),
+        pointerEvents: getComputedStyle(canvas).pointerEvents,
+        ariaHidden: canvas.getAttribute("aria-hidden"),
+      };
+    });
+
+    expect(result).not.toBeNull();
+    expect(result!.first.painted).toBeGreaterThan(0);
+    // Pixels moved, not just redrawn identically.
+    expect(result!.second.checksum).not.toBe(result!.first.checksum);
+    expect(result!.pointerEvents).toBe("none");
+    expect(result!.ariaHidden).toBe("true");
+  });
+
   test.describe("with reduced motion", () => {
     test.use({ reducedMotion: "reduce" });
 
@@ -174,6 +219,9 @@ test.describe("scroll reveal", () => {
       });
 
       expect(decoration).toEqual({ hero: "none", shine: "none" });
+
+      // Decoration is gone, not frozen: no canvas is painted at all.
+      await expect(page.locator("canvas[data-dust]")).toHaveCSS("display", "none");
     });
   });
 
