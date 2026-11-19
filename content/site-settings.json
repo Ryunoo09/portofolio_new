@@ -1,4 +1,10 @@
 {
+  "contact": {
+    "phone": null,
+    "phone_public": false,
+    "whatsapp": null,
+    "whatsapp_public": false
+  },
   "music": {
     "title": null,
     "track_path": null

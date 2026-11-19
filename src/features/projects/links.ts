@@ -1,9 +1,5 @@
+import { isHttpUrl } from "@/lib/url";
 import type { Project } from "@/types/content";
-
-/** Only absolute web links may reach an href or a button. */
-function isHttpUrl(url: string): boolean {
-  return /^https?:\/\//i.test(url);
-}
 
 /**
  * Public links, filtered to usable schemes. Stored content comes from Studio, so
