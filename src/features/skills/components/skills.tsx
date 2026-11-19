@@ -1,4 +1,5 @@
 import { Section } from "@/components/ui";
+import { RevealRows } from "@/features/motion";
 import type { Skill } from "@/types/content";
 import { SkillsMarquee } from "./skills-marquee";
 
@@ -43,22 +44,24 @@ export function Skills({ skills }: SkillsProps) {
         <p className="text-fg-muted text-sm">Skills are being added.</p>
       ) : (
         <>
-          <div className="grid gap-x-8 gap-y-10 sm:grid-cols-2 lg:grid-cols-4">
-            {groups.map((group) => (
-              <div key={group.category}>
-                <h3 className="text-fg-muted font-mono text-xs tracking-[0.2em] uppercase">
-                  {group.category}
-                </h3>
-                <ul className="border-border mt-4 border-t">
-                  {group.items.map((skill) => (
-                    <li key={skill.id} className="border-border text-fg border-b py-2 text-sm">
-                      {skill.name}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            ))}
-          </div>
+          <RevealRows selector="[data-reveal]">
+            <div className="grid gap-x-8 gap-y-10 sm:grid-cols-2 lg:grid-cols-4">
+              {groups.map((group) => (
+                <div key={group.category} data-reveal>
+                  <h3 className="text-fg-muted font-mono text-xs tracking-[0.2em] uppercase">
+                    {group.category}
+                  </h3>
+                  <ul className="border-border mt-4 border-t">
+                    {group.items.map((skill) => (
+                      <li key={skill.id} className="border-border text-fg border-b py-2 text-sm">
+                        {skill.name}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              ))}
+            </div>
+          </RevealRows>
 
           {names.length > 1 && <SkillsMarquee names={names} />}
         </>

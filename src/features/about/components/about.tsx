@@ -1,4 +1,5 @@
 import { Section } from "@/components/ui";
+import { RevealRows } from "@/features/motion";
 import { renderMarkdown } from "@/lib/markdown";
 import type { Profile } from "@/types/content";
 
@@ -9,6 +10,8 @@ type AboutProps = {
 /**
  * Bio from `about_md`, rendered as React elements so database text can never
  * inject markup. Falls back to the short summary when the long form is empty.
+ * Each paragraph fades in on scroll through `RevealRows`; the text is in the
+ * server HTML either way.
  */
 export function About({ profile }: AboutProps) {
   const source = profile.about_md?.trim() || profile.summary_short?.trim() || "";
@@ -17,7 +20,7 @@ export function About({ profile }: AboutProps) {
     <Section id="about" eyebrow="About" title="About">
       {source ? (
         <div className="text-fg-muted max-w-[65ch] space-y-4 text-base leading-relaxed">
-          {renderMarkdown(source)}
+          <RevealRows selector="p, h2, h3">{renderMarkdown(source)}</RevealRows>
         </div>
       ) : (
         <p className="text-fg-muted text-sm">Bio is being written.</p>
@@ -25,3 +28,4 @@ export function About({ profile }: AboutProps) {
     </Section>
   );
 }
+
