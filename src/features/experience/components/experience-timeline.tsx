@@ -22,7 +22,7 @@ export function ExperienceTimeline({ experiences }: ExperienceTimelineProps) {
       {experiences.length === 0 ? (
         <p className="text-fg-muted text-sm">Experience is being updated.</p>
       ) : (
-        <RevealRows selector="li">
+        <RevealRows selector="li" distance={20} duration={0.55} stagger={0.07}>
           <ol className="border-border border-t">
             {experiences.map((item) => (
               <li

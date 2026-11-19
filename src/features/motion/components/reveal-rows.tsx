@@ -1,15 +1,20 @@
 "use client";
 
 import { type ReactNode, useEffect, useRef } from "react";
-import { loadGsap, usePrefersReducedMotion } from "@/features/motion";
+import { usePrefersReducedMotion } from "../hooks/use-prefers-reduced-motion";
+import { revealOnScroll } from "../lib/reveal";
 
 type RevealRowsProps = {
   /** Selector for the elements that animate, relative to this wrapper. */
   selector: string;
+  /** Pixels of upward travel. Sections vary it so the page does not feel uniform. */
+  distance?: number;
+  /** Seconds. Kept inside the PRD's 300-800 ms window. */
+  duration?: number;
+  /** Seconds between two rows. */
+  stagger?: number;
   children: ReactNode;
 };
-
-const HIDDEN = { opacity: "0", transform: "translateY(16px)" };
 
 /**
  * Reveals a block's rows in turn as they scroll in (US-08).
@@ -21,12 +26,14 @@ const HIDDEN = { opacity: "0", transform: "translateY(16px)" };
  * Only `opacity` and `transform` animate, once per row, starting when the block's
  * top reaches 85% of the viewport (a 15% margin). Reduced motion leaves the rows
  * untouched.
- *
- * GSAP is imported on demand, so the rows stay visible until the effect actually
- * takes over: the starting styles are only written to rows that begin below the
- * fold (otherwise the flip happens off screen and nothing seems to animate).
  */
-export function RevealRows({ selector, children }: RevealRowsProps) {
+export function RevealRows({
+  selector,
+  distance = 16,
+  duration = 0.6,
+  stagger = 0.08,
+  children,
+}: RevealRowsProps) {
   const ref = useRef<HTMLDivElement>(null);
   const reducedMotion = usePrefersReducedMotion();
 
@@ -42,48 +49,8 @@ export function RevealRows({ selector, children }: RevealRowsProps) {
     // The wrapper is `display: contents`, so it has no geometry of its own:
     // ScrollTrigger would measure it as a zero-height box at the top of the page
     // and fire on load. The first row is a real box, so it is the trigger.
-    const trigger = rows[0];
-
-    const pending = rows.filter(
-      (element) => element.getBoundingClientRect().top > window.innerHeight * 0.85,
-    );
-
-    if (pending.length === 0) return;
-
-    for (const element of pending) Object.assign(element.style, HIDDEN);
-
-    let cleanup: (() => void) | undefined;
-    let cancelled = false;
-
-    void loadGsap().then(({ gsap }) => {
-      if (cancelled || !root.isConnected) return;
-
-      const context = gsap.context(() => {
-        gsap.to(pending, {
-          opacity: 1,
-          y: 0,
-          duration: 0.6,
-          ease: "power2.out",
-          stagger: 0.08,
-          clearProps: "opacity,transform",
-          scrollTrigger: { trigger, start: "top 85%", once: true },
-        });
-      }, root);
-
-      cleanup = () => context.revert();
-    });
-
-    return () => {
-      cancelled = true;
-      cleanup?.();
-
-      // A cancelled import or a removed component must never leave a row hidden.
-      for (const element of pending) {
-        element.style.removeProperty("opacity");
-        element.style.removeProperty("transform");
-      }
-    };
-  }, [reducedMotion, selector]);
+    return revealOnScroll({ targets: rows, trigger: rows[0], distance, duration, stagger });
+  }, [distance, duration, reducedMotion, selector, stagger]);
 
   return (
     <div ref={ref} style={{ display: "contents" }} data-reveal-root="">

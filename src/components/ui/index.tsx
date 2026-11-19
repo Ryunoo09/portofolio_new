@@ -1,5 +1,6 @@
 import Link from "next/link";
 import type { ComponentProps, ReactNode } from "react";
+import { RevealWords } from "@/features/motion";
 import { cn } from "@/lib/cn";
 
 export type HeadingLevel = "h1" | "h2" | "h3";
@@ -44,7 +45,7 @@ export function Section({ id, title, eyebrow, description, className, children }
       className={cn("mx-auto w-full max-w-[var(--container-max)] px-6 py-16 sm:py-24", className)}
     >
       {(eyebrow || title || description) && (
-        <header className="mb-10 max-w-2xl">
+        <header className="section-head mb-10 max-w-2xl">
           {eyebrow && (
             <p className="text-fg-muted mb-3 font-mono text-xs tracking-[0.2em] uppercase">
               {eyebrow}
@@ -52,7 +53,9 @@ export function Section({ id, title, eyebrow, description, className, children }
           )}
           {title && (
             <Heading level="h2" className="mb-3">
-              <span id={titleId}>{title}</span>
+              <span id={titleId}>
+                {typeof title === "string" ? <RevealWords text={title} /> : title}
+              </span>
             </Heading>
           )}
           {description && <p className="text-fg-muted text-base">{description}</p>}

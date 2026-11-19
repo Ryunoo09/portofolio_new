@@ -1,0 +1,72 @@
+/*
+ * Scroll-linked details (US-08, "Opsi C").
+ *
+ * Both effects are decoration: they carry no information and are progressive
+ * enhancement. Without support for scroll-driven animations, or with reduced
+ * motion, nothing animates and every element keeps its normal position.
+ */
+.reveal-word {
+  display: inline-block;
+}
+
+.section-head {
+  position: relative;
+}
+
+/* A hairline that sweeps across the gap under a section header on entry. */
+.section-head::after {
+  content: "";
+  position: absolute;
+  inset-inline: 0;
+  bottom: -1.25rem;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--accent), transparent);
+  opacity: 0;
+  pointer-events: none;
+}
+
+@supports ((animation-timeline: view()) and (animation-range: entry)) {
+  @media (prefers-reduced-motion: no-preference) {
+    .section-head::after {
+      animation: section-shine linear both;
+      animation-timeline: view();
+      animation-range: entry 0% entry 70%;
+    }
+
+    /* The card itself drifts: its nearest scroll container must be the page,
+       not its own `overflow: hidden` frame (a pseudo-element there has a view
+       timeline that never advances). */
+    .hero-visual {
+      animation: hero-drift linear both;
+      animation-timeline: view();
+      animation-range: cover 0% cover 100%;
+    }
+  }
+}
+
+/* transform/opacity only, so neither keyframe can move another box. */
+@keyframes section-shine {
+  from {
+    transform: translateX(-60%);
+    opacity: 0;
+  }
+
+  30% {
+    opacity: 1;
+  }
+
+  to {
+    transform: translateX(60%);
+    opacity: 0;
+  }
+}
+
+@keyframes hero-drift {
+  from {
+    transform: translateY(-1.25rem);
+  }
+
+  to {
+    transform: translateY(1.25rem);
+  }
+}
