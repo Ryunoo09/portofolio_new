@@ -43,7 +43,9 @@ export function formatMonthYear(isoDate: string): string {
 export function truncate(text: string, maxLength: number): string {
   if (text.length <= maxLength) return text;
 
-  const clipped = text.slice(0, maxLength - 1);
+  // Reserve the three characters the ellipsis needs so the result never exceeds
+  // the cap (a word-boundary cut plus the ellipsis could otherwise overshoot).
+  const clipped = text.slice(0, Math.max(0, maxLength - 3));
   const lastSpace = clipped.lastIndexOf(" ");
   return `${(lastSpace > 0 ? clipped.slice(0, lastSpace) : clipped).trimEnd()}…`;
 }

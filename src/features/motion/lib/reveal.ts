@@ -27,11 +27,6 @@ export function revealOnScroll({ targets, trigger, distance, duration, stagger }
 
   if (pending.length === 0) return () => {};
 
-  for (const element of pending) {
-    element.style.opacity = "0";
-    element.style.transform = `translateY(${distance}px)`;
-  }
-
   const restore = () => {
     for (const element of pending) {
       element.style.removeProperty("opacity");
@@ -45,6 +40,14 @@ export function revealOnScroll({ targets, trigger, distance, duration, stagger }
   void loadGsap()
     .then(({ gsap }) => {
       if (cancelled) return;
+
+      // Hide only once GSAP is ready: a slow chunk then shows the rows as the
+      // server rendered them instead of leaving them blank, and the tween always
+      // has a starting state to animate from.
+      for (const element of pending) {
+        element.style.opacity = "0";
+        element.style.transform = `translateY(${distance}px)`;
+      }
 
       const context = gsap.context(() => {
         gsap.to(pending, {
