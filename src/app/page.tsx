@@ -3,6 +3,7 @@ import { Contact } from "@/features/contact";
 import { ExperienceTimeline } from "@/features/experience";
 import { Hero } from "@/features/hero";
 import { ProjectsList } from "@/features/projects";
+import { PersonJsonLd } from "@/features/seo";
 import { Skills } from "@/features/skills";
 import {
   getExperiences,
@@ -29,6 +30,8 @@ export default async function HomePage() {
 
   return (
     <>
+      <PersonJsonLd profile={profile} socials={socials} />
+
       <div className="mx-auto w-full max-w-[var(--container-max)] px-6">
         <Hero profile={profile} />
       </div>

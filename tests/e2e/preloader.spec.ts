@@ -2,34 +2,54 @@ import { expect, test } from "@playwright/test";
 
 const OVERLAY = ".preloader";
 
-test.describe("preloader", () => {
-  test("covers the page on a first visit, then leaves the DOM", async ({ page }) => {
-    await page.goto("/");
+/**
+ * The overlay lives for ~1.2 s and can appear and disappear before `goto`
+ * resolves, so the probe has to be installed before the page script runs.
+ */
+test.beforeEach(async ({ page }) => {
+  await page.addInitScript(() => {
+    const trace = { appeared: false, goneAtEnd: true };
+    (window as unknown as { __preloaderTrace: typeof trace }).__preloaderTrace = trace;
 
-    // The overlay only exists for ~1.2 s, so watch it from inside the page rather
-    // than racing it with a poll: the mutation record is the evidence.
-    const seen = await page.evaluate(async () => {
-      let appeared = false;
+    const watch = () => {
       const observer = new MutationObserver(() => {
-        if (document.querySelector(".preloader")) appeared = true;
+        if (document.querySelector(".preloader")) trace.appeared = true;
       });
 
       observer.observe(document.documentElement, { childList: true, subtree: true });
 
-      const started = performance.now();
-      while (performance.now() - started < 3000) {
-        if (document.querySelector(".preloader")) appeared = true;
-        if (appeared && !document.querySelector(".preloader")) break;
-        await new Promise((resolve) => setTimeout(resolve, 16));
-      }
+      // Record the first paint too: an overlay shown and removed before the
+      // observer was attached would otherwise be invisible to this probe.
+      if (document.querySelector(".preloader")) trace.appeared = true;
+    };
 
-      observer.disconnect();
+    if (document.readyState === "loading") {
+      document.addEventListener("DOMContentLoaded", watch, { once: true });
+    } else {
+      watch();
+    }
+  });
+});
 
-      return { appeared, gone: !document.querySelector(".preloader") };
-    });
+test.describe("preloader", () => {
+  test("covers the page on a first visit, then leaves the DOM", async ({ page }) => {
+    await page.goto("/");
 
-    expect(seen).toEqual({ appeared: true, gone: true });
-    await expect(page.locator(OVERLAY)).toHaveCount(0);
+    // The overlay must appear at some point during the 1.2 s intro.
+    await expect
+      .poll(
+        () =>
+          page.evaluate(
+            () =>
+              (window as unknown as { __preloaderTrace: { appeared: boolean } }).__preloaderTrace
+                .appeared,
+          ),
+        { timeout: 5000 },
+      )
+      .toBe(true);
+
+    // ...and then be removed rather than left hidden.
+    await expect(page.locator(OVERLAY)).toHaveCount(0, { timeout: 5000 });
   });
 
   test("does not run again in the same session, including a reload", async ({ page }) => {
