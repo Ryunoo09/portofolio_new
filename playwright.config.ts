@@ -22,6 +22,8 @@ export default defineConfig({
     env: {
       NEXT_PUBLIC_SUPABASE_URL: "",
       NEXT_PUBLIC_SUPABASE_ANON_KEY: "",
+      // Tests know this value; the real secret never leaves the server env.
+      REVALIDATE_SECRET: "e2e-revalidate-secret",
     },
   },
 });

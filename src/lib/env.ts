@@ -46,8 +46,9 @@ export function getServiceRoleKey(): string {
   return require("SUPABASE_SERVICE_ROLE_KEY");
 }
 
-export function getRevalidateSecret(): string {
-  return require("REVALIDATE_SECRET");
+/** Null when unset, so `/api/revalidate` can answer 503 instead of crashing. */
+export function getRevalidateSecret(): string | null {
+  return read("REVALIDATE_SECRET") ?? null;
 }
 
 export function getSiteUrl(): string {

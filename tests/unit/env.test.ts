@@ -65,6 +65,9 @@ describe("env", () => {
   it("does not treat blank values as configured", () => {
     process.env.REVALIDATE_SECRET = "   ";
 
-    expect(() => getRevalidateSecret()).toThrow(/REVALIDATE_SECRET/);
+    expect(getRevalidateSecret()).toBeNull();
+
+    process.env.REVALIDATE_SECRET = "s3cret";
+    expect(getRevalidateSecret()).toBe("s3cret");
   });
 });
