@@ -49,6 +49,38 @@ test.describe("SEO", () => {
     await expect(page.locator('meta[name="robots"]')).toHaveAttribute("content", /follow/);
   });
 
+  test("serves a 1200x630 PNG preview for the homepage and a project", async ({ page }) => {
+    for (const path of ["/", "/projects/draft-project-one"]) {
+      await page.goto(path);
+
+      const imageUrl = await page.locator('meta[property="og:image"]').getAttribute("content");
+
+      expect(imageUrl).not.toBeNull();
+      await expect(page.locator('meta[property="og:image:width"]')).toHaveAttribute("content", "1200");
+      await expect(page.locator('meta[property="og:image:height"]')).toHaveAttribute("content", "630");
+      await expect(page.locator('meta[property="og:image:type"]')).toHaveAttribute(
+        "content",
+        "image/png",
+      );
+      await expect(page.locator('meta[name="twitter:card"]')).toHaveAttribute(
+        "content",
+        "summary_large_image",
+      );
+
+      const response = await page.request.get(imageUrl!);
+
+      expect(response.status()).toBe(200);
+      expect(response.headers()["content-type"]).toContain("image/png");
+
+      // PNG header: signature (8 bytes), then IHDR width and height (big-endian).
+      const png = await response.body();
+
+      expect(png.subarray(1, 4).toString()).toBe("PNG");
+      expect(png.readUInt32BE(16)).toBe(1200);
+      expect(png.readUInt32BE(20)).toBe(630);
+    }
+  });
+
   test("gives each page a unique title and description within the caps", async ({ page }) => {
     const visited: { url: string; title: string; description: string }[] = [];
 
