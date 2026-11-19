@@ -4,6 +4,8 @@ import "@/styles/globals.css";
 import { MobileMenu, SectionNav } from "@/features/navigation";
 import { DustLayer } from "@/features/motion";
 import { Preloader } from "@/features/preloader";
+import { getSiteSettings } from "@/data";
+import { cvLinks } from "@/lib/cv";
 import { SITE_DESCRIPTION, SITE_NAME, SITE_TITLE, SITE_URL } from "@/lib/seo";
 
 // Header/footer read content too, so the layout revalidates with the pages.
@@ -43,7 +45,9 @@ export const metadata: Metadata = {
   robots: { index: true, follow: true },
 };
 
-export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
+export default async function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
+  const cv = cvLinks(await getSiteSettings());
+
   return (
     <html lang="en" className={`${inter.variable} ${instrumentSerif.variable}`}>
       <body>
@@ -62,8 +66,8 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
             <a href="#home" className="text-fg text-sm font-medium tracking-tight">
               {SITE_NAME}
             </a>
-            <SectionNav />
-            <MobileMenu />
+            <SectionNav cv={cv} />
+            <MobileMenu cv={cv} />
           </div>
         </header>
 

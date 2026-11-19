@@ -129,13 +129,19 @@ describe("Contact", () => {
     expect(screen.queryByRole("link", { name: /Call/ })).toBeNull();
   });
 
-  it("offers the CV download next to the email", () => {
-    render(<Contact profile={profile} socials={[]} settings={{}} />);
+  it("offers the CV in both languages next to the email", () => {
+    render(
+      <Contact profile={profile} socials={[]} settings={{ cv: { en: "en.pdf", id: "id.pdf" } }} />,
+    );
 
-    const cv = screen.getByRole("link", { name: "Download CV" });
-
-    expect(cv).toHaveAttribute("href", "/cv/rakha-yuda-wicaksono.pdf");
-    expect(cv).toHaveAttribute("download", "CV_Rakha-Yuda-Wicaksono.pdf");
+    expect(screen.getByRole("link", { name: "Download CV in English" })).toHaveAttribute(
+      "href",
+      "/en.pdf",
+    );
+    expect(screen.getByRole("link", { name: "Download CV in Indonesian" })).toHaveAttribute(
+      "href",
+      "/id.pdf",
+    );
   });
 });
 

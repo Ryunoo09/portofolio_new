@@ -1,9 +1,10 @@
 import { render, screen } from "@testing-library/react";
 import { describe, expect, it } from "vitest";
 import { Hero } from "@/features/hero";
-import { CONTACT_LABEL, CV_LABEL } from "@/lib/seo";
-import { CV_DOWNLOAD_HREF, CV_FILE_NAME } from "@/lib/cv";
+import { CONTACT_LABEL } from "@/lib/seo";
 import type { Profile } from "@/types/content";
+
+const CV = { en: "/cv/en.pdf", id: "/cv/id.pdf" };
 
 const TAGLINE = "I build reliable web systems with clean interfaces and data that holds up.";
 const SUMMARY = "Software engineer focused on backend systems, data, and interfaces.";
@@ -23,7 +24,7 @@ const profile: Profile = {
 
 describe("Hero", () => {
   it("renders exactly one level-one heading carrying the role title", () => {
-    render(<Hero profile={profile} />);
+    render(<Hero profile={profile} cv={CV} />);
 
     const headings = screen.getAllByRole("heading", { level: 1 });
 
@@ -32,31 +33,35 @@ describe("Hero", () => {
   });
 
   it("shows the name, the value sentence, and both CTAs", () => {
-    render(<Hero profile={profile} />);
+    render(<Hero profile={profile} cv={CV} />);
 
     expect(screen.getByText(profile.full_name)).toBeInTheDocument();
     expect(screen.getByText(TAGLINE)).toBeInTheDocument();
-    expect(screen.getByRole("link", { name: CV_LABEL })).toBeInTheDocument();
+    expect(screen.getByText("Download CV")).toBeInTheDocument();
     expect(screen.getByRole("link", { name: CONTACT_LABEL })).toHaveAttribute("href", "#contact");
   });
 
-  it("downloads the CV instead of navigating to it", () => {
-    render(<Hero profile={profile} />);
+  it("offers the CV in both languages instead of navigating to one file", () => {
+    render(<Hero profile={profile} cv={CV} />);
 
-    const cv = screen.getByRole("link", { name: CV_LABEL });
-
-    expect(cv).toHaveAttribute("href", CV_DOWNLOAD_HREF);
-    expect(cv).toHaveAttribute("download", CV_FILE_NAME);
+    expect(screen.getByRole("link", { name: "Download CV in English" })).toHaveAttribute(
+      "href",
+      "/cv/en.pdf",
+    );
+    expect(screen.getByRole("link", { name: "Download CV in Indonesian" })).toHaveAttribute(
+      "href",
+      "/cv/id.pdf",
+    );
   });
 
   it("falls back to the short summary when the tagline is empty", () => {
-    render(<Hero profile={{ ...profile, tagline: null }} />);
+    render(<Hero profile={{ ...profile, tagline: null }} cv={CV} />);
 
     expect(screen.getByText(SUMMARY)).toBeInTheDocument();
   });
 
   it("names the section landmark after both the owner and the role", () => {
-    render(<Hero profile={profile} />);
+    render(<Hero profile={profile} cv={CV} />);
 
     // A <section> only becomes a landmark once it has an accessible name, so this
     // asserts the labelling and the landmark role in one go.
@@ -66,7 +71,7 @@ describe("Hero", () => {
   });
 
   it("keeps the decorative visual out of the accessibility tree", () => {
-    const { container } = render(<Hero profile={profile} />);
+    const { container } = render(<Hero profile={profile} cv={CV} />);
 
     const visual = container.querySelector(".hero-visual");
 

@@ -1,5 +1,4 @@
 import { expect, test } from "@playwright/test";
-import { CV_DOWNLOAD_HREF } from "../../src/lib/cv";
 
 // US-01: a recruiter must see name, role, pitch, and both CTAs without scrolling.
 for (const viewport of [
@@ -16,7 +15,7 @@ for (const viewport of [
       await expect(hero).toBeVisible();
 
       const headline = hero.getByRole("heading", { level: 1 });
-      const cv = hero.getByRole("link", { name: "Download CV" });
+      const cv = hero.locator("summary", { hasText: "Download CV" });
       const contact = hero.getByRole("link", { name: "Contact" });
 
       for (const target of [headline, cv, contact]) {
@@ -57,13 +56,4 @@ test("hero text is in the server-rendered HTML", async ({ page }) => {
   expect(html).toContain("Software Engineer");
   expect(html).toContain("Download CV");
   expect(html).toContain("Contact");
-});
-
-// The CV is the hero's primary action, so a missing file must fail loudly rather
-// than ship a dead primary CTA. Skipped until step 29 uploads the real PDF.
-test.fixme("the CV download link resolves to a real file", async ({ request }) => {
-  const response = await request.get(CV_DOWNLOAD_HREF);
-
-  expect(response.status()).toBe(200);
-  expect(response.headers()["content-type"]).toContain("pdf");
 });

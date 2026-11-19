@@ -2,14 +2,15 @@
 
 import Link from "next/link";
 import { cn } from "@/lib/cn";
-import { CvDownloadLink } from "@/components/cv-download-link";
+import { CvDownloadMenu } from "@/components/cv-download-menu";
+import type { CvLinks } from "@/lib/cv";
 import { NAV_SECTIONS } from "@/lib/sections";
 import { useActiveSection } from "../hooks/use-active-section";
 
 const ids = NAV_SECTIONS.map((section) => section.id);
 
 /** Desktop in-page navigation. Marks the section under the header, without animating layout. */
-export function SectionNav() {
+export function SectionNav({ cv }: { cv: CvLinks }) {
   const active = useActiveSection(ids);
 
   return (
@@ -34,7 +35,7 @@ export function SectionNav() {
       </nav>
 
       {/* Always on screen, so the CV is one click away from any scroll position (KPI-3). */}
-      <CvDownloadLink className="px-3 py-1.5" />
+      <CvDownloadMenu cv={cv} className="px-3 py-1.5" />
     </div>
   );
 }

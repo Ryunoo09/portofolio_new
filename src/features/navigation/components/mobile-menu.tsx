@@ -2,11 +2,12 @@
 
 import Link from "next/link";
 import { useEffect, useEffectEvent, useRef, useState } from "react";
-import { CvDownloadLink } from "@/components/cv-download-link";
+import { CvDownloadMenu } from "@/components/cv-download-menu";
+import type { CvLinks } from "@/lib/cv";
 import { NAV_SECTIONS } from "@/lib/sections";
 
 /** Mobile-only disclosure. Not a modal: no focus trap, Escape returns focus to the trigger. */
-export function MobileMenu() {
+export function MobileMenu({ cv }: { cv: CvLinks }) {
   const [open, setOpen] = useState(false);
   const triggerRef = useRef<HTMLButtonElement>(null);
   const firstLinkRef = useRef<HTMLAnchorElement>(null);
@@ -73,9 +74,10 @@ export function MobileMenu() {
             </li>
           ))}
           <li>
-            <CvDownloadLink
+            <CvDownloadMenu
+              cv={cv}
               variant="plain"
-              className="text-fg block py-2 text-sm font-medium"
+              className="py-2"
               onClick={() => setOpen(false)}
             />
           </li>

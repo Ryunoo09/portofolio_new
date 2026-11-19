@@ -2,6 +2,8 @@ import { act, fireEvent, render, screen } from "@testing-library/react";
 import { describe, expect, it } from "vitest";
 import { MobileMenu } from "@/features/navigation";
 
+const cv = { en: "/cv/en.pdf", id: "/cv/id.pdf" };
+
 // jsdom has no matchMedia; components that read it get this stub.
 const mediaQueries = new Map<string, MediaQueryList>();
 
@@ -42,7 +44,7 @@ function makeQuery(query: string): MediaQueryList {
 
 describe("MobileMenu", () => {
   it("starts closed and exposes the trigger state", () => {
-    render(<MobileMenu />);
+    render(<MobileMenu cv={cv} />);
 
     const trigger = screen.getByRole("button", { name: "Menu" });
 
@@ -52,7 +54,7 @@ describe("MobileMenu", () => {
   });
 
   it("opens, focuses the first link, and closes on Escape returning focus", () => {
-    render(<MobileMenu />);
+    render(<MobileMenu cv={cv} />);
 
     const trigger = screen.getByRole("button", { name: "Menu" });
     fireEvent.click(trigger);
@@ -68,7 +70,7 @@ describe("MobileMenu", () => {
   });
 
   it("closes after a section link is chosen", () => {
-    render(<MobileMenu />);
+    render(<MobileMenu cv={cv} />);
 
     fireEvent.click(screen.getByRole("button", { name: "Menu" }));
     fireEvent.click(screen.getAllByRole("link", { name: "Projects" })[0]);
@@ -78,7 +80,7 @@ describe("MobileMenu", () => {
 
   it("closes when the viewport is wide enough for the desktop nav", async () => {
     installMatchMedia();
-    render(<MobileMenu />);
+    render(<MobileMenu cv={cv} />);
 
     fireEvent.click(screen.getByRole("button", { name: "Menu" }));
     expect(screen.getByRole("navigation", { name: "Sections" })).toBeInTheDocument();

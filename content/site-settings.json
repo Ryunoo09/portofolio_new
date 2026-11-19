@@ -5,9 +5,13 @@
     "whatsapp": null,
     "whatsapp_public": false
   },
+  "cv": {
+    "en": "CV_Rakha_Yuda_Wicaksono_Fullstack_EN.pdf",
+    "id": "CV_Rakha_Yuda_Wicaksono_Fullstack_ID.pdf"
+  },
   "music": {
     "title": "Lights — RoaMusic",
-    "track_path": null
+    "track_path": "Light_by_ro.mp3"
   },
   "seo": {
     "description": "Portfolio of Rakha Yuda Wicaksono, a software engineer building reliable web systems with a focus on backend, data, and applied AI that hold up in the field.",

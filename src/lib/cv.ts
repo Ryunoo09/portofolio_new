@@ -1,8 +1,26 @@
-/**
- * File name recruiters see when they download the CV (PRD 4.9: no NIK, address,
- * or birth date in the file). Kept in one place so hero, nav, and contact agree.
- */
-export const CV_FILE_NAME = "CV_Rakha-Yuda-Wicaksono.pdf";
+import { mediaUrl } from "./media";
 
-/** Public path of the CV PDF. Replaced with the uploaded file in step 29. */
-export const CV_DOWNLOAD_HREF = "/cv/rakha-yuda-wicaksono.pdf";
+export type CvLinks = { en: string | null; id: string | null };
+
+function storedPath(value: unknown): string | null {
+  return typeof value === "string" && value.trim().length > 0 ? value : null;
+}
+
+/**
+ * The two CV files live in the `media` bucket under `site_settings.cv`, keyed by
+ * language, so the menu can offer both without a schema change. Values stay
+ * relative in the JSON, keeping the environment out of committed content.
+ */
+export function cvLinks(settings: { cv?: unknown }): CvLinks {
+  const cv =
+    typeof settings.cv === "object" && settings.cv !== null
+      ? (settings.cv as Record<string, unknown>)
+      : {};
+  const en = storedPath(cv.en);
+  const id = storedPath(cv.id);
+
+  return {
+    en: en ? mediaUrl(en) : null,
+    id: id ? mediaUrl(id) : null,
+  };
+}

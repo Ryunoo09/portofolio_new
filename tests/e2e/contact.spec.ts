@@ -54,15 +54,27 @@ test.describe("contact", () => {
     await expect(page.locator('a[href^="tel:"]')).toHaveCount(0);
   });
 
-  test("offers the CV from the hero, the header, and contact", async ({ page }) => {
+  test("offers both CV languages from the hero, the header, and contact", async ({ page }) => {
     await page.goto("/");
 
-    const cvLinks = page.getByRole("link", { name: "Download CV" });
+    const menus = page
+      .locator("details:visible")
+      .filter({ has: page.locator("summary", { hasText: "Download CV" }) });
 
-    await expect(cvLinks).toHaveCount(3);
-    for (const link of await cvLinks.all()) {
-      await expect(link).toHaveAttribute("href", "/cv/rakha-yuda-wicaksono.pdf");
-      await expect(link).toHaveAttribute("download", "CV_Rakha-Yuda-Wicaksono.pdf");
+    await expect(menus).toHaveCount(3);
+
+    for (const menu of await menus.all()) {
+      await menu.locator("summary").click();
+
+      const english = menu.getByRole("link", { name: "Download CV in English" });
+      const indonesian = menu.getByRole("link", { name: "Download CV in Indonesian" });
+
+      await expect(english).toBeVisible();
+      await expect(indonesian).toBeVisible();
+      await expect(english).toHaveAttribute("href", /Fullstack_EN\.pdf$/);
+      await expect(indonesian).toHaveAttribute("href", /Fullstack_ID\.pdf$/);
+
+      await menu.locator("summary").click();
     }
   });
 

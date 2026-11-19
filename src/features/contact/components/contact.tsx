@@ -1,6 +1,7 @@
-import { CvDownloadLink } from "@/components/cv-download-link";
+import { CvDownloadMenu } from "@/components/cv-download-menu";
 import { ButtonLink, Section } from "@/components/ui";
 import { RevealRows } from "@/features/motion";
+import { cvLinks } from "@/lib/cv";
 import type { Profile, SiteSettings, SocialLink } from "@/types/content";
 import { publicPhone, publicWhatsapp, telHref, whatsappHref } from "../channels";
 import { isEmailAddress, toCharCodes } from "../email";
@@ -38,7 +39,7 @@ export function Contact({ profile, socials, settings }: ContactProps) {
       <RevealRows selector="[data-reveal]" distance={22} duration={0.6} stagger={0.08}>
         <div className="flex flex-wrap items-center gap-3" data-reveal>
           {hasEmail && <EmailLink codes={toCharCodes(email)} />}
-          <CvDownloadLink />
+          <CvDownloadMenu cv={cvLinks(settings)} />
         </div>
 
         {!hasEmail && (

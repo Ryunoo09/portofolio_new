@@ -13,6 +13,7 @@ import {
   getSkills,
   getSocialLinks,
 } from "@/data";
+import { cvLinks } from "@/lib/cv";
 
 // Content pages revalidate every 5 minutes (PRD: ISR) so a Supabase edit shows
 // up without a redeploy. Layout applies the same value to the header/footer.
@@ -33,7 +34,7 @@ export default async function HomePage() {
       <PersonJsonLd profile={profile} socials={socials} />
 
       <div className="mx-auto w-full max-w-[var(--container-max)] px-6">
-        <Hero profile={profile} />
+        <Hero profile={profile} cv={cvLinks(settings)} />
       </div>
 
       <About profile={profile} />
