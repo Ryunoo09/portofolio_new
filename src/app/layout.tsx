@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Instrument_Serif, Inter } from "next/font/google";
 import "@/styles/globals.css";
 import { MobileMenu, SectionNav } from "@/features/navigation";
+import { Preloader } from "@/features/preloader";
 import { SITE_DESCRIPTION, SITE_NAME, SITE_TITLE, SITE_URL } from "@/lib/seo";
 
 // Header/footer read content too, so the layout revalidates with the pages.
@@ -45,6 +46,8 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
   return (
     <html lang="en" className={`${inter.variable} ${instrumentSerif.variable}`}>
       <body>
+        <Preloader />
+
         <a
           href="#main"
           className="bg-accent text-accent-fg rounded-md px-4 py-2 text-sm font-medium sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[var(--z-nav)]"

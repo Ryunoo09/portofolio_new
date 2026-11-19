@@ -1,0 +1,35 @@
+/*
+ * Preloader overlay (US-02).
+ *
+ * JavaScript inserts it, so a visitor without JS never sees it. It covers content
+ * that is already rendered; nothing waits for it. Only opacity and transform
+ * animate, and the component removes it from the DOM instead of hiding it.
+ */
+.preloader {
+  position: fixed;
+  inset: 0;
+  z-index: var(--z-preloader);
+  display: grid;
+  place-items: center;
+  background-color: var(--bg);
+  pointer-events: none;
+  animation: preloader-out 240ms var(--ease-out) calc(1200ms - 240ms) forwards;
+}
+
+.preloader-count {
+  color: var(--fg-muted);
+  animation: preloader-count 240ms var(--ease-out) calc(1200ms - 240ms) forwards;
+}
+
+@keyframes preloader-out {
+  to {
+    opacity: 0;
+  }
+}
+
+@keyframes preloader-count {
+  to {
+    opacity: 0;
+    transform: translateY(-0.5rem);
+  }
+}

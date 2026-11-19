@@ -4,6 +4,7 @@
 @import "./hero-layout.css";
 @import "./projects.css";
 @import "./skills.css";
+@import "./preloader.css";
 
 @theme inline {
   --color-bg: var(--bg);
