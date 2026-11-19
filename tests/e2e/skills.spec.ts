@@ -8,7 +8,7 @@ test.describe("skills", () => {
 
     await expect(section.getByRole("heading", { level: 2, name: "Skills" })).toBeVisible();
 
-    for (const category of ["Frontend", "Backend", "Database", "Tools"]) {
+    for (const category of ["Languages", "Frameworks & Libraries", "Databases", "Tools & Platforms"]) {
       await expect(section.getByRole("heading", { level: 3, name: category })).toBeVisible();
     }
 
@@ -86,7 +86,7 @@ test.describe("skills", () => {
 
     await page.goto("/");
 
-    await expect(page.getByRole("heading", { level: 3, name: "Frontend" })).toBeVisible();
+    await expect(page.getByRole("heading", { level: 3, name: "Languages" })).toBeVisible();
 
     const exposed = (await page.locator("#skills").getByRole("listitem").allTextContents()).map(
       (text) => text.trim(),

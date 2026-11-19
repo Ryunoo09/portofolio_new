@@ -44,16 +44,22 @@ describe("data fallback", () => {
     const profile = await getProfile();
 
     expect(profile.full_name).toBe("Rakha Yuda Wicaksono");
-    expect(profile.headline).toBe("Software Engineer");
+    expect(profile.headline).toBe("Software Engineer & Backend Developer");
   });
 
-  it("hides unpublished projects from the list", async () => {
+  it("lists published projects in sort order", async () => {
     const projects = await getProjects();
 
     expect(projects.map((project) => project.slug)).toEqual([
-      "draft-project-one",
-      "draft-project-two",
-      "draft-project-three",
+      "validasi-ftth-yolo26-paddleocr",
+      "mini-erp-lwa",
+      "dse-ai",
+      "elang-hub",
+      "aifi",
+      "chatbot-report-automation",
+      "analisis-prediktif-kualitas-air",
+      "sirata",
+      "campevent",
     ]);
   });
 
@@ -65,13 +71,13 @@ describe("data fallback", () => {
     expect(starts).toEqual([...starts].sort((a, b) => b.localeCompare(a)));
   });
 
-  it("returns project with media and rejects unknown or unpublished slugs", async () => {
-    const project = await getProject("draft-project-two");
+  it("returns project with media and rejects unknown slugs", async () => {
+    const project = await getProject("sirata");
 
-    expect(project?.title).toBe("Draft Project Two");
+    expect(project?.title).toBe("SIRATA — Integrated Campus Letter System");
     expect(project?.media).toEqual([]);
     await expect(getProject("does-not-exist")).resolves.toBeNull();
-    await expect(getProject("draft-project-four")).resolves.toBeNull();
+    await expect(getProject("not-a-real-project")).resolves.toBeNull();
   });
 
   it("returns sorted skills, social links, and merged settings", async () => {
@@ -81,7 +87,7 @@ describe("data fallback", () => {
       getSiteSettings(),
     ]);
 
-    expect(skills).toHaveLength(10);
+    expect(skills).toHaveLength(48);
     expect(skills[0]?.sort_order).toBe(1);
     expect(links[0]?.label).toBe("GitHub");
     expect(settings).toHaveProperty("seo");
@@ -107,10 +113,10 @@ describe("data fallback on database failure", () => {
     ]);
 
     expect(results[0]).toHaveProperty("full_name");
-    expect(results[1]).toHaveLength(1);
+    expect(results[1]).toHaveLength(2);
     expect(results[2]).toHaveLength(2);
-    expect(results[3]).toHaveLength(3);
-    expect(results[4]).toHaveLength(10);
+    expect(results[3]).toHaveLength(9);
+    expect(results[4]).toHaveLength(48);
     expect(results[5]).toHaveProperty("music");
   });
 

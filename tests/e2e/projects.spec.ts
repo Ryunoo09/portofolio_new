@@ -1,4 +1,14 @@
+import { readFileSync } from "node:fs";
 import { expect, test } from "@playwright/test";
+
+const published = JSON.parse(readFileSync("content/projects.json", "utf8")) as {
+  repo_url: string | null;
+  live_url: string | null;
+}[];
+// The homepage index shows at most eight featured projects (PRD US-04), in
+// sort_order, which is the order in the file.
+const listed = published.slice(0, 8);
+const privateCount = listed.filter((p) => !p.repo_url && !p.live_url).length;
 
 test.describe("projects list", () => {
   test("lists published projects with a link to each detail page", async ({ page }) => {
@@ -10,14 +20,11 @@ test.describe("projects list", () => {
 
     const links = projects.locator("ol > li a");
 
-    await expect(links).toHaveCount(3);
+    await expect(links).toHaveCount(listed.length);
 
     for (const href of await links.evaluateAll((nodes) => nodes.map((node) => node.getAttribute("href")))) {
-      expect(href).toMatch(/^\/projects\/draft-project-(one|two|three)$/);
+      expect(href).toMatch(/^\/projects\/[a-z0-9-]+$/);
     }
-
-    // The unpublished fourth seed project must never leak into the list.
-    await expect(projects.getByRole("link", { name: "Draft Project Four" })).toHaveCount(0);
   });
 
   test("marks a project without public links as Private build", async ({ page }) => {
@@ -25,13 +32,10 @@ test.describe("projects list", () => {
 
     const rows = page.locator("#projects ol > li");
 
-    await expect(rows).toHaveCount(3);
+    await expect(rows).toHaveCount(listed.length);
 
-    // No seed project has a public link, so every row carries the label. A
-    // project with a repo or live site must not, regardless of `is_private`.
-    for (const row of await rows.all()) {
-      await expect(row.getByText("Private build")).toBeVisible();
-    }
+    // A project with a repo or live site must not carry the label; the rest must.
+    await expect(page.locator("#projects").getByText("Private build")).toHaveCount(privateCount);
   });
 
   // Enabled in Step 29, when real cover images exist in content/projects.json.
@@ -74,6 +78,6 @@ test.describe("projects on a touch device", () => {
 
     await row.getByRole("link").click();
 
-    await expect(page).toHaveURL(/\/projects\/draft-project-one$/);
+    await expect(page).toHaveURL(/\/projects\/validasi-ftth-yolo26-paddleocr$/);
   });
 });

@@ -1,72 +1,57 @@
 [
-  {
-    "category": "Frontend",
-    "icon": null,
-    "id": "55555555-5555-4555-8555-555555550501",
-    "name": "TypeScript",
-    "sort_order": 1
-  },
-  {
-    "category": "Frontend",
-    "icon": null,
-    "id": "55555555-5555-4555-8555-555555550502",
-    "name": "React",
-    "sort_order": 2
-  },
-  {
-    "category": "Frontend",
-    "icon": null,
-    "id": "55555555-5555-4555-8555-555555550503",
-    "name": "Next.js",
-    "sort_order": 3
-  },
-  {
-    "category": "Frontend",
-    "icon": null,
-    "id": "55555555-5555-4555-8555-555555550504",
-    "name": "Tailwind CSS",
-    "sort_order": 4
-  },
-  {
-    "category": "Backend",
-    "icon": null,
-    "id": "55555555-5555-4555-8555-555555550505",
-    "name": "Node.js",
-    "sort_order": 5
-  },
-  {
-    "category": "Backend",
-    "icon": null,
-    "id": "55555555-5555-4555-8555-555555550506",
-    "name": "REST APIs",
-    "sort_order": 6
-  },
-  {
-    "category": "Database",
-    "icon": null,
-    "id": "55555555-5555-4555-8555-555555550507",
-    "name": "PostgreSQL",
-    "sort_order": 7
-  },
-  {
-    "category": "Database",
-    "icon": null,
-    "id": "55555555-5555-4555-8555-555555550508",
-    "name": "Supabase",
-    "sort_order": 8
-  },
-  {
-    "category": "Tools",
-    "icon": null,
-    "id": "55555555-5555-4555-8555-555555550509",
-    "name": "Docker",
-    "sort_order": 9
-  },
-  {
-    "category": "Tools",
-    "icon": null,
-    "id": "55555555-5555-4555-8555-555555550510",
-    "name": "Git",
-    "sort_order": 10
-  }
+  { "category": "Languages", "icon": null, "id": "55555555-5555-4555-8555-555555550501", "name": "Python", "sort_order": 1 },
+  { "category": "Languages", "icon": null, "id": "55555555-5555-4555-8555-555555550502", "name": "PHP", "sort_order": 2 },
+  { "category": "Languages", "icon": null, "id": "55555555-5555-4555-8555-555555550503", "name": "JavaScript", "sort_order": 3 },
+  { "category": "Languages", "icon": null, "id": "55555555-5555-4555-8555-555555550504", "name": "TypeScript", "sort_order": 4 },
+  { "category": "Languages", "icon": null, "id": "55555555-5555-4555-8555-555555550505", "name": "C++", "sort_order": 5 },
+  { "category": "Languages", "icon": null, "id": "55555555-5555-4555-8555-555555550506", "name": "Go", "sort_order": 6 },
+  { "category": "Languages", "icon": null, "id": "55555555-5555-4555-8555-555555550507", "name": "HTML5", "sort_order": 7 },
+
+  { "category": "Frameworks & Libraries", "icon": null, "id": "55555555-5555-4555-8555-555555550508", "name": "Laravel", "sort_order": 8 },
+  { "category": "Frameworks & Libraries", "icon": null, "id": "55555555-5555-4555-8555-555555550509", "name": "FastAPI", "sort_order": 9 },
+  { "category": "Frameworks & Libraries", "icon": null, "id": "55555555-5555-4555-8555-555555550510", "name": "React", "sort_order": 10 },
+  { "category": "Frameworks & Libraries", "icon": null, "id": "55555555-5555-4555-8555-555555550511", "name": "Node.js", "sort_order": 11 },
+  { "category": "Frameworks & Libraries", "icon": null, "id": "55555555-5555-4555-8555-555555550512", "name": "Next.js", "sort_order": 12 },
+  { "category": "Frameworks & Libraries", "icon": null, "id": "55555555-5555-4555-8555-555555550513", "name": "Django", "sort_order": 13 },
+  { "category": "Frameworks & Libraries", "icon": null, "id": "55555555-5555-4555-8555-555555550514", "name": "Flutter", "sort_order": 14 },
+  { "category": "Frameworks & Libraries", "icon": null, "id": "55555555-5555-4555-8555-555555550515", "name": "Tailwind CSS", "sort_order": 15 },
+  { "category": "Frameworks & Libraries", "icon": null, "id": "55555555-5555-4555-8555-555555550516", "name": "Bootstrap", "sort_order": 16 },
+  { "category": "Frameworks & Libraries", "icon": null, "id": "55555555-5555-4555-8555-555555550517", "name": "jQuery", "sort_order": 17 },
+
+  { "category": "Databases", "icon": null, "id": "55555555-5555-4555-8555-555555550518", "name": "PostgreSQL", "sort_order": 18 },
+  { "category": "Databases", "icon": null, "id": "55555555-5555-4555-8555-555555550519", "name": "MySQL", "sort_order": 19 },
+  { "category": "Databases", "icon": null, "id": "55555555-5555-4555-8555-555555550520", "name": "MariaDB", "sort_order": 20 },
+  { "category": "Databases", "icon": null, "id": "55555555-5555-4555-8555-555555550521", "name": "MongoDB", "sort_order": 21 },
+  { "category": "Databases", "icon": null, "id": "55555555-5555-4555-8555-555555550522", "name": "SQLite", "sort_order": 22 },
+  { "category": "Databases", "icon": null, "id": "55555555-5555-4555-8555-555555550523", "name": "Redis", "sort_order": 23 },
+
+  { "category": "Tools & Platforms", "icon": null, "id": "55555555-5555-4555-8555-555555550524", "name": "GitHub", "sort_order": 24 },
+  { "category": "Tools & Platforms", "icon": null, "id": "55555555-5555-4555-8555-555555550525", "name": "VS Code", "sort_order": 25 },
+  { "category": "Tools & Platforms", "icon": null, "id": "55555555-5555-4555-8555-555555550526", "name": "Git", "sort_order": 26 },
+  { "category": "Tools & Platforms", "icon": null, "id": "55555555-5555-4555-8555-555555550527", "name": "Postman", "sort_order": 27 },
+  { "category": "Tools & Platforms", "icon": null, "id": "55555555-5555-4555-8555-555555550528", "name": "DBeaver", "sort_order": 28 },
+  { "category": "Tools & Platforms", "icon": null, "id": "55555555-5555-4555-8555-555555550529", "name": "n8n", "sort_order": 29 },
+  { "category": "Tools & Platforms", "icon": null, "id": "55555555-5555-4555-8555-555555550530", "name": "Figma", "sort_order": 30 },
+  { "category": "Tools & Platforms", "icon": null, "id": "55555555-5555-4555-8555-555555550531", "name": "KNIME", "sort_order": 31 },
+  { "category": "Tools & Platforms", "icon": null, "id": "55555555-5555-4555-8555-555555550532", "name": "Laragon", "sort_order": 32 },
+
+  { "category": "Cloud & DevOps", "icon": null, "id": "55555555-5555-4555-8555-555555550533", "name": "Docker", "sort_order": 33 },
+  { "category": "Cloud & DevOps", "icon": null, "id": "55555555-5555-4555-8555-555555550534", "name": "Ubuntu", "sort_order": 34 },
+  { "category": "Cloud & DevOps", "icon": null, "id": "55555555-5555-4555-8555-555555550535", "name": "Nginx", "sort_order": 35 },
+  { "category": "Cloud & DevOps", "icon": null, "id": "55555555-5555-4555-8555-555555550536", "name": "Kubernetes", "sort_order": 36 },
+  { "category": "Cloud & DevOps", "icon": null, "id": "55555555-5555-4555-8555-555555550537", "name": "Cloudflare", "sort_order": 37 },
+
+  { "category": "Hardware & IoT", "icon": null, "id": "55555555-5555-4555-8555-555555550538", "name": "ESP32 & Arduino", "sort_order": 38 },
+
+  { "category": "Data & ML", "icon": null, "id": "55555555-5555-4555-8555-555555550539", "name": "Apache Spark (PySpark)", "sort_order": 39 },
+  { "category": "Data & ML", "icon": null, "id": "55555555-5555-4555-8555-555555550540", "name": "scikit-learn", "sort_order": 40 },
+  { "category": "Data & ML", "icon": null, "id": "55555555-5555-4555-8555-555555550541", "name": "XGBoost", "sort_order": 41 },
+  { "category": "Data & ML", "icon": null, "id": "55555555-5555-4555-8555-555555550542", "name": "pandas & NumPy", "sort_order": 42 },
+  { "category": "Data & ML", "icon": null, "id": "55555555-5555-4555-8555-555555550543", "name": "Jupyter / Colab", "sort_order": 43 },
+  { "category": "Data & ML", "icon": null, "id": "55555555-5555-4555-8555-555555550544", "name": "Spark MLlib", "sort_order": 44 },
+  { "category": "Data & ML", "icon": null, "id": "55555555-5555-4555-8555-555555550545", "name": "YOLO", "sort_order": 45 },
+
+  { "category": "Concepts", "icon": null, "id": "55555555-5555-4555-8555-555555550546", "name": "REST API", "sort_order": 46 },
+  { "category": "Concepts", "icon": null, "id": "55555555-5555-4555-8555-555555550547", "name": "OOP", "sort_order": 47 },
+  { "category": "Concepts", "icon": null, "id": "55555555-5555-4555-8555-555555550548", "name": "MVC", "sort_order": 48 }
 ]

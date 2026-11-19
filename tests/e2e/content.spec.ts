@@ -8,16 +8,16 @@ test.describe("about and experience content", () => {
     const experience = page.locator("#experience");
 
     await expect(about.getByRole("heading", { level: 2, name: "About" })).toBeVisible();
-    await expect(about.getByText("I work on web systems end to end", { exact: false })).toBeVisible();
+    await expect(about.getByText("Politeknik Negeri Semarang", { exact: false })).toBeVisible();
 
     await expect(experience.getByRole("heading", { level: 2, name: "Experience" })).toBeVisible();
 
     const roles = experience.locator("ol > li");
     await expect(roles).toHaveCount(2);
 
-    // First entry is the current role, so it ends with "Present".
-    await expect(roles.first()).toContainText("Software Engineer");
-    await expect(roles.first()).toContainText("Present");
+    // Newest first: the 2026 freelance role precedes the 2025 Indosat internship.
+    await expect(roles.first()).toContainText("Full-Stack Engineer");
+    await expect(roles.first()).toContainText("Freelance");
   });
 
   test("exposes machine-readable dates on experience entries", async ({ page }) => {

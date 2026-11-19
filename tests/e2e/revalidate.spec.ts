@@ -48,7 +48,7 @@ test.describe("revalidate endpoint", () => {
 
   test("revalidates a project page through the header instead of the body", async ({ request }) => {
     const response = await request.post("/api/revalidate", {
-      data: { path: "/projects/draft-project-one" },
+      data: { path: "/projects/sirata" },
       headers: { "x-revalidate-secret": SECRET },
     });
 

@@ -50,7 +50,7 @@ test.describe("SEO", () => {
   });
 
   test("serves a 1200x630 PNG preview for the homepage and a project", async ({ page }) => {
-    for (const path of ["/", "/projects/draft-project-one"]) {
+    for (const path of ["/", "/projects/sirata"]) {
       await page.goto(path);
 
       const imageUrl = await page.locator('meta[property="og:image"]').getAttribute("content");
@@ -84,7 +84,7 @@ test.describe("SEO", () => {
   test("gives each page a unique title and description within the caps", async ({ page }) => {
     const visited: { url: string; title: string; description: string }[] = [];
 
-    for (const path of ["/", "/projects/draft-project-one", "/projects/draft-project-two"]) {
+    for (const path of ["/", "/projects/sirata", "/projects/campevent"]) {
       await page.goto(path);
 
       const title = (await page.title()).trim();

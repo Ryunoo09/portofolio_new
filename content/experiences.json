@@ -1,31 +1,34 @@
 [
   {
     "bullets": [
-      "Draft bullet: describe one concrete outcome with a number (<= 200 characters).",
-      "Draft bullet: describe the system you owned and the trade-off you made.",
-      "Draft bullet: describe how you worked with the rest of the team."
+      "Built and deployed WhatsApp and Telegram daily-report chatbots on n8n that surface real-time outlet performance.",
+      "Refactored the backend architecture of Elang Hub and added its core visit-scheduling features.",
+      "Designed the end-to-end PostgreSQL backend for the AIFI FTTH visit-input app.",
+      "Optimised the DSE AI backend for real-time outlet visit tracking, removing manual reporting.",
+      "Shipped and tested REST APIs in Python (FastAPI) and PHP (Laravel) used by up to 500 active field users."
     ],
-    "end_date": null,
+    "end_date": "2025-12-01",
     "id": "33333333-3333-4333-8333-333333333301",
-    "location": null,
-    "organization": "Draft Company",
-    "role": "Software Engineer",
+    "location": "Semarang, Indonesia",
+    "organization": "PT Indosat Ooredoo Hutchison (Circle Java)",
+    "role": "Backend Developer Intern · Automation Division",
     "sort_order": 1,
-    "start_date": "2024-01-01",
-    "tech": ["TypeScript", "PostgreSQL", "Next.js"]
+    "start_date": "2025-08-01",
+    "tech": ["Python", "FastAPI", "PHP", "Laravel", "PostgreSQL", "n8n", "REST APIs"]
   },
   {
     "bullets": [
-      "Draft bullet: describe the feature you shipped and its impact.",
-      "Draft bullet: describe what you learned about production systems."
+      "Built an integrated mini-ERP and logistics platform with Laravel, React, and TypeScript, tracing material from raw to warehouse.",
+      "Integrated the Customs (Bea Cukai) API and validated input data against the required document format.",
+      "Shipped automatic delivery-note generation and a finance module for costing and period recaps."
     ],
-    "end_date": "2023-12-31",
+    "end_date": "2026-04-01",
     "id": "33333333-3333-4333-8333-333333333302",
-    "location": null,
-    "organization": "Draft Company",
-    "role": "Software Engineering Intern",
+    "location": "Remote",
+    "organization": "Freelance",
+    "role": "Full-Stack Engineer",
     "sort_order": 2,
-    "start_date": "2023-01-01",
-    "tech": ["Node.js", "REST APIs"]
+    "start_date": "2026-01-01",
+    "tech": ["PHP", "Laravel", "React", "TypeScript", "PostgreSQL", "REST APIs"]
   }
 ]

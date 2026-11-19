@@ -7,7 +7,7 @@ import { expect, test } from "@playwright/test";
  * PRD names, and the skip link still works with the keyboard alone.
  */
 
-const PAGES = ["/", "/projects/draft-project-one", "/this-page-does-not-exist"];
+const PAGES = ["/", "/projects/sirata", "/this-page-does-not-exist"];
 
 for (const path of PAGES) {
   test(`axe reports no serious or critical issue on ${path}`, async ({ page }) => {
@@ -30,7 +30,7 @@ for (const width of [360, 768, 1024, 1440]) {
   test(`nothing scrolls sideways at ${width}px`, async ({ page }) => {
     await page.setViewportSize({ width, height: 844 });
 
-    for (const path of ["/", "/projects/draft-project-one"]) {
+    for (const path of ["/", "/projects/sirata"]) {
       await page.goto(path);
       await page.waitForLoadState("networkidle");
 

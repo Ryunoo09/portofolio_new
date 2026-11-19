@@ -4,7 +4,9 @@ test("home renders server-side heading", async ({ page }) => {
   await page.goto("/");
 
   // Step 16: the h1 is the targeted role (US-01), the name sits above it.
-  await expect(page.getByRole("heading", { level: 1 })).toHaveText("Software Engineer");
+  await expect(page.getByRole("heading", { level: 1 })).toHaveText(
+    "Software Engineer & Backend Developer",
+  );
   await expect(page.getByRole("heading", { level: 1 })).toHaveCSS("color", "rgb(250, 250, 250)");
   await expect(page).toHaveTitle("Rakha Yuda Wicaksono - Software Engineer");
   // The page colour sits on <html> so the dust canvas can paint at z-index -1

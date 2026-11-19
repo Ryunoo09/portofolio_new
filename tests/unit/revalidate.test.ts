@@ -14,7 +14,7 @@ describe("secretsMatch", () => {
 describe("isAllowedPath", () => {
   it("allows the homepage and project detail paths", () => {
     expect(isAllowedPath("/")).toBe(true);
-    expect(isAllowedPath("/projects/draft-project-one")).toBe(true);
+    expect(isAllowedPath("/projects/validasi-ftth-yolo26-paddleocr")).toBe(true);
   });
 
   it("rejects anything the site does not render", () => {

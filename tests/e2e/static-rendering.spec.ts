@@ -45,6 +45,6 @@ test.describe("production rendering", () => {
     const html = await response.text();
 
     expect(html).toContain("Rakha Yuda Wicaksono");
-    expect(html).toContain("Draft Project One");
+    expect(html).toContain("Computer Vision for FTTH Sales Data Validation");
   });
 });

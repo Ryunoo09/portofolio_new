@@ -6,11 +6,11 @@
     "whatsapp_public": false
   },
   "music": {
-    "title": null,
+    "title": "Lights — RoaMusic",
     "track_path": null
   },
   "seo": {
-    "description": "Portfolio of Rakha Yuda Wicaksono, a software engineer building reliable web systems with a focus on backend, data, and clean interfaces.",
+    "description": "Portfolio of Rakha Yuda Wicaksono, a software engineer building reliable web systems with a focus on backend, data, and applied AI that hold up in the field.",
     "title": "Rakha Yuda Wicaksono - Software Engineer"
   }
 }
