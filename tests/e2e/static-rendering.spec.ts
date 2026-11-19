@@ -34,4 +34,17 @@ test.describe("production rendering", () => {
     expect(html).toContain("This page does not exist");
     expect(html).toContain('href="/"');
   });
+
+  test("serves the seed content even when Supabase is not configured", async ({ request }) => {
+    // The build in CI (and the local gate) runs without Supabase env on purpose,
+    // so this is the R5 fallback path: content/*.json, never a 5xx.
+    const response = await request.get(`${server.url}/`);
+
+    expect(response.status()).toBe(200);
+
+    const html = await response.text();
+
+    expect(html).toContain("Rakha Yuda Wicaksono");
+    expect(html).toContain("Draft Project One");
+  });
 });

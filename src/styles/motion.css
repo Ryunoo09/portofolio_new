@@ -30,6 +30,12 @@
 
 .section-head {
   position: relative;
+  /* The shine below sweeps ±60% of the header width. A transformed box counts
+     toward scrollable overflow, so clip horizontally or it widens the page.
+     `clip` (not `hidden`) leaves the vertical overflow — the rule sits at
+     bottom: -1.25rem — and does not create a scroll container, so the rule's
+     own view() timeline keeps the page as its nearest scroller. */
+  overflow-x: clip;
 }
 
 /* A hairline that sweeps across the gap under a section header on entry. */
