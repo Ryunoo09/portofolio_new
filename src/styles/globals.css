@@ -3,6 +3,7 @@
 @import "./hero-visual.css";
 @import "./hero-layout.css";
 @import "./projects.css";
+@import "./skills.css";
 
 @theme inline {
   --color-bg: var(--bg);

@@ -1,0 +1,50 @@
+/*
+ * Skills marquee.
+ *
+ * The strip repeats names that are already readable in the category lists, so it
+ * is decoration: aria-hidden, no links inside, never the only copy of a name.
+ * Motion is opt-in (prefers-reduced-motion: no-preference), only `transform`
+ * animates, and hover, focus, the pause button, or a hidden tab stop it.
+ */
+.skills-marquee {
+  position: relative;
+}
+
+/* The window fades its edges instead of hard-clipping the text. */
+.skills-marquee-window {
+  overflow: hidden;
+  mask-image: linear-gradient(to right, transparent, #000 3rem, #000 calc(100% - 3rem), transparent);
+}
+
+.skills-marquee-track {
+  display: flex;
+  width: max-content;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .skills-marquee-track {
+    animation: skills-marquee 45s linear infinite;
+  }
+
+  /* Two copies of the same list, so one full copy is exactly 50% of the track.
+     Hover/focus is scoped to the window, not the band: the pause button sits in
+     the band, and pausing on its own hover would stop the user resuming while
+     the pointer is still on it. */
+  .skills-marquee[data-paused="true"] .skills-marquee-track,
+  .skills-marquee-window:is(:hover, :focus-within) .skills-marquee-track {
+    animation-play-state: paused;
+  }
+}
+
+/* Nothing moves under reduced motion, so the control would do nothing. */
+@media (prefers-reduced-motion: reduce) {
+  .skills-marquee-toggle {
+    display: none;
+  }
+}
+
+@keyframes skills-marquee {
+  to {
+    transform: translateX(-50%);
+  }
+}
