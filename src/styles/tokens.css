@@ -26,7 +26,7 @@
   --mono: ui-monospace, SFMono-Regular, Menlo, monospace;
 
   /* Layout */
-  --header-height: 4rem;
+  --header-height: 3.5rem;
   --container-max: 72rem;
   --anchor-gap: 1rem;
   --section-gap: 8rem;

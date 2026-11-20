@@ -5,6 +5,7 @@
 @import "./projects.css";
 @import "./skills.css";
 @import "./preloader.css";
+@import "./nav.css";
 @import "./motion.css";
 
 @theme inline {
