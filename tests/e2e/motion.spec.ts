@@ -107,9 +107,9 @@ test.describe("scroll reveal", () => {
 
     const heading = page.locator("#skills-title");
 
-    await expect(heading).toHaveText("Skills");
+    await expect(heading).toHaveText("Tech Stack");
     await expect(heading.locator("[data-word]")).not.toHaveCount(0);
-    await expect(page.getByRole("heading", { level: 2, name: "Skills" })).toBeVisible();
+    await expect(page.getByRole("heading", { level: 2, name: "Tech Stack" })).toBeVisible();
   });
 
   test("scroll-linked decoration follows the scroll position", async ({ page }) => {

@@ -1,8 +1,8 @@
 /*
  * Skills marquee.
  *
- * The strip repeats names that are already readable in the category lists, so it
- * is decoration: aria-hidden, no links inside, never the only copy of a name.
+ * The strip repeats names that are already readable in the screen-reader list,
+ * so it is decoration: aria-hidden, no links inside, never the only copy of a name.
  * Motion is opt-in (prefers-reduced-motion: no-preference), only `transform`
  * animates, and hover, focus, the pause button, or a hidden tab stop it.
  */
@@ -24,21 +24,23 @@
 .skill-chip {
   display: inline-flex;
   align-items: center;
-  gap: 0.5rem;
-  padding: 0.5rem 1rem;
+  gap: 0.625rem;
+  padding: 0.625rem 1.25rem;
   border-radius: 9999px;
   border: 1px solid var(--border);
   background: var(--surface);
   color: var(--fg);
   font-size: 0.875rem;
+  font-weight: 500;
   line-height: 1.25rem;
   white-space: nowrap;
-  transition: border-color var(--duration-fast), background-color var(--duration-fast);
+  transition: border-color var(--duration-fast), background-color var(--duration-fast), transform var(--duration-fast);
 }
 
 .skill-chip:is(:hover, :focus-visible) {
   border-color: var(--accent);
   background: var(--surface-raised);
+  transform: translateY(-1px);
 }
 
 @media (prefers-reduced-motion: no-preference) {

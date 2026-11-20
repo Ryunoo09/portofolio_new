@@ -1,16 +1,12 @@
 import { expect, test } from "@playwright/test";
 
 test.describe("skills", () => {
-  test("lists every skill under its category, once for a screen reader", async ({ page }) => {
+  test("lists every skill for a screen reader", async ({ page }) => {
     await page.goto("/");
 
     const section = page.locator("#skills");
 
-    await expect(section.getByRole("heading", { level: 2, name: "Skills" })).toBeVisible();
-
-    for (const category of ["Languages", "Frameworks & Libraries", "Databases", "Tools & Platforms"]) {
-      await expect(section.getByRole("heading", { level: 3, name: category })).toBeVisible();
-    }
+    await expect(section.getByRole("heading", { level: 2, name: "Tech Stack" })).toBeVisible();
 
     // The marquee copy is aria-hidden, so the accessibility tree holds one name.
     const exposed = (await section.getByRole("listitem").allTextContents()).map((text) =>
@@ -99,7 +95,7 @@ test.describe("skills", () => {
 
     await page.goto("/");
 
-    await expect(page.getByRole("heading", { level: 3, name: "Languages" })).toBeVisible();
+    await expect(page.getByRole("heading", { level: 2, name: "Tech Stack" })).toBeVisible();
 
     const exposed = (await page.locator("#skills").getByRole("listitem").allTextContents()).map(
       (text) => text.trim(),

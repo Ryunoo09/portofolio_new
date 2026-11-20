@@ -33,6 +33,7 @@ type SectionProps = {
   description?: ReactNode;
   className?: string;
   layout?: "stack" | "split";
+  align?: "left" | "center";
   children: ReactNode;
 };
 
@@ -43,10 +44,12 @@ export function Section({
   description,
   className,
   layout = "stack",
+  align = "left",
   children,
 }: SectionProps) {
   const titleId = `${id}-title`;
   const isSplit = layout === "split";
+  const isCenter = align === "center";
 
   return (
     <section
@@ -62,6 +65,7 @@ export function Section({
         <header
           className={cn(
             "section-head mb-10 max-w-2xl",
+            isCenter && "mx-auto text-center",
             isSplit && "lg:sticky lg:top-[calc(var(--header-height)+2rem)] lg:mb-0",
           )}
         >
@@ -71,13 +75,17 @@ export function Section({
             </p>
           )}
           {title && (
-            <Heading level="h2" className="mb-3">
+            <Heading level="h2" className={cn("mb-3", isCenter && "text-center")}>
               <span id={titleId}>
                 {typeof title === "string" ? <RevealWords text={title} /> : title}
               </span>
             </Heading>
           )}
-          {description && <p className="text-fg-muted text-base">{description}</p>}
+          {description && (
+            <p className={cn("text-fg-muted text-base", isCenter && "max-w-xl mx-auto text-balance")}>
+              {description}
+            </p>
+          )}
         </header>
       )}
       {isSplit ? <div className="min-w-0">{children}</div> : children}

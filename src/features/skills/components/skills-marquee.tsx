@@ -28,10 +28,10 @@ export function SkillsMarquee({ skills }: SkillsMarqueeProps) {
 
   return (
     <div
-      className="skills-marquee border-border mb-12 flex items-center border-y py-4"
+      className="skills-marquee relative py-2"
       data-paused={paused}
     >
-      <div aria-hidden="true" className="skills-marquee-window min-w-0 flex-1 space-y-3">
+      <div aria-hidden="true" className="skills-marquee-window min-w-0 space-y-3.5">
         {/* Row 1: Left */}
         <div className="skills-marquee-track">
           {[0, 1].map((copy) => (
@@ -67,14 +67,17 @@ export function SkillsMarquee({ skills }: SkillsMarqueeProps) {
         )}
       </div>
 
-      <button
-        type="button"
-        aria-label={label}
-        onClick={() => setUserPaused((value) => !value)}
-        className="skills-marquee-toggle border-border-strong text-fg-muted hover:text-fg focus-visible:text-fg ml-4 min-h-6 min-w-6 shrink-0 rounded-sm border px-2 py-1 font-mono text-[0.625rem]"
-      >
-        <span aria-hidden="true">{paused ? "▶" : "❚❚"}</span>
-      </button>
+      <div className="mt-8 flex justify-center">
+        <button
+          type="button"
+          aria-label={label}
+          onClick={() => setUserPaused((value) => !value)}
+          className="skills-marquee-toggle border-border bg-surface text-fg-muted hover:text-fg hover:border-border-strong focus-visible:text-fg flex items-center gap-2 rounded-full border px-4 py-1.5 font-mono text-xs transition-colors"
+        >
+          <span aria-hidden="true">{paused ? "▶" : "❚❚"}</span>
+          <span>{paused ? "Resume animation" : "Pause animation"}</span>
+        </button>
+      </div>
     </div>
   );
 }

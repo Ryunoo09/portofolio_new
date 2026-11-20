@@ -23,21 +23,11 @@ const seeded = make([
 ]);
 
 describe("Skills", () => {
-  it("groups skills under their category", () => {
+  it("renders the Tech Stack heading and description", () => {
     render(<Skills skills={seeded} />);
 
-    for (const [category, name] of [
-      ["Frontend", "TypeScript"],
-      ["Backend", "Node.js"],
-      ["Database", "PostgreSQL"],
-      ["Tools", "Docker"],
-    ]) {
-      const heading = screen.getByRole("heading", { level: 3, name: category });
-      const list = heading.nextElementSibling;
-
-      expect(list?.tagName).toBe("UL");
-      expect(list?.textContent).toContain(name);
-    }
+    expect(screen.getByRole("heading", { level: 2, name: "Tech Stack" })).toBeInTheDocument();
+    expect(screen.getByText(/Tools and technologies I use/i)).toBeInTheDocument();
   });
 
   it("exposes every name once to assistive tech and repeats it only as decoration", () => {
