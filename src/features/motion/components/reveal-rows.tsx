@@ -13,6 +13,8 @@ type RevealRowsProps = {
   duration?: number;
   /** Seconds between two rows. */
   stagger?: number;
+  /** Starting blur in pixels. Default is 0. */
+  blur?: number;
   children: ReactNode;
 };
 
@@ -32,6 +34,7 @@ export function RevealRows({
   distance = 16,
   duration = 0.6,
   stagger = 0.08,
+  blur = 0,
   children,
 }: RevealRowsProps) {
   const ref = useRef<HTMLDivElement>(null);
@@ -49,8 +52,8 @@ export function RevealRows({
     // The wrapper is `display: contents`, so it has no geometry of its own:
     // ScrollTrigger would measure it as a zero-height box at the top of the page
     // and fire on load. The first row is a real box, so it is the trigger.
-    return revealOnScroll({ targets: rows, trigger: rows[0], distance, duration, stagger });
-  }, [distance, duration, reducedMotion, selector, stagger]);
+    return revealOnScroll({ targets: rows, trigger: rows[0], distance, duration, stagger, blur });
+  }, [blur, distance, duration, reducedMotion, selector, stagger]);
 
   return (
     <div ref={ref} style={{ display: "contents" }} data-reveal-root="">

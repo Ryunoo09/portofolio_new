@@ -30,7 +30,7 @@ export function ProjectsList({ projects }: ProjectsListProps) {
       {projects.length === 0 ? (
         <p className="text-fg-muted text-sm">Projects are being added.</p>
       ) : (
-        <RevealRows selector="li" distance={28} duration={0.65} stagger={0.1}>
+        <RevealRows selector="li" distance={28} duration={0.65} stagger={0.1} blur={8}>
           <ol className="border-border border-t">
             {projects.slice(0, MAX_PROJECTS).map((project, index) => (
               <li key={project.id}>

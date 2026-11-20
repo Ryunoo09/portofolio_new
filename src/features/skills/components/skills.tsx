@@ -44,7 +44,7 @@ export function Skills({ skills }: SkillsProps) {
         <p className="text-fg-muted text-sm">Skills are being added.</p>
       ) : (
         <>
-          <RevealRows selector="[data-reveal]" distance={18} duration={0.5} stagger={0.09}>
+          <RevealRows selector="[data-reveal]" distance={18} duration={0.5} stagger={0.09} blur={8}>
             <div className="grid gap-x-8 gap-y-10 sm:grid-cols-2 lg:grid-cols-4">
               {groups.map((group) => (
                 <div key={group.category} data-reveal>

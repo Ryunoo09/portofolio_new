@@ -11,6 +11,8 @@ type RevealOptions = {
   duration: number;
   /** Seconds between two targets. */
   stagger: number;
+  /** Starting blur in pixels. Defaults to 0 (no blur). */
+  blur?: number;
 };
 
 /**
@@ -20,7 +22,7 @@ type RevealOptions = {
  * visible until the effect takes over (a failed import can never blank the page).
  * The returned cleanup always removes the inline styles it wrote.
  */
-export function revealOnScroll({ targets, trigger, distance, duration, stagger }: RevealOptions) {
+export function revealOnScroll({ targets, trigger, distance, duration, stagger, blur = 0 }: RevealOptions) {
   const pending = targets.filter(
     (element) => element.getBoundingClientRect().top > window.innerHeight * 0.85,
   );
@@ -31,6 +33,7 @@ export function revealOnScroll({ targets, trigger, distance, duration, stagger }
     for (const element of pending) {
       element.style.removeProperty("opacity");
       element.style.removeProperty("transform");
+      element.style.removeProperty("filter");
     }
   };
 
@@ -47,16 +50,20 @@ export function revealOnScroll({ targets, trigger, distance, duration, stagger }
       for (const element of pending) {
         element.style.opacity = "0";
         element.style.transform = `translateY(${distance}px)`;
+        if (blur > 0) {
+          element.style.filter = `blur(${blur}px)`;
+        }
       }
 
       const context = gsap.context(() => {
         gsap.to(pending, {
           opacity: 1,
           y: 0,
+          filter: blur > 0 ? "blur(0px)" : undefined,
           duration,
           ease: "power2.out",
           stagger,
-          clearProps: "opacity,transform",
+          clearProps: "opacity,transform,filter",
           scrollTrigger: { trigger, start: "top 85%", once: true },
         });
       }, trigger);

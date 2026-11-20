@@ -20,7 +20,7 @@ export function About({ profile }: AboutProps) {
     <Section id="about" eyebrow="About" title="About">
       {source ? (
         <div className="text-fg-muted max-w-[65ch] space-y-4 text-base leading-relaxed">
-          <RevealRows selector="p, h2, h3" distance={12} duration={0.5} stagger={0.06}>{renderMarkdown(source)}</RevealRows>
+          <RevealRows selector="p, h2, h3" distance={12} duration={0.5} stagger={0.06} blur={14}>{renderMarkdown(source)}</RevealRows>
         </div>
       ) : (
         <p className="text-fg-muted text-sm">Bio is being written.</p>
