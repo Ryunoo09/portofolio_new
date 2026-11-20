@@ -11,7 +11,7 @@ test("home renders server-side heading", async ({ page }) => {
   await expect(page).toHaveTitle("Rakha Yuda Wicaksono - Software Engineer");
   // The page colour sits on <html> so the dust canvas can paint at z-index -1
   // (a background on <body> covers it).
-  await expect(page.locator("html")).toHaveCSS("background-color", "rgb(9, 9, 11)");
+  await expect(page.locator("html")).toHaveCSS("background-color", "rgb(10, 9, 8)");
 });
 
 test("document exposes language, landmarks, and metadata", async ({ page }) => {
