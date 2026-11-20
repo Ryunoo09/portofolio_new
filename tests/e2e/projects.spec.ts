@@ -5,9 +5,9 @@ const published = JSON.parse(readFileSync("content/projects.json", "utf8")) as {
   repo_url: string | null;
   live_url: string | null;
 }[];
-// The homepage index shows at most eight featured projects (PRD US-04), in
+// The homepage index shows at most nine featured projects (PRD US-04), in
 // sort_order, which is the order in the file.
-const listed = published.slice(0, 8);
+const listed = published.slice(0, 9);
 const privateCount = listed.filter((p) => !p.repo_url && !p.live_url).length;
 
 test.describe("projects list", () => {

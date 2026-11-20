@@ -9,8 +9,8 @@ import { hasPublicLink } from "../links";
 /** PRD US-04: at most five technology tags per row. */
 const MAX_TAGS = 5;
 
-/** PRD US-04: at most eight featured projects. */
-const MAX_PROJECTS = 8;
+/** PRD US-04: at most nine featured projects. */
+const MAX_PROJECTS = 9;
 
 type ProjectsListProps = {
   projects: Project[];

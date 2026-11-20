@@ -8,6 +8,9 @@ const socials = JSON.parse(readFileSync("content/social-links.json", "utf8")) as
   label: string;
   url: string;
 }[];
+const settings = JSON.parse(readFileSync("content/site-settings.json", "utf8")) as {
+  contact: { whatsapp: string; whatsapp_public: boolean };
+};
 
 test.describe("contact", () => {
   test("never puts the email address in the server HTML", async ({ page }) => {
@@ -44,14 +47,26 @@ test.describe("contact", () => {
     }
   });
 
-  test("keeps phone and WhatsApp off until the owner enables them", async ({ page }) => {
+  test("keeps phone hidden and shows the enabled WhatsApp link", async ({ page }) => {
     await page.goto("/");
 
     const section = page.locator("#contact");
 
     await expect(section.locator('a[href^="tel:"]')).toHaveCount(0);
-    await expect(section.locator('a[href*="wa.me"]')).toHaveCount(0);
     await expect(page.locator('a[href^="tel:"]')).toHaveCount(0);
+
+    if (settings.contact.whatsapp_public) {
+      const whatsapp = section.getByRole("link", { name: /WhatsApp/ });
+
+      await expect(whatsapp).toHaveAttribute(
+        "href",
+        `https://wa.me/${settings.contact.whatsapp.replace(/\D/g, "")}`,
+      );
+      await expect(whatsapp).toHaveAttribute("target", "_blank");
+      await expect(whatsapp).toHaveAttribute("rel", "noreferrer noopener");
+    } else {
+      await expect(section.locator('a[href*="wa.me"]')).toHaveCount(0);
+    }
   });
 
   test("offers both CV languages from the hero, the header, and contact", async ({ page }) => {

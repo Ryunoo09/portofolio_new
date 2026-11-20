@@ -2,8 +2,8 @@
   "contact": {
     "phone": null,
     "phone_public": false,
-    "whatsapp": null,
-    "whatsapp_public": false
+    "whatsapp": "+6282135253017",
+    "whatsapp_public": true
   },
   "cv": {
     "en": "CV_Rakha_Yuda_Wicaksono_Fullstack_EN.pdf",

@@ -134,15 +134,15 @@ describe("ProjectsList", () => {
     expect(screen.getByRole("link", { name: "A" })).toBeInTheDocument();
   });
 
-  it("shows at most eight projects", () => {
+  it("shows at most nine projects", () => {
     const many = Array.from({ length: 10 }, (_, index) => ({
       ...make({ id: `p${index}`, slug: `p${index}`, title: `Project ${index}` }),
     }));
 
     const { container } = render(<ProjectsList projects={many} />);
 
-    expect(container.querySelectorAll("ol > li")).toHaveLength(8);
-    expect(screen.queryByText("Project 8")).toBeNull();
+    expect(container.querySelectorAll("ol > li")).toHaveLength(9);
+    expect(screen.queryByText("Project 9")).toBeNull();
   });
 
   it("shows a placeholder instead of an empty list", () => {
