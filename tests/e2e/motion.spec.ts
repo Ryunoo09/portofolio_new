@@ -178,11 +178,14 @@ test.describe("scroll reveal", () => {
 
       await new Promise((resolve) => setTimeout(resolve, 500));
 
+      const hit = document.elementFromPoint(window.innerWidth / 2, window.innerHeight / 2);
+
       return {
         first,
         second: sample(),
         pointerEvents: getComputedStyle(canvas).pointerEvents,
         ariaHidden: canvas.getAttribute("aria-hidden"),
+        isCanvasHit: hit === canvas,
       };
     });
 
@@ -192,6 +195,7 @@ test.describe("scroll reveal", () => {
     expect(result!.second.checksum).not.toBe(result!.first.checksum);
     expect(result!.pointerEvents).toBe("none");
     expect(result!.ariaHidden).toBe("true");
+    expect(result!.isCanvasHit).toBe(false);
   });
 
   test.describe("with reduced motion", () => {

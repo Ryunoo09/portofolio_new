@@ -4,13 +4,13 @@ import { useEffect, useRef } from "react";
 import { usePrefersReducedMotion } from "../hooks/use-prefers-reduced-motion";
 
 /** Cheap on phones, still alive behind a projector. */
-const MIN_DOTS = 18;
-const MAX_DOTS = 56;
-const AREA_PER_DOT = 24_000;
+const MIN_DOTS = 28;
+const MAX_DOTS = 80;
+const AREA_PER_DOT = 18_000;
 const MAX_DPR = 2;
 
-/** Dust drifts slowly, so 30 fps is indistinguishable and halves the work. */
-const FRAME_MS = 33;
+/** 60 fps for smooth drifting motion. */
+const FRAME_MS = 16;
 
 type Dot = {
   x: number;
@@ -21,18 +21,20 @@ type Dot = {
   alpha: number;
   phase: number;
   accent: boolean;
+  glow: boolean;
 };
 
 function randomDot(width: number, height: number): Dot {
   return {
     x: Math.random() * width,
     y: Math.random() * height,
-    radius: 0.6 + Math.random() * 1.2,
-    vx: (Math.random() - 0.5) * 0.1,
-    vy: -0.02 - Math.random() * 0.13,
-    alpha: 0.12 + Math.random() * 0.33,
+    radius: 0.8 + Math.random() * 1.6,
+    vx: (Math.random() - 0.5) * 0.5,
+    vy: -(0.15 + Math.random() * 0.4),
+    alpha: 0.18 + Math.random() * 0.42,
     phase: Math.random() * Math.PI * 2,
     accent: Math.random() < 0.7,
+    glow: Math.random() < 0.2,
   };
 }
 
@@ -61,9 +63,14 @@ export function DustLayer() {
     }
 
     // The accent is a design token, never a second copy of the hex value.
-    const accent = getComputedStyle(document.documentElement)
-      .getPropertyValue("--accent")
-      .trim();
+    const accent =
+      getComputedStyle(document.documentElement)
+        .getPropertyValue("--accent-soft")
+        .trim() ||
+      getComputedStyle(document.documentElement)
+        .getPropertyValue("--accent")
+        .trim();
+    const neutral = "rgb(255 248 235)";
 
     let dots: Dot[] = [];
     let width = 0;
@@ -92,14 +99,22 @@ export function DustLayer() {
           if (dot.x < -4) dot.x = width + 4;
           else if (dot.x > width + 4) dot.x = -4;
 
+          if (dot.glow) {
+            ctx.shadowBlur = 6;
+            ctx.shadowColor = accent || "rgb(235 201 110)";
+          } else {
+            ctx.shadowBlur = 0;
+          }
+
           ctx.globalAlpha = dot.alpha;
-          ctx.fillStyle = dot.accent && accent ? accent : "white";
+          ctx.fillStyle = dot.accent && accent ? accent : neutral;
           ctx.beginPath();
           // The wobble is applied when painting, so it never accumulates drift.
           ctx.arc(dot.x + Math.sin(dot.phase) * 0.8, dot.y, dot.radius, 0, Math.PI * 2);
           ctx.fill();
         }
 
+        ctx.shadowBlur = 0;
         ctx.globalAlpha = 1;
       }
 
