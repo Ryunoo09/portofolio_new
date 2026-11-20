@@ -25,11 +25,14 @@ test.describe("skills", () => {
   test("stops and restarts the marquee with its button", async ({ page }) => {
     await page.goto("/");
 
-    const track = page.locator(".skills-marquee-track");
+    const tracks = page.locator(".skills-marquee-track");
     const toggle = page.locator(".skills-marquee-toggle");
 
-    expect(await track.evaluate((node) => getComputedStyle(node).animationName)).toBe(
+    expect(await tracks.first().evaluate((node) => getComputedStyle(node).animationName)).toBe(
       "skills-marquee",
+    );
+    expect(await tracks.nth(1).evaluate((node) => getComputedStyle(node).animationDirection)).toBe(
+      "reverse",
     );
 
     await expect(toggle).toHaveAccessibleName("Pause skills animation");
@@ -37,7 +40,10 @@ test.describe("skills", () => {
 
     await expect(toggle).toHaveAccessibleName("Resume skills animation");
     await expect
-      .poll(() => track.evaluate((node) => getComputedStyle(node).animationPlayState))
+      .poll(() => tracks.first().evaluate((node) => getComputedStyle(node).animationPlayState))
+      .toBe("paused");
+    await expect
+      .poll(() => tracks.nth(1).evaluate((node) => getComputedStyle(node).animationPlayState))
       .toBe("paused");
 
     // Move off the strip, then resume: the control must work both ways, which a
@@ -47,21 +53,27 @@ test.describe("skills", () => {
 
     await expect(toggle).toHaveAccessibleName("Pause skills animation");
     await expect
-      .poll(() => track.evaluate((node) => getComputedStyle(node).animationPlayState))
+      .poll(() => tracks.first().evaluate((node) => getComputedStyle(node).animationPlayState))
+      .toBe("running");
+    await expect
+      .poll(() => tracks.nth(1).evaluate((node) => getComputedStyle(node).animationPlayState))
       .toBe("running");
   });
 
   test("pauses the marquee on hover", async ({ page }) => {
     await page.goto("/");
 
-    const track = page.locator(".skills-marquee-track");
+    const tracks = page.locator(".skills-marquee-track");
 
     // Hover the window: the track itself never stops moving, so it is not a
     // stable hover target for Playwright.
     await page.locator(".skills-marquee-window").hover();
 
     await expect
-      .poll(() => track.evaluate((node) => getComputedStyle(node).animationPlayState))
+      .poll(() => tracks.first().evaluate((node) => getComputedStyle(node).animationPlayState))
+      .toBe("paused");
+    await expect
+      .poll(() => tracks.nth(1).evaluate((node) => getComputedStyle(node).animationPlayState))
       .toBe("paused");
   });
 
@@ -71,12 +83,13 @@ test.describe("skills", () => {
     test("renders the marquee static and hides the pause control", async ({ page }) => {
       await page.goto("/");
 
-      const track = page.locator(".skills-marquee-track");
+      const tracks = page.locator(".skills-marquee-track");
 
-      expect(await track.evaluate((node) => getComputedStyle(node).animationName)).toBe("none");
+      expect(await tracks.first().evaluate((node) => getComputedStyle(node).animationName)).toBe("none");
+      expect(await tracks.nth(1).evaluate((node) => getComputedStyle(node).animationName)).toBe("none");
       await expect(page.getByRole("button", { name: /skills animation/ })).toBeHidden();
       // The names stay on screen and readable.
-      await expect(page.locator(".skills-marquee-track")).toContainText("TypeScript");
+      await expect(tracks.first()).toContainText("TypeScript");
     });
   });
 

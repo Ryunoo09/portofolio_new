@@ -21,9 +21,34 @@
   width: max-content;
 }
 
+.skill-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  border-radius: 9999px;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  color: var(--fg);
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  white-space: nowrap;
+  transition: border-color var(--duration-fast), background-color var(--duration-fast);
+}
+
+.skill-chip:is(:hover, :focus-visible) {
+  border-color: var(--accent);
+  background: var(--surface-raised);
+}
+
 @media (prefers-reduced-motion: no-preference) {
   .skills-marquee-track {
     animation: skills-marquee 45s linear infinite;
+  }
+
+  .skills-marquee-track--reverse {
+    animation-duration: 55s;
+    animation-direction: reverse;
   }
 
   /* Two copies of the same list, so one full copy is exactly 50% of the track.

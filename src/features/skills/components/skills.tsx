@@ -36,7 +36,6 @@ function groupSkills(skills: Skill[]): SkillGroup[] {
  */
 export function Skills({ skills }: SkillsProps) {
   const groups = groupSkills(skills);
-  const names = groups.flatMap((group) => group.items.map((item) => item.name));
 
   return (
     <Section id="skills" eyebrow="Skills" title="Skills" layout="split">
@@ -44,6 +43,8 @@ export function Skills({ skills }: SkillsProps) {
         <p className="text-fg-muted text-sm">Skills are being added.</p>
       ) : (
         <>
+          {skills.length > 1 && <SkillsMarquee skills={skills} />}
+
           <RevealRows selector="[data-reveal]" distance={18} duration={0.5} stagger={0.09} blur={8}>
             <div className="grid gap-x-8 gap-y-10 sm:grid-cols-2 lg:grid-cols-4">
               {groups.map((group) => (
@@ -62,8 +63,6 @@ export function Skills({ skills }: SkillsProps) {
               ))}
             </div>
           </RevealRows>
-
-          {names.length > 1 && <SkillsMarquee names={names} />}
         </>
       )}
     </Section>
