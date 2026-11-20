@@ -37,15 +37,17 @@ export default async function HomePage() {
         <Hero profile={profile} cv={cvLinks(settings)} />
       </div>
 
-      <About profile={profile} />
+      <div className="section-stack">
+        <About profile={profile} />
 
-      <ExperienceTimeline experiences={experiences} />
+        <ExperienceTimeline experiences={experiences} />
 
-      <ProjectsList projects={projects} />
+        <ProjectsList projects={projects} />
 
-      <Skills skills={skills} />
+        <Skills skills={skills} />
 
-      <Contact profile={profile} socials={socials} settings={settings} />
+        <Contact profile={profile} socials={socials} settings={settings} />
+      </div>
     </>
   );
 }

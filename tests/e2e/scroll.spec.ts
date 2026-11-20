@@ -19,4 +19,13 @@ test.describe("scroll experience", () => {
     const position = await hero.evaluate((el) => getComputedStyle(el).position);
     expect(position).not.toBe("sticky");
   });
+
+  test("section-stack has border-radius and elevation shadow above sticky hero", async ({ page }) => {
+    await page.goto("/");
+    await page.waitForLoadState("networkidle");
+
+    const stack = page.locator(".section-stack");
+    await expect(stack).toHaveCSS("position", "relative");
+    await expect(stack).toHaveCSS("z-index", "20");
+  });
 });

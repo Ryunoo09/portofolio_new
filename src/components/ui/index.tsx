@@ -42,7 +42,7 @@ export function Section({ id, title, eyebrow, description, className, children }
     <section
       id={id}
       aria-labelledby={title ? titleId : undefined}
-      className={cn("mx-auto w-full max-w-[var(--container-max)] px-6 py-16 sm:py-24", className)}
+      className={cn("mx-auto w-full max-w-[var(--container-max)] px-6 py-24 sm:py-32", className)}
     >
       {(eyebrow || title || description) && (
         <header className="section-head mb-10 max-w-2xl">

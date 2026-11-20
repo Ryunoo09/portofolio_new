@@ -11,6 +11,21 @@
   pointer-events: none;
 }
 
+.section-stack {
+  position: relative;
+  z-index: 20;
+  background: var(--bg);
+  border-top: 1px solid var(--border);
+  border-radius: 2.5rem 2.5rem 0 0;
+  box-shadow: 0 -25px 60px rgb(0 0 0 / 0.85);
+}
+
+@media (min-width: 48rem) {
+  .section-stack {
+    border-radius: 3rem 3rem 0 0;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .dust-layer {
     display: none;
