@@ -16,6 +16,8 @@
   --color-fg: var(--fg);
   --color-fg-muted: var(--fg-muted);
   --color-accent: var(--accent);
+  --color-accent-soft: var(--accent-soft);
+  --color-accent-dim: var(--accent-dim);
   --color-accent-fg: var(--accent-fg);
 
   --radius-sm: var(--r-sm);
