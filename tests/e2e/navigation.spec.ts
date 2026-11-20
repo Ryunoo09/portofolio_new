@@ -57,7 +57,7 @@ for (const viewport of [
                 }
 
                 if (stableFrames >= 8) return resolve(true);
-                if (frames > 180) return resolve(true);
+                if (frames > 360) return resolve(true);
                 requestAnimationFrame(tick);
               };
 
@@ -110,4 +110,21 @@ test("every section link is reachable with the keyboard", async ({ page }) => {
     await link.focus();
     await expect(link).toBeFocused();
   }
+});
+
+test("nav dock hides on scroll down and shows on scroll up", async ({ page }) => {
+  await page.setViewportSize({ width: 1440, height: 900 });
+  await page.goto("/");
+  await page.waitForLoadState("networkidle");
+
+  const header = page.locator("body > header");
+  await expect(header).not.toHaveAttribute("data-hidden", "true");
+
+  await page.evaluate(() => window.scrollTo(0, 300));
+  await page.waitForTimeout(200);
+  await expect(header).toHaveAttribute("data-hidden", "true");
+
+  await page.evaluate(() => window.scrollTo(0, 150));
+  await page.waitForTimeout(200);
+  await expect(header).not.toHaveAttribute("data-hidden", "true");
 });

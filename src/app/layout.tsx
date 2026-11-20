@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { Instrument_Serif, Inter } from "next/font/google";
 import "@/styles/globals.css";
-import { MobileMenu, SectionNav } from "@/features/navigation";
+import { DockShell, MobileMenu, SectionNav } from "@/features/navigation";
 import { DustLayer } from "@/features/motion";
 import { MusicPlayer, musicConfig } from "@/features/music-player";
 import { Preloader } from "@/features/preloader";
@@ -64,10 +64,10 @@ export default async function RootLayout({ children }: Readonly<{ children: Reac
           Skip to content
         </a>
 
-        <header className="nav-dock-shell">
+        <DockShell>
           <SectionNav cv={cv} />
           <MobileMenu cv={cv} />
-        </header>
+        </DockShell>
 
         <main id="main">{children}</main>
 

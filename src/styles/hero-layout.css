@@ -7,7 +7,7 @@
     display: grid;
     gap: 2.5rem;
     align-items: center;
-    padding-block: 2rem 3rem;
+    padding-block: 1rem 3rem;
   }
 
   .hero-copy {
