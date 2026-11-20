@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import { Section } from "@/components/ui";
+import { RevealRows } from "@/features/motion";
 import { loadGsap } from "@/features/motion/lib/load-gsap";
 import type { Experience } from "@/types/content";
 import { ExperienceCard } from "./experience-card";
@@ -79,18 +80,20 @@ export function ExperienceTimeline({ experiences }: ExperienceTimelineProps) {
       {experiences.length === 0 ? (
         <p className="text-fg-muted text-sm">Experience is being updated.</p>
       ) : (
-        <ol ref={containerRef} className="exp-accordion">
-          {experiences.map((item, index) => (
-            <li key={item.id}>
-              <ExperienceCard
-                item={item}
-                index={index}
-                isOpen={activeId === item.id}
-                onToggle={() => handleToggle(item.id)}
-              />
-            </li>
-          ))}
-        </ol>
+        <RevealRows selector="li" distance={20} duration={0.55} stagger={0.07} blur={8}>
+          <ol ref={containerRef} className="exp-accordion">
+            {experiences.map((item, index) => (
+              <li key={item.id}>
+                <ExperienceCard
+                  item={item}
+                  index={index}
+                  isOpen={activeId === item.id}
+                  onToggle={() => handleToggle(item.id)}
+                />
+              </li>
+            ))}
+          </ol>
+        </RevealRows>
       )}
     </Section>
   );

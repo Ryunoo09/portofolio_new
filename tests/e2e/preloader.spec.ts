@@ -68,7 +68,7 @@ test.describe("preloader", () => {
 
     // Content is server-rendered; the overlay never gates it.
     await expect(page.getByRole("heading", { level: 1 })).toBeVisible();
-    await expect(page.getByRole("heading", { level: 2, name: "Skills" })).toBeVisible();
+    await expect(page.getByRole("heading", { level: 2, name: /Skills|Tech Stack/ })).toBeVisible();
   });
 
   test.describe("with reduced motion", () => {

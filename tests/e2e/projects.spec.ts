@@ -18,7 +18,7 @@ test.describe("projects list", () => {
 
     await expect(projects.getByRole("heading", { level: 2, name: "Projects" })).toBeVisible();
 
-    const links = projects.locator("ol > li a");
+    const links = projects.locator("ol > li a[aria-labelledby]");
 
     await expect(links).toHaveCount(listed.length);
 
@@ -76,7 +76,7 @@ test.describe("projects on a touch device", () => {
 
     const row = page.locator("#projects ol > li").first();
 
-    await row.getByRole("link").click();
+    await row.locator("a[aria-labelledby]").click();
 
     await expect(page).toHaveURL(/\/projects\/validasi-ftth-yolo26-paddleocr$/);
   });
