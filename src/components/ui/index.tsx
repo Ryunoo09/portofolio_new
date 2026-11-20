@@ -56,7 +56,7 @@ export function Section({
       id={id}
       aria-labelledby={title ? titleId : undefined}
       className={cn(
-        "mx-auto w-full max-w-[var(--container-max)] px-6 py-24 sm:py-32",
+        "mx-auto w-full max-w-[var(--container-max)] px-6 py-16 sm:py-20",
         isSplit && "lg:grid lg:grid-cols-[minmax(0,18rem)_minmax(0,1fr)] lg:gap-x-12 lg:items-start",
         className,
       )}
