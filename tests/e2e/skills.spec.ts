@@ -17,7 +17,7 @@ test.describe("skills", () => {
       text.trim(),
     );
 
-    for (const name of ["TypeScript", "Node.js", "PostgreSQL", "Docker"]) {
+    for (const name of ["TypeScript", "Laravel", "PostgreSQL", "Docker"]) {
       expect(exposed.filter((text) => text === name)).toHaveLength(1);
     }
   });

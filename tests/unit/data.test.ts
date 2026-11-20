@@ -87,7 +87,7 @@ describe("data fallback", () => {
       getSiteSettings(),
     ]);
 
-    expect(skills).toHaveLength(48);
+    expect(skills).toHaveLength(28);
     expect(skills[0]?.sort_order).toBe(1);
     expect(links[0]?.label).toBe("GitHub");
     expect(settings).toHaveProperty("seo");
@@ -116,7 +116,7 @@ describe("data fallback on database failure", () => {
     expect(results[1]).toHaveLength(2);
     expect(results[2]).toHaveLength(2);
     expect(results[3]).toHaveLength(9);
-    expect(results[4]).toHaveLength(48);
+    expect(results[4]).toHaveLength(28);
     expect(results[5]).toHaveProperty("music");
   });
 
