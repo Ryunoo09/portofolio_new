@@ -30,6 +30,8 @@
 @layer base {
   html {
     scroll-behavior: smooth;
+    /* Keep a focused link clear of the fixed music player. */
+    scroll-padding-bottom: calc(4.5rem + env(safe-area-inset-bottom, 0px));
     /* The page colour lives on <html> on purpose: the dust canvas paints at
        z-index -1, and a background on <body> would cover it (verified). */
     background-color: var(--bg);

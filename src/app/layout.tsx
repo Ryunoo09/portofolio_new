@@ -3,6 +3,7 @@ import { Instrument_Serif, Inter } from "next/font/google";
 import "@/styles/globals.css";
 import { MobileMenu, SectionNav } from "@/features/navigation";
 import { DustLayer } from "@/features/motion";
+import { MusicPlayer, musicConfig } from "@/features/music-player";
 import { Preloader } from "@/features/preloader";
 import { getSiteSettings } from "@/data";
 import { cvLinks } from "@/lib/cv";
@@ -46,7 +47,9 @@ export const metadata: Metadata = {
 };
 
 export default async function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
-  const cv = cvLinks(await getSiteSettings());
+  const settings = await getSiteSettings();
+  const cv = cvLinks(settings);
+  const music = musicConfig(settings);
 
   return (
     <html lang="en" className={`${inter.variable} ${instrumentSerif.variable}`}>
@@ -74,10 +77,30 @@ export default async function RootLayout({ children }: Readonly<{ children: Reac
         <main id="main">{children}</main>
 
         <footer className="border-border border-t">
-          <div className="text-fg-muted mx-auto w-full max-w-[var(--container-max)] px-6 py-8 text-sm">
+          <div className="text-fg-muted mx-auto w-full max-w-[var(--container-max)] px-6 pt-8 pb-24 text-sm sm:pb-8">
             © {new Date().getFullYear()} {SITE_NAME}
+            {music && (
+              <p className="mt-2">
+                Music:{" "}
+                {music.creditUrl ? (
+                  <a
+                    href={music.creditUrl}
+                    target="_blank"
+                    rel="noreferrer noopener"
+                    className="hover:text-fg underline underline-offset-2"
+                  >
+                    {music.title}
+                  </a>
+                ) : (
+                  music.title
+                )}
+                {music.credit && <> · {music.credit}</>}
+              </p>
+            )}
           </div>
         </footer>
+
+        {music && <MusicPlayer track={music} />}
       </body>
     </html>
   );
