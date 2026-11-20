@@ -61,7 +61,7 @@ describe("scroll-linked decoration CSS", () => {
   });
 
   it("moves nothing but transform and opacity", () => {
-    for (const name of ["section-shine", "hero-drift"]) {
+    for (const name of ["section-shine", "hero-parallax", "rule-drift"]) {
       const body = new RegExp(`@keyframes ${name} \\{([\\s\\S]*?)\\n\\}`).exec(css)?.[1] ?? "";
 
       expect(body).not.toBe("");

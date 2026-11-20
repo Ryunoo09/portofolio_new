@@ -20,6 +20,14 @@
   box-shadow: 0 -25px 60px rgb(0 0 0 / 0.85);
 }
 
+.section-rule {
+  height: 1px;
+  background: var(--border);
+  opacity: 0.6;
+  margin-inline: auto;
+  max-width: var(--container-max);
+}
+
 @media (min-width: 48rem) {
   .section-stack {
     border-radius: 3rem 3rem 0 0;
@@ -77,7 +85,13 @@
        not its own `overflow: hidden` frame (a pseudo-element there has a view
        timeline that never advances). */
     .hero-visual {
-      animation: hero-drift linear both;
+      animation: hero-parallax linear both;
+      animation-timeline: view();
+      animation-range: cover 0% cover 100%;
+    }
+
+    .section-rule {
+      animation: rule-drift linear both;
       animation-timeline: view();
       animation-range: cover 0% cover 100%;
     }
@@ -101,12 +115,22 @@
   }
 }
 
-@keyframes hero-drift {
+@keyframes hero-parallax {
   from {
-    transform: translateY(-1.25rem);
+    transform: translateY(-1.5rem);
   }
 
   to {
-    transform: translateY(1.25rem);
+    transform: translateY(1.5rem);
+  }
+}
+
+@keyframes rule-drift {
+  from {
+    transform: translateY(1rem) scaleX(0.97);
+  }
+
+  to {
+    transform: translateY(-1rem) scaleX(1);
   }
 }

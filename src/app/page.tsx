@@ -39,13 +39,13 @@ export default async function HomePage() {
 
       <div className="section-stack">
         <About profile={profile} />
-
+        <div className="section-rule" aria-hidden="true" />
         <ExperienceTimeline experiences={experiences} />
-
+        <div className="section-rule" aria-hidden="true" />
         <ProjectsList projects={projects} />
-
+        <div className="section-rule" aria-hidden="true" />
         <Skills skills={skills} />
-
+        <div className="section-rule" aria-hidden="true" />
         <Contact profile={profile} socials={socials} settings={settings} />
       </div>
     </>
