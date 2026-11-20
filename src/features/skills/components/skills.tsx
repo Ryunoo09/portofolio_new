@@ -39,7 +39,7 @@ export function Skills({ skills }: SkillsProps) {
   const names = groups.flatMap((group) => group.items.map((item) => item.name));
 
   return (
-    <Section id="skills" eyebrow="Skills" title="Skills">
+    <Section id="skills" eyebrow="Skills" title="Skills" layout="split">
       {groups.length === 0 ? (
         <p className="text-fg-muted text-sm">Skills are being added.</p>
       ) : (

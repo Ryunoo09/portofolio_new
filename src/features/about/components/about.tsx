@@ -17,7 +17,7 @@ export function About({ profile }: AboutProps) {
   const source = profile.about_md?.trim() || profile.summary_short?.trim() || "";
 
   return (
-    <Section id="about" eyebrow="About" title="About">
+    <Section id="about" eyebrow="About" title="About" layout="split">
       {source ? (
         <div className="text-fg-muted max-w-[65ch] space-y-4 text-base leading-relaxed">
           <RevealRows selector="p, h2, h3" distance={12} duration={0.5} stagger={0.06} blur={14}>{renderMarkdown(source)}</RevealRows>

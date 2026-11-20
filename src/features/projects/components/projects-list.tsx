@@ -26,7 +26,7 @@ type ProjectsListProps = {
  */
 export function ProjectsList({ projects }: ProjectsListProps) {
   return (
-    <Section id="projects" eyebrow="Projects" title="Projects">
+    <Section id="projects" eyebrow="Projects" title="Projects" layout="split">
       {projects.length === 0 ? (
         <p className="text-fg-muted text-sm">Projects are being added.</p>
       ) : (

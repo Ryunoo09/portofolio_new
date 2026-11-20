@@ -32,20 +32,39 @@ type SectionProps = {
   eyebrow?: string;
   description?: ReactNode;
   className?: string;
+  layout?: "stack" | "split";
   children: ReactNode;
 };
 
-export function Section({ id, title, eyebrow, description, className, children }: SectionProps) {
+export function Section({
+  id,
+  title,
+  eyebrow,
+  description,
+  className,
+  layout = "stack",
+  children,
+}: SectionProps) {
   const titleId = `${id}-title`;
+  const isSplit = layout === "split";
 
   return (
     <section
       id={id}
       aria-labelledby={title ? titleId : undefined}
-      className={cn("mx-auto w-full max-w-[var(--container-max)] px-6 py-24 sm:py-32", className)}
+      className={cn(
+        "mx-auto w-full max-w-[var(--container-max)] px-6 py-24 sm:py-32",
+        isSplit && "lg:grid lg:grid-cols-[minmax(0,18rem)_minmax(0,1fr)] lg:gap-x-12 lg:items-start",
+        className,
+      )}
     >
       {(eyebrow || title || description) && (
-        <header className="section-head mb-10 max-w-2xl">
+        <header
+          className={cn(
+            "section-head mb-10 max-w-2xl",
+            isSplit && "lg:sticky lg:top-[calc(var(--header-height)+2rem)] lg:mb-0",
+          )}
+        >
           {eyebrow && (
             <p className="text-fg-muted mb-3 font-mono text-xs tracking-[0.2em] uppercase">
               {eyebrow}
@@ -61,7 +80,7 @@ export function Section({ id, title, eyebrow, description, className, children }
           {description && <p className="text-fg-muted text-base">{description}</p>}
         </header>
       )}
-      {children}
+      {isSplit ? <div className="min-w-0">{children}</div> : children}
     </section>
   );
 }

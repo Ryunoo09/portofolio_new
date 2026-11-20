@@ -18,7 +18,7 @@ type ExperienceTimelineProps = {
  */
 export function ExperienceTimeline({ experiences }: ExperienceTimelineProps) {
   return (
-    <Section id="experience" eyebrow="Experience" title="Experience">
+    <Section id="experience" eyebrow="Experience" title="Experience" layout="split">
       {experiences.length === 0 ? (
         <p className="text-fg-muted text-sm">Experience is being updated.</p>
       ) : (
