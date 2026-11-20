@@ -1,66 +1,96 @@
-import { RevealRows } from "@/features/motion";
-import { Section, Tag } from "@/components/ui";
+"use client";
+
+import { useEffect, useRef, useState } from "react";
+import { Section } from "@/components/ui";
+import { loadGsap } from "@/features/motion/lib/load-gsap";
 import type { Experience } from "@/types/content";
-import { DateRange } from "./date-range";
+import { ExperienceCard } from "./experience-card";
 
 type ExperienceTimelineProps = {
   experiences: Experience[];
 };
 
-/**
- * Chronological timeline (US-03). Order comes from the data layer, newest start
- * date first. Rendered as a list so assistive tech announces how many roles there
- * are before reading them.
- * `bullets`/`tech` are read defensively: a hand-written database row can hold
- * null, and a bad row must not turn into a 500 page (R5).
- * Rows fade in on scroll (`RevealRows`), a client wrapper that never changes the
- * markup a reader or a crawler gets.
- */
 export function ExperienceTimeline({ experiences }: ExperienceTimelineProps) {
+  const containerRef = useRef<HTMLOListElement>(null);
+  // Default first card is expanded for immediate visibility
+  const [activeId, setActiveId] = useState<string | null>(
+    experiences[0]?.id ?? null,
+  );
+
+  useEffect(() => {
+    if (experiences.length === 0) return;
+
+    // Do not spin up GSAP in test runner / jsdom environments or under reduced motion
+    const isTestEnvironment =
+      typeof window !== "undefined" &&
+      window.navigator.userAgent.includes("jsdom");
+
+    if (
+      isTestEnvironment ||
+      typeof window === "undefined" ||
+      (typeof window.matchMedia === "function" &&
+        window.matchMedia("(prefers-reduced-motion: reduce)").matches)
+    ) {
+      return;
+    }
+
+    let cancelled = false;
+    let cleanup: (() => void) | undefined;
+
+    void loadGsap().then(({ ScrollTrigger }) => {
+      if (cancelled || !containerRef.current) return;
+
+      const cardElements = containerRef.current.querySelectorAll<HTMLElement>("[data-exp-card]");
+      if (cardElements.length === 0) return;
+
+      const triggers: InstanceType<typeof ScrollTrigger>[] = [];
+
+      cardElements.forEach((el, index) => {
+        const item = experiences[index];
+        if (!item) return;
+
+        const st = ScrollTrigger.create({
+          trigger: el,
+          start: "top 65%",
+          end: "bottom 35%",
+          onEnter: () => setActiveId(item.id),
+          onEnterBack: () => setActiveId(item.id),
+        });
+        triggers.push(st);
+      });
+
+      cleanup = () => {
+        triggers.forEach((t) => t.kill());
+      };
+    });
+
+    return () => {
+      cancelled = true;
+      cleanup?.();
+    };
+  }, [experiences]);
+
+  const handleToggle = (id: string) => {
+    setActiveId((current) => (current === id ? null : id));
+  };
+
   return (
     <Section id="experience" eyebrow="Experience" title="Experience" layout="split">
       {experiences.length === 0 ? (
         <p className="text-fg-muted text-sm">Experience is being updated.</p>
       ) : (
-        <RevealRows selector="li" distance={20} duration={0.55} stagger={0.07} blur={10}>
-          <ol className="border-border border-t">
-            {experiences.map((item) => (
-              <li
-                key={item.id}
-                className="border-border grid gap-3 border-b py-8 sm:grid-cols-[minmax(0,12rem)_minmax(0,1fr)] sm:gap-8"
-              >
-                <p className="text-fg-muted font-mono text-xs tracking-wide">
-                  <DateRange startDate={item.start_date} endDate={item.end_date} />
-                  {item.location && <span className="block">{item.location}</span>}
-                </p>
-
-                <div>
-                  <h3 className="text-fg text-lg font-medium tracking-tight">{item.role}</h3>
-                  <p className="text-fg-muted mt-1 text-sm">{item.organization}</p>
-
-                  {(item.bullets?.length ?? 0) > 0 && (
-                    <ul className="text-fg-muted mt-4 list-disc space-y-2 pl-5 text-sm leading-relaxed">
-                      {item.bullets.map((bullet, index) => (
-                        <li key={`${item.id}-b${index}`}>{bullet}</li>
-                      ))}
-                    </ul>
-                  )}
-
-                  {(item.tech?.length ?? 0) > 0 && (
-                    <ul
-                      aria-label={`Technologies for ${item.role}`}
-                      className="mt-4 flex flex-wrap gap-2"
-                    >
-                      {item.tech.map((tech) => (
-                        <Tag key={`${item.id}-${tech}`}>{tech}</Tag>
-                      ))}
-                    </ul>
-                  )}
-                </div>
-              </li>
-            ))}
-          </ol>
-        </RevealRows>
+        <ol ref={containerRef} className="exp-accordion">
+          {experiences.map((item, index) => (
+            <li key={item.id}>
+              <ExperienceCard
+                item={item}
+                index={index}
+                isOpen={activeId === item.id}
+                onToggle={() => handleToggle(item.id)}
+              />
+            </li>
+          ))}
+        </ol>
       )}
     </Section>
   );
