@@ -161,3 +161,30 @@ jobs:
           docker tag portfolio-web:ci "${IMAGE}:${GITHUB_SHA}"
           docker push "${IMAGE}:latest"
           docker push "${IMAGE}:${GITHUB_SHA}"
+
+  # After the image is in GHCR, pull it on the VPS and restart the container.
+  # The tag is the commit SHA, so a bad deploy rolls back with
+  # `TAG=<previous-sha> ./scripts/deploy.sh`.
+  deploy:
+    needs: [docker, lighthouse]
+    if: github.event_name == 'push'
+    runs-on: ubuntu-latest
+    # Add required reviewers under Settings > Environments to gate production.
+    environment: production
+    steps:
+      - name: Install the deploy key
+        run: |
+          mkdir -p ~/.ssh
+          printf '%s\n' "${{ secrets.VPS_SSH_KEY }}" > ~/.ssh/id_ed25519
+          chmod 600 ~/.ssh/id_ed25519
+          printf '%s\n' "${{ secrets.VPS_SSH_KNOWN_HOSTS }}" > ~/.ssh/known_hosts
+
+      - name: Pull and restart on the VPS
+        env:
+          VPS_HOST: ${{ secrets.VPS_HOST }}
+          VPS_USER: ${{ secrets.VPS_USER }}
+          VPS_PATH: ${{ vars.VPS_PATH || '/opt/portofolio' }}
+          TAG: ${{ github.sha }}
+        run: |
+          ssh -i ~/.ssh/id_ed25519 -o IdentitiesOnly=yes "${VPS_USER}@${VPS_HOST}" \
+            "cd '${VPS_PATH}' && TAG='${TAG}' ./scripts/deploy.sh"
