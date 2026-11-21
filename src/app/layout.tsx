@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { Instrument_Serif, Inter } from "next/font/google";
 import "@/styles/globals.css";
-import { MobileMenu, SectionNav } from "@/features/navigation";
+import { DockShell, MobileMenu, SectionNav } from "@/features/navigation";
 import { DustLayer } from "@/features/motion";
 import { MusicPlayer, musicConfig } from "@/features/music-player";
 import { Preloader } from "@/features/preloader";
@@ -64,15 +64,10 @@ export default async function RootLayout({ children }: Readonly<{ children: Reac
           Skip to content
         </a>
 
-        <header className="border-border sticky top-0 z-[var(--z-nav)] h-[var(--header-height)] border-b bg-[color-mix(in_oklab,var(--bg)_88%,transparent)] backdrop-blur">
-          <div className="mx-auto flex h-full w-full max-w-[var(--container-max)] items-center justify-between gap-4 px-6">
-            <a href="#home" className="text-fg text-sm font-medium tracking-tight">
-              {SITE_NAME}
-            </a>
-            <SectionNav cv={cv} />
-            <MobileMenu cv={cv} />
-          </div>
-        </header>
+        <DockShell>
+          <SectionNav cv={cv} />
+          <MobileMenu cv={cv} />
+        </DockShell>
 
         <main id="main">{children}</main>
 
@@ -82,25 +77,30 @@ export default async function RootLayout({ children }: Readonly<{ children: Reac
             {music && (
               <p className="mt-2">
                 Music:{" "}
-                {music.creditUrl ? (
-                  <a
-                    href={music.creditUrl}
-                    target="_blank"
-                    rel="noreferrer noopener"
-                    className="hover:text-fg underline underline-offset-2"
-                  >
-                    {music.title}
-                  </a>
-                ) : (
-                  music.title
-                )}
-                {music.credit && <> · {music.credit}</>}
+                {music.map((track, index) => (
+                  <span key={track.src}>
+                    {index > 0 && "; "}
+                    {track.creditUrl ? (
+                      <a
+                        href={track.creditUrl}
+                        target="_blank"
+                        rel="noreferrer noopener"
+                        className="hover:text-fg underline underline-offset-2"
+                      >
+                        {track.title}
+                      </a>
+                    ) : (
+                      track.title
+                    )}
+                    {track.credit && <> · {track.credit}</>}
+                  </span>
+                ))}
               </p>
             )}
           </div>
         </footer>
 
-        {music && <MusicPlayer track={music} />}
+        {music && <MusicPlayer tracks={music} />}
       </body>
     </html>
   );

@@ -10,8 +10,8 @@ const LANGUAGE_NAMES: Record<Language, string> = { en: "English", id: "Indonesia
 type CvDownloadMenuProps = {
   cv: CvLinks;
   className?: string;
-  /** Accent button (hero, header) or a plain text row (mobile menu). */
-  variant?: "button" | "plain";
+  /** Accent button (hero, header), a plain text row (mobile menu), or icon only (dock). */
+  variant?: "button" | "plain" | "icon";
   onClick?: () => void;
 };
 
@@ -37,20 +37,47 @@ export function CvDownloadMenu({
   return (
     <details className={cn("group relative", variant === "plain" && "w-full")}>
       <summary
+        aria-label="Download CV"
+        title="Download CV"
         className={cn(
           "cursor-pointer select-none",
-          "after:border-current after:h-1.5 after:w-1.5 after:rotate-45 after:border-r after:border-b after:content-[''] after:transition-transform after:duration-[var(--duration-fast)] group-open:after:rotate-[225deg]",
-          variant === "button" ? buttonClassName("primary") : "inline-flex items-center gap-2 text-sm font-medium",
+          variant === "icon"
+            ? "nav-dock-item list-none flex items-center justify-center [&::-webkit-details-marker]:hidden"
+            : "after:border-current after:h-1.5 after:w-1.5 after:rotate-45 after:border-r after:border-b after:content-[''] after:transition-transform after:duration-[var(--duration-fast)] group-open:after:rotate-[225deg]",
+          variant === "button" ? buttonClassName("primary") : variant === "plain" ? "inline-flex items-center gap-2 text-sm font-medium" : "",
           className,
         )}
       >
-        {CV_LABEL}
+        {variant === "icon" ? (
+          <>
+            <span className="sr-only">{CV_LABEL}</span>
+            <svg
+              width="20"
+              height="20"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="1.75"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              aria-hidden="true"
+            >
+              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+              <polyline points="7 10 12 15 17 10" />
+              <line x1="12" y1="15" x2="12" y2="3" />
+            </svg>
+          </>
+        ) : (
+          CV_LABEL
+        )}
       </summary>
 
       <ul
         className={cn(
           "border-border bg-bg rounded-md border p-1 shadow-lg",
-          variant === "button" ? "absolute top-full right-0 z-[var(--z-nav)] mt-2 min-w-28" : "mt-1",
+          variant === "button" || variant === "icon"
+            ? "absolute top-full right-0 z-[var(--z-nav)] mt-2 min-w-28"
+            : "mt-1",
         )}
       >
         {files.map((file) => (

@@ -1,28 +1,17 @@
-import Image from "next/image";
-import Link from "next/link";
-import { Section, Tag } from "@/components/ui";
+import { Section } from "@/components/ui";
 import { RevealRows } from "@/features/motion";
-import { mediaUrl } from "@/lib/media";
 import type { Project } from "@/types/content";
-import { hasPublicLink } from "../links";
-
-/** PRD US-04: at most five technology tags per row. */
-const MAX_TAGS = 5;
-
-/** PRD US-04: at most nine featured projects. */
-const MAX_PROJECTS = 9;
+import { ProjectCard } from "./project-card";
+import { ProjectsStack } from "./projects-stack";
 
 type ProjectsListProps = {
   projects: Project[];
 };
 
 /**
- * Numbered project index (US-04). The number is a real sequence position, not
- * decoration: it states the order a hiring manager is reading.
- *
- * The whole row is one link, so a touch tap navigates straight to the detail page.
- * A hover preview of the cover sits in a reserved column on large screens, so
- * showing it never shifts the layout (CLS 0) and it cannot swallow a tap.
+ * Featured Projects Showcase (US-04).
+ * Alternating large showcase cards with mockup previews and comprehensive detail highlights.
+ * Rendered in an ordered list for accessible reading sequence.
  */
 export function ProjectsList({ projects }: ProjectsListProps) {
   return (
@@ -30,73 +19,21 @@ export function ProjectsList({ projects }: ProjectsListProps) {
       {projects.length === 0 ? (
         <p className="text-fg-muted text-sm">Projects are being added.</p>
       ) : (
-        <RevealRows selector="li" distance={28} duration={0.65} stagger={0.1}>
-          <ol className="border-border border-t">
-            {projects.slice(0, MAX_PROJECTS).map((project, index) => (
-              <li key={project.id}>
-                <Link
-                  href={`/projects/${project.slug}`}
-                  aria-labelledby={`project-title-${project.id}`}
-                  className="project-row border-border grid grid-cols-[2.25rem_minmax(0,1fr)] items-start gap-x-4 border-b py-7 sm:grid-cols-[2.75rem_minmax(0,1fr)] sm:gap-x-6 lg:grid-cols-[2.75rem_minmax(0,1fr)_11rem]"
-                >
-                  <span
-                    aria-hidden="true"
-                    className="project-index text-fg-muted pt-1 font-mono text-xs tabular-nums lg:pt-0"
-                  >
-                    {String(index + 1).padStart(2, "0")}
-                  </span>
-
-                  <div className="min-w-0">
-                    <div className="flex flex-wrap items-baseline gap-x-3 gap-y-2">
-                      <h3
-                        id={`project-title-${project.id}`}
-                        className="text-fg font-display text-2xl tracking-tight sm:text-3xl"
-                      >
-                        {project.title}
-                      </h3>
-                      {!hasPublicLink(project) && (
-                        <span className="border-border-strong text-fg-muted rounded-sm border px-2 py-0.5 font-mono text-xs">
-                          Private build
-                        </span>
-                      )}
-                    </div>
-
-                    <p className="text-fg-muted mt-2 max-w-[60ch] text-sm leading-relaxed">
-                      {project.summary}
-                    </p>
-
-                    {project.tech?.length > 0 && (
-                      <ul
-                        aria-label={`Technologies for ${project.title}`}
-                        className="mt-4 flex flex-wrap gap-2"
-                      >
-                        {project.tech.slice(0, MAX_TAGS).map((tech, techIndex) => (
-                          <Tag key={`${project.id}-tech-${techIndex}`}>{tech}</Tag>
-                        ))}
-                      </ul>
-                    )}
-                  </div>
-
-                  {project.cover_path && (
-                    <div
-                      aria-hidden="true"
-                      className="project-preview border-border relative hidden aspect-[4/3] w-full self-center overflow-hidden rounded-sm border lg:block"
-                    >
-                      <Image
-                        src={mediaUrl(project.cover_path)}
-                        alt=""
-                        fill
-                        sizes="11rem"
-                        loading="lazy"
-                        className="object-cover"
-                      />
-                    </div>
-                  )}
-                </Link>
-              </li>
-            ))}
-          </ol>
-        </RevealRows>
+        <ProjectsStack>
+          <RevealRows selector="li" distance={32} duration={0.65} stagger={0.12} blur={8}>
+            <ol className="projects-container">
+              {projects.map((project, index) => (
+                <li key={project.id}>
+                  <ProjectCard
+                    project={project}
+                    index={index}
+                    reversed={index % 2 === 1}
+                  />
+                </li>
+              ))}
+            </ol>
+          </RevealRows>
+        </ProjectsStack>
       )}
     </Section>
   );

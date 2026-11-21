@@ -1,41 +1,47 @@
 "use client";
 
+import type { CSSProperties } from "react";
 import Link from "next/link";
-import { cn } from "@/lib/cn";
 import { CvDownloadMenu } from "@/components/cv-download-menu";
 import type { CvLinks } from "@/lib/cv";
 import { NAV_SECTIONS } from "@/lib/sections";
+import { NavIcon, type NavIconName } from "./nav-icons";
 import { useActiveSection } from "../hooks/use-active-section";
 
 const ids = NAV_SECTIONS.map((section) => section.id);
 
-/** Desktop in-page navigation. Marks the section under the header, without animating layout. */
+/** Desktop in-page navigation. Floating icon dock with sliding active indicator. */
 export function SectionNav({ cv }: { cv: CvLinks }) {
   const active = useActiveSection(ids);
+  const activeIndex = NAV_SECTIONS.findIndex((section) => section.id === active);
 
   return (
-    <div className="hidden items-center gap-6 md:flex">
-      <nav aria-label="Sections">
-        <ul className="flex items-center gap-6">
-          {NAV_SECTIONS.map((section) => (
-            <li key={section.id}>
-              <Link
-                href={`#${section.id}`}
-                aria-current={active === section.id ? "true" : undefined}
-                className={cn(
-                  "text-sm transition-colors duration-[var(--duration-fast)]",
-                  active === section.id ? "text-fg" : "text-fg-muted hover:text-fg",
-                )}
-              >
-                {section.label}
-              </Link>
-            </li>
-          ))}
-        </ul>
-      </nav>
+    <nav aria-label="Sections" className="nav-dock hidden md:flex">
+      <ul className="nav-dock-list">
+        {NAV_SECTIONS.map((section) => (
+          <li key={section.id}>
+            <Link
+              href={`#${section.id}`}
+              aria-current={active === section.id ? "true" : undefined}
+              aria-label={section.label}
+              title={section.label}
+              className="nav-dock-item"
+            >
+              <NavIcon name={section.icon as NavIconName} />
+            </Link>
+          </li>
+        ))}
+        <li>
+          <CvDownloadMenu cv={cv} variant="icon" />
+        </li>
+      </ul>
 
-      {/* Always on screen, so the CV is one click away from any scroll position (KPI-3). */}
-      <CvDownloadMenu cv={cv} className="px-3 py-1.5" />
-    </div>
+      <span
+        aria-hidden="true"
+        className="nav-dock-indicator"
+        data-index={activeIndex === -1 ? 0 : activeIndex}
+        style={{ "--nav-index": activeIndex === -1 ? 0 : activeIndex } as CSSProperties}
+      />
+    </nav>
   );
 }

@@ -7,7 +7,7 @@
     display: grid;
     gap: 2.5rem;
     align-items: center;
-    padding-block: 2rem 3rem;
+    padding-block: 1rem 3rem;
   }
 
   .hero-copy {
@@ -49,6 +49,34 @@
   @media (min-width: 48rem) and (max-height: 43rem) {
     .hero-shell {
       min-height: auto;
+    }
+  }
+
+  @media (min-width: 64rem) {
+    .hero-shell {
+      position: sticky;
+      top: 0;
+      min-height: 100svh;
+      z-index: 0;
+    }
+  }
+
+  @media (min-width: 64rem) and (prefers-reduced-motion: no-preference) {
+    @supports (animation-timeline: view()) {
+      .hero-copy,
+      .hero-visual {
+        animation: hero-exit linear both;
+        animation-timeline: view();
+        animation-range: exit 0% exit 100%;
+      }
+    }
+  }
+
+  @keyframes hero-exit {
+    to {
+      opacity: 0;
+      filter: blur(6px);
+      transform: translateY(-2rem) scale(0.98);
     }
   }
 

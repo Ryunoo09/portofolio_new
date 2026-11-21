@@ -2,15 +2,51 @@ import { readFileSync } from "node:fs";
 import { expect, test } from "@playwright/test";
 
 const published = JSON.parse(readFileSync("content/projects.json", "utf8")) as {
+  slug: string;
   repo_url: string | null;
   live_url: string | null;
 }[];
-// The homepage index shows at most nine featured projects (PRD US-04), in
-// sort_order, which is the order in the file.
-const listed = published.slice(0, 9);
+// The homepage index shows every published project, in sort_order, which is
+// the order in the file.
+const listed = published;
 const privateCount = listed.filter((p) => !p.repo_url && !p.live_url).length;
 
 test.describe("projects list", () => {
+  test("stacks earlier cards during desktop scroll without hiding their content", async ({ page }) => {
+    await page.setViewportSize({ width: 1440, height: 900 });
+    await page.goto("/");
+
+    const cards = page.locator("#projects .project-card");
+    await expect(cards).toHaveCount(listed.length);
+    await cards.last().scrollIntoViewIfNeeded();
+
+    await expect.poll(() => cards.first().evaluate((card) => getComputedStyle(card).transform))
+      .not.toBe("none");
+    await expect(cards.first().getByRole("heading", { level: 3 })).toBeVisible();
+    await expect(cards.first().locator("a[aria-labelledby]")).toHaveAttribute("href", /\/projects\//);
+  });
+
+  test("keeps project cards static with reduced motion", async ({ page }) => {
+    await page.emulateMedia({ reducedMotion: "reduce" });
+    await page.setViewportSize({ width: 1440, height: 900 });
+    await page.goto("/");
+
+    const cards = page.locator("#projects .project-card");
+    await cards.last().scrollIntoViewIfNeeded();
+    await expect(cards.first()).toHaveCSS("transform", "none");
+    await expect(cards.first().getByRole("heading", { level: 3 })).toBeVisible();
+  });
+
+  test("keeps project cards static and readable on mobile", async ({ page }) => {
+    await page.setViewportSize({ width: 390, height: 844 });
+    await page.goto("/");
+
+    const cards = page.locator("#projects .project-card");
+    await cards.last().scrollIntoViewIfNeeded();
+    await expect(cards.first()).toHaveCSS("transform", "none");
+    await expect(cards.first().getByRole("heading", { level: 3 })).toBeVisible();
+  });
+
   test("lists published projects with a link to each detail page", async ({ page }) => {
     await page.goto("/");
 
@@ -18,7 +54,7 @@ test.describe("projects list", () => {
 
     await expect(projects.getByRole("heading", { level: 2, name: "Projects" })).toBeVisible();
 
-    const links = projects.locator("ol > li a");
+    const links = projects.locator("ol > li a[aria-labelledby]");
 
     await expect(links).toHaveCount(listed.length);
 
@@ -76,8 +112,8 @@ test.describe("projects on a touch device", () => {
 
     const row = page.locator("#projects ol > li").first();
 
-    await row.getByRole("link").click();
+    await row.locator("a[aria-labelledby]").click();
 
-    await expect(page).toHaveURL(/\/projects\/validasi-ftth-yolo26-paddleocr$/);
+    await expect(page).toHaveURL(new RegExp(`/projects/${published[0].slug}$`));
   });
 });

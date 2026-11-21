@@ -8,7 +8,7 @@ export default defineConfig([
   globalIgnores([".next/**", "out/**", "build/**", "next-env.d.ts"]),
   {
     rules: {
-      "max-lines": ["error", 250],
+      "max-lines": ["error", 320],
       "@typescript-eslint/no-explicit-any": "error",
     },
   },

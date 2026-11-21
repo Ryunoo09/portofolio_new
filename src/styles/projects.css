@@ -1,24 +1,110 @@
 /*
- * Projects list preview.
- *
- * The preview is decorative: it repeats a project that is readable in the row and
- * on the detail page, so it stays aria-hidden and is never a tap target.
- * It only appears where the primary pointer can hover, which keeps touch users on
- * the plain "tap the row to open" behaviour (US-04). `hover: none` alone already
- * excludes touch devices; a coarse primary pointer is not excluded separately, so
- * hybrids that can hover still get the preview.
+ * Alternating Projects Card Layout.
+ * Featured work rendered as large showcase cards with alternating mockup placement.
  */
-.project-preview {
-  opacity: 0;
-  pointer-events: none;
+.projects-container {
+  display: flex;
+  flex-direction: column;
+  gap: 3.5rem;
 }
 
-@media (hover: hover) {
-  .project-row:is(:hover, :focus-visible) .project-preview {
-    opacity: 1;
+@media (min-width: 64rem) {
+  .projects-container {
+    gap: 4.5rem;
   }
+}
 
-  .project-row:is(:hover, :focus-visible) .project-index {
-    color: var(--accent);
+.project-card {
+  position: relative;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--r-lg);
+  padding: 1.5rem;
+  transition: border-color var(--duration-base) var(--ease-out),
+              box-shadow var(--duration-base) var(--ease-out),
+              background-color var(--duration-base) var(--ease-out);
+}
+
+@media (min-width: 64rem) {
+  .projects-container .project-card {
+    transform-origin: center top;
+    will-change: transform, opacity;
   }
+}
+
+@media (min-width: 48rem) {
+  .project-card {
+    padding: 2rem;
+  }
+}
+
+@media (min-width: 64rem) {
+  .project-card {
+    padding: 2.5rem;
+  }
+}
+
+.project-card:hover {
+  border-color: color-mix(in srgb, var(--accent) 40%, var(--border));
+  background: var(--surface-raised);
+  box-shadow: 0 12px 36px rgb(0 0 0 / 0.4), 0 0 0 1px var(--accent-dim);
+}
+
+.project-mockup-frame {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 10;
+  border-radius: var(--r-md);
+  overflow: hidden;
+  border: 1px solid var(--border);
+  background: color-mix(in srgb, var(--surface) 60%, black);
+  transition: transform var(--duration-base) var(--ease-out),
+              border-color var(--duration-base) var(--ease-out);
+}
+
+.project-card:hover .project-mockup-frame {
+  border-color: color-mix(in srgb, var(--accent) 50%, var(--border));
+  transform: translateY(-2px);
+}
+
+.project-preview {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.project-preview img {
+  object-fit: cover;
+  transition: transform var(--duration-slow) var(--ease-out);
+}
+
+.project-card:hover .project-preview img {
+  transform: scale(1.03);
+}
+
+/* Mockup placeholder when cover_path is not yet supplied */
+.project-placeholder-frame {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 1.5rem;
+  background: radial-gradient(circle at 85% 15%, rgb(212 175 55 / 0.12), transparent 50%),
+              linear-gradient(145deg, var(--surface-raised), var(--surface));
+}
+
+.project-placeholder-watermark {
+  position: absolute;
+  right: 1rem;
+  bottom: 0.5rem;
+  font-family: var(--font-display), serif;
+  font-size: clamp(5rem, 10vw, 8rem);
+  line-height: 1;
+  color: var(--accent);
+  opacity: 0.08;
+  user-select: none;
+  pointer-events: none;
 }

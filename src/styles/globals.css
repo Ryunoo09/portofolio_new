@@ -2,9 +2,12 @@
 @import "./tokens.css";
 @import "./hero-visual.css";
 @import "./hero-layout.css";
+@import "./experience.css";
 @import "./projects.css";
 @import "./skills.css";
+@import "./stack-hold.css";
 @import "./preloader.css";
+@import "./nav.css";
 @import "./motion.css";
 
 @theme inline {
@@ -16,6 +19,8 @@
   --color-fg: var(--fg);
   --color-fg-muted: var(--fg-muted);
   --color-accent: var(--accent);
+  --color-accent-soft: var(--accent-soft);
+  --color-accent-dim: var(--accent-dim);
   --color-accent-fg: var(--accent-fg);
 
   --radius-sm: var(--r-sm);
@@ -40,6 +45,10 @@
   body {
     color: var(--fg);
     -webkit-font-smoothing: antialiased;
+  }
+
+  main {
+    padding-top: calc(var(--header-height) + 1.25rem);
   }
 
   [id] {

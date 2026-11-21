@@ -37,15 +37,23 @@ export default async function HomePage() {
         <Hero profile={profile} cv={cvLinks(settings)} />
       </div>
 
-      <About profile={profile} />
-
-      <ExperienceTimeline experiences={experiences} />
-
-      <ProjectsList projects={projects} />
-
-      <Skills skills={skills} />
-
-      <Contact profile={profile} socials={socials} settings={settings} />
+      <div className="section-stack">
+        <About profile={profile} />
+        <div className="section-rule" aria-hidden="true" />
+        <ExperienceTimeline experiences={experiences} />
+        <div className="section-rule" aria-hidden="true" />
+        <ProjectsList projects={projects} />
+        <div className="section-rule" aria-hidden="true" />
+        <div className="stack-hold">
+          <div className="stack-hold-panel">
+            <Skills skills={skills} />
+          </div>
+          <div className="section-rule" aria-hidden="true" />
+          <div className="stack-hold-card">
+            <Contact profile={profile} socials={socials} settings={settings} />
+          </div>
+        </div>
+      </div>
     </>
   );
 }

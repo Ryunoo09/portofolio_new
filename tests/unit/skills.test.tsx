@@ -1,5 +1,5 @@
 import { readFileSync } from "node:fs";
-import { fireEvent, render, screen } from "@testing-library/react";
+import { render, screen } from "@testing-library/react";
 import { describe, expect, it } from "vitest";
 import { Skills } from "@/features/skills";
 import type { Skill } from "@/types/content";
@@ -23,21 +23,11 @@ const seeded = make([
 ]);
 
 describe("Skills", () => {
-  it("groups skills under their category", () => {
+  it("renders the Tech Stack heading and description", () => {
     render(<Skills skills={seeded} />);
 
-    for (const [category, name] of [
-      ["Frontend", "TypeScript"],
-      ["Backend", "Node.js"],
-      ["Database", "PostgreSQL"],
-      ["Tools", "Docker"],
-    ]) {
-      const heading = screen.getByRole("heading", { level: 3, name: category });
-      const list = heading.nextElementSibling;
-
-      expect(list?.tagName).toBe("UL");
-      expect(list?.textContent).toContain(name);
-    }
+    expect(screen.getByRole("heading", { level: 2, name: "Tech Stack" })).toBeInTheDocument();
+    expect(screen.getByText(/Tools and technologies I use/i)).toBeInTheDocument();
   });
 
   it("exposes every name once to assistive tech and repeats it only as decoration", () => {
@@ -58,18 +48,10 @@ describe("Skills", () => {
     expect(marquee?.textContent).toContain("TypeScript");
   });
 
-  it("stops the marquee from a keyboard-reachable control", () => {
+  it("renders no pause control for the continuously moving marquee", () => {
     render(<Skills skills={seeded} />);
 
-    const marquee = document.querySelector(".skills-marquee");
-    const toggle = screen.getByRole("button", { name: "Pause skills animation" });
-
-    expect(marquee).toHaveAttribute("data-paused", "false");
-
-    fireEvent.click(toggle);
-
-    expect(marquee).toHaveAttribute("data-paused", "true");
-    expect(screen.getByRole("button", { name: "Resume skills animation" })).toBeVisible();
+    expect(screen.queryByRole("button", { name: /skills animation/i })).toBeNull();
   });
 
   it("says skills are coming instead of rendering an empty section", () => {

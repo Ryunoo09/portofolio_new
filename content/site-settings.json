@@ -10,10 +10,20 @@
     "id": "CV_Rakha_Yuda_Wicaksono_Fullstack_ID.pdf"
   },
   "music": {
-    "credit": "YouTube Free license via BreakingCopyright",
-    "credit_url": "https://breakingcopyright.com/song/roa-lights",
-    "title": "Lights — RoaMusic",
-    "track_path": "Light_by_ro.mp3"
+    "tracks": [
+      {
+        "credit": "YouTube Free license via BreakingCopyright",
+        "credit_url": "https://breakingcopyright.com/song/roa-lights",
+        "title": "Lights — RoaMusic",
+        "track_path": "Light_by_ro.mp3"
+      },
+      {
+        "credit": "Music provided by NoCopyrightSounds",
+        "credit_url": "https://ncs.io/makememovefeatkarraalximoremix",
+        "title": "Make Me Move (Alximo Remix) — Culture Code & Karra",
+        "track_path": "culture_code.mp3"
+      }
+    ]
   },
   "seo": {
     "description": "Portfolio of Rakha Yuda Wicaksono, a software engineer building reliable web systems with a focus on backend, data, and applied AI that hold up in the field.",

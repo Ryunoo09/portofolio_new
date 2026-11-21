@@ -9,16 +9,49 @@
   position: fixed;
   inset: 0;
   z-index: var(--z-preloader);
-  display: grid;
-  place-items: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1.5rem;
   background-color: var(--bg);
   pointer-events: none;
-  animation: preloader-out 240ms var(--ease-out) calc(1200ms - 240ms) forwards;
+  animation: preloader-out 240ms var(--ease-out) 1200ms forwards;
+}
+
+.preloader-wordmark {
+  color: var(--fg);
+  font-family: var(--font-display), serif;
+  font-size: clamp(3.5rem, 12vw, 9rem);
+  letter-spacing: -0.06em;
+}
+
+.preloader-progress {
+  width: min(20rem, 70vw);
+  height: 2px;
+  overflow: hidden;
+  background: var(--border-strong);
+}
+
+.preloader-progress-fill {
+  display: block;
+  width: 100%;
+  height: 100%;
+  background: var(--accent);
+  transform-origin: left;
 }
 
 .preloader-count {
   color: var(--fg-muted);
-  animation: preloader-count 240ms var(--ease-out) calc(1200ms - 240ms) forwards;
+  font-variant-numeric: tabular-nums;
+  animation: preloader-count 240ms var(--ease-out) 1200ms forwards;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .preloader,
+  .preloader-count {
+    animation: none;
+  }
 }
 
 @keyframes preloader-out {

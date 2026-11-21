@@ -107,9 +107,9 @@ test.describe("scroll reveal", () => {
 
     const heading = page.locator("#skills-title");
 
-    await expect(heading).toHaveText("Skills");
+    await expect(heading).toHaveText("Tech Stack");
     await expect(heading.locator("[data-word]")).not.toHaveCount(0);
-    await expect(page.getByRole("heading", { level: 2, name: "Skills" })).toBeVisible();
+    await expect(page.getByRole("heading", { level: 2, name: "Tech Stack" })).toBeVisible();
   });
 
   test("scroll-linked decoration follows the scroll position", async ({ page }) => {
@@ -178,11 +178,14 @@ test.describe("scroll reveal", () => {
 
       await new Promise((resolve) => setTimeout(resolve, 500));
 
+      const hit = document.elementFromPoint(window.innerWidth / 2, window.innerHeight / 2);
+
       return {
         first,
         second: sample(),
         pointerEvents: getComputedStyle(canvas).pointerEvents,
         ariaHidden: canvas.getAttribute("aria-hidden"),
+        isCanvasHit: hit === canvas,
       };
     });
 
@@ -192,6 +195,7 @@ test.describe("scroll reveal", () => {
     expect(result!.second.checksum).not.toBe(result!.first.checksum);
     expect(result!.pointerEvents).toBe("none");
     expect(result!.ariaHidden).toBe("true");
+    expect(result!.isCanvasHit).toBe(false);
   });
 
   test.describe("with reduced motion", () => {

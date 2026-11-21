@@ -77,6 +77,7 @@ test.describe("music player", () => {
       .toBe(0.2);
     await expect(audio).toHaveJSProperty("muted", true);
     await expect(audio).toHaveJSProperty("paused", true);
+    await page.getByRole("button", { name: "Expand music player" }).click();
     await expect(page.getByRole("button", { name: "Unmute music" })).toHaveAttribute(
       "aria-pressed",
       "true",
@@ -97,7 +98,7 @@ test.describe("music player", () => {
 });
 
 test.describe("music player on mobile", () => {
-  test.use({ viewport: { width: 390, height: 844 }, hasTouch: true, isMobile: true });
+  test.use({ viewport: { width: 320, height: 844 }, hasTouch: true, isMobile: true });
 
   test("fits inside the viewport", async ({ page }) => {
     await page.goto("/");
@@ -109,7 +110,16 @@ test.describe("music player on mobile", () => {
     expect(box).not.toBeNull();
     expect(box!.x).toBeGreaterThanOrEqual(0);
     expect(box!.y).toBeGreaterThanOrEqual(0);
-    expect(box!.x + box!.width).toBeLessThanOrEqual(390);
-    expect(box!.height).toBeLessThanOrEqual(64);
+    expect(box!.x + box!.width).toBeLessThanOrEqual(320);
+    await expect(page.getByRole("slider", { name: "Playback position" })).toBeHidden();
+    await expect(page.getByRole("button", { name: "Expand music player" })).toBeVisible();
+    await page.getByRole("button", { name: "Expand music player" }).click();
+    await expect(page.getByRole("slider", { name: "Playback position" })).toBeVisible();
+    const expanded = await page.getByRole("complementary", { name: "Background music" }).boundingBox();
+    expect(expanded).not.toBeNull();
+    expect(expanded!.x + expanded!.width).toBeLessThanOrEqual(320);
+    expect(expanded!.y + expanded!.height).toBeLessThanOrEqual(844);
+    await expect(page.getByRole("button", { name: "Previous track" })).toBeVisible();
+    await expect(page.getByRole("slider", { name: "Music volume" })).toBeVisible();
   });
 });

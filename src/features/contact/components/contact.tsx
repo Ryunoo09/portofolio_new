@@ -35,8 +35,9 @@ export function Contact({ profile, socials, settings }: ContactProps) {
       eyebrow="Contact"
       title="Contact"
       description="Open to software engineering roles. Email is the fastest way to reach me."
+      layout="split"
     >
-      <RevealRows selector="[data-reveal]" distance={22} duration={0.6} stagger={0.08}>
+      <RevealRows selector="[data-reveal]" distance={22} duration={0.6} stagger={0.08} blur={12}>
         <div className="flex flex-wrap items-center gap-3" data-reveal>
           {hasEmail && <EmailLink codes={toCharCodes(email)} />}
           <CvDownloadMenu cv={cvLinks(settings)} />

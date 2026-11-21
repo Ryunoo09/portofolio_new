@@ -9,6 +9,21 @@ export const PRELOADER_KEY = "preloader-seen";
 const DURATION_MS = 1200;
 const TICK_MS = 100;
 const STEPS = Math.ceil(DURATION_MS / TICK_MS);
+const SCRAMBLE = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+const WORDMARK = "Rakhadev";
+
+function decodeWordmark(progress: number): string {
+  const fixed = Math.min(WORDMARK.length, Math.ceil((progress / 100) * WORDMARK.length));
+  return WORDMARK.split("")
+    .map((letter, index) => {
+      if (index < fixed || progress === 100) return letter;
+      return SCRAMBLE[Math.floor(Math.random() * SCRAMBLE.length)];
+    })
+    .join("");
+}
+
+const EXIT_MS = 240;
+const PRELOADER_DURATION_MS = DURATION_MS + EXIT_MS;
 
 /**
  * Hydration flag. False for the server render and for hydration, so the overlay
@@ -56,6 +71,8 @@ export function Preloader() {
   const hydrated = useHydrated();
   const [dismissed, setDismissed] = useState(false);
   const [step, setStep] = useState(0);
+  const progress = Math.round((step / STEPS) * 100);
+  const wordmark = decodeWordmark(progress);
 
   // Derived during render, not set from an effect: the page is rendered three
   // times (server, hydration, client) and only the third can show the overlay.
@@ -64,27 +81,37 @@ export function Preloader() {
   useEffect(() => {
     if (!visible) return;
 
-    try {
-      sessionStorage.setItem(PRELOADER_KEY, "1");
-    } catch {
-      // Blocked storage only means the intro may repeat; never a crash.
-    }
-
     const ticker = window.setInterval(() => setStep((value) => Math.min(STEPS, value + 1)), TICK_MS);
-    const done = window.setTimeout(() => setDismissed(true), DURATION_MS);
+    const done = window.setTimeout(() => setStep(STEPS), DURATION_MS);
+    const dismiss = window.setTimeout(() => {
+      // Mark the session only now: writing it up front makes `skip()` true on
+      // the next render, which removed the overlay after ~100 ms.
+      try {
+        sessionStorage.setItem(PRELOADER_KEY, "1");
+      } catch {
+        // Blocked storage only means the intro may repeat; never a crash.
+      }
+
+      setDismissed(true);
+    }, PRELOADER_DURATION_MS);
 
     return () => {
       window.clearInterval(ticker);
       window.clearTimeout(done);
+      window.clearTimeout(dismiss);
     };
   }, [visible]);
 
   if (!visible) return null;
 
   return (
-    <div aria-hidden="true" className="preloader">
-      <p className="preloader-count font-mono text-xs tracking-[0.2em]">
-        {Math.round((step / STEPS) * 100)}%
+    <div className="preloader" role="status" aria-label="Loading portfolio">
+      <span className="preloader-wordmark" aria-hidden="true">{wordmark}</span>
+      <div className="preloader-progress" role="progressbar" aria-label="Intro animation progress" aria-valuemin={0} aria-valuemax={100} aria-valuenow={progress}>
+        <span className="preloader-progress-fill" style={{ transform: `scaleX(${progress / 100})` }} />
+      </div>
+      <p aria-hidden="true" className="preloader-count font-mono text-xs tracking-[0.2em]">
+        {progress}%
       </p>
     </div>
   );

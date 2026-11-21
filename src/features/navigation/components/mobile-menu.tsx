@@ -42,25 +42,60 @@ export function MobileMenu({ cv }: { cv: CvLinks }) {
   }, [open]);
 
   return (
-    <div className="md:hidden">
-      <button
-        ref={triggerRef}
-        type="button"
-        aria-expanded={open}
-        aria-controls="mobile-menu"
-        onClick={() => setOpen((value) => !value)}
-        className="text-fg border-border rounded-sm border px-3 py-1.5 text-sm"
-      >
-        {open ? "Close" : "Menu"}
-      </button>
+    <div className="relative pointer-events-auto md:hidden">
+      <div className="nav-dock">
+        <button
+          ref={triggerRef}
+          type="button"
+          aria-expanded={open}
+          aria-controls="mobile-menu"
+          aria-label={open ? "Close" : "Menu"}
+          onClick={() => setOpen((value) => !value)}
+          className="nav-dock-item text-fg"
+        >
+          <span className="sr-only">{open ? "Close" : "Menu"}</span>
+          {open ? (
+            <svg
+              width="20"
+              height="20"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="1.75"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              aria-hidden="true"
+            >
+              <line x1="18" y1="6" x2="6" y2="18" />
+              <line x1="6" y1="6" x2="18" y2="18" />
+            </svg>
+          ) : (
+            <svg
+              width="20"
+              height="20"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="1.75"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              aria-hidden="true"
+            >
+              <line x1="4" y1="7" x2="20" y2="7" />
+              <line x1="4" y1="12" x2="20" y2="12" />
+              <line x1="4" y1="17" x2="20" y2="17" />
+            </svg>
+          )}
+        </button>
+      </div>
 
       <nav
         id="mobile-menu"
         aria-label="Sections"
         hidden={!open}
-        className="border-border bg-bg absolute inset-x-0 top-full border-b"
+        className="mobile-nav-panel"
       >
-        <ul className="mx-auto flex max-w-[var(--container-max)] flex-col gap-1 px-6 py-4">
+        <ul className="flex flex-col gap-1">
           {NAV_SECTIONS.map((section, index) => (
             <li key={section.id}>
               <Link
