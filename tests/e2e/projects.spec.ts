@@ -2,12 +2,13 @@ import { readFileSync } from "node:fs";
 import { expect, test } from "@playwright/test";
 
 const published = JSON.parse(readFileSync("content/projects.json", "utf8")) as {
+  slug: string;
   repo_url: string | null;
   live_url: string | null;
 }[];
-// The homepage index shows at most nine featured projects (PRD US-04), in
-// sort_order, which is the order in the file.
-const listed = published.slice(0, 9);
+// The homepage index shows every published project, in sort_order, which is
+// the order in the file.
+const listed = published;
 const privateCount = listed.filter((p) => !p.repo_url && !p.live_url).length;
 
 test.describe("projects list", () => {
@@ -113,6 +114,6 @@ test.describe("projects on a touch device", () => {
 
     await row.locator("a[aria-labelledby]").click();
 
-    await expect(page).toHaveURL(/\/projects\/validasi-ftth-yolo26-paddleocr$/);
+    await expect(page).toHaveURL(new RegExp(`/projects/${published[0].slug}$`));
   });
 });

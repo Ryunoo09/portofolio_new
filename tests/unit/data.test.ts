@@ -51,6 +51,8 @@ describe("data fallback", () => {
     const projects = await getProjects();
 
     expect(projects.map((project) => project.slug)).toEqual([
+      "pos-system-retail",
+      "pos-food-beverage",
       "validasi-ftth-yolo26-paddleocr",
       "mini-erp-lwa",
       "dse-ai",
@@ -114,7 +116,7 @@ describe("data fallback on database failure", () => {
     expect(results[0]).toHaveProperty("full_name");
     expect(results[1]).toHaveLength(2);
     expect(results[2]).toHaveLength(2);
-    expect(results[3]).toHaveLength(8);
+    expect(results[3]).toHaveLength(10);
     expect(results[4]).toHaveLength(28);
     expect(results[5]).toHaveProperty("music");
   });
