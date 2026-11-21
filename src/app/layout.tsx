@@ -77,25 +77,30 @@ export default async function RootLayout({ children }: Readonly<{ children: Reac
             {music && (
               <p className="mt-2">
                 Music:{" "}
-                {music.creditUrl ? (
-                  <a
-                    href={music.creditUrl}
-                    target="_blank"
-                    rel="noreferrer noopener"
-                    className="hover:text-fg underline underline-offset-2"
-                  >
-                    {music.title}
-                  </a>
-                ) : (
-                  music.title
-                )}
-                {music.credit && <> · {music.credit}</>}
+                {music.map((track, index) => (
+                  <span key={track.src}>
+                    {index > 0 && "; "}
+                    {track.creditUrl ? (
+                      <a
+                        href={track.creditUrl}
+                        target="_blank"
+                        rel="noreferrer noopener"
+                        className="hover:text-fg underline underline-offset-2"
+                      >
+                        {track.title}
+                      </a>
+                    ) : (
+                      track.title
+                    )}
+                    {track.credit && <> · {track.credit}</>}
+                  </span>
+                ))}
               </p>
             )}
           </div>
         </footer>
 
-        {music && <MusicPlayer track={music} />}
+        {music && <MusicPlayer tracks={music} />}
       </body>
     </html>
   );

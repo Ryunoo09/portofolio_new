@@ -7,6 +7,12 @@ const VOLUME_KEY = "music-volume";
 const MUTED_KEY = "music-muted";
 const DEFAULT_VOLUME = 0.5;
 
+function formatTime(seconds: number): string {
+  if (!Number.isFinite(seconds) || seconds < 0) return "0:00";
+  const minutes = Math.floor(seconds / 60);
+  return `${minutes}:${String(Math.floor(seconds % 60)).padStart(2, "0")}`;
+}
+
 function readVolume(): number {
   try {
     const raw = localStorage.getItem(VOLUME_KEY);
@@ -40,11 +46,16 @@ function remember(key: string, value: string) {
  * US-07: optional background music. Never autoplay, never fetch the file before
  * the first play, and keep the preference without resuming playback on reload.
  */
-export function MusicPlayer({ track }: { track: MusicTrack }) {
+export function MusicPlayer({ tracks }: { tracks: MusicTrack[] }) {
   const audioRef = useRef<HTMLAudioElement>(null);
   const [playing, setPlaying] = useState(false);
   const [muted, setMuted] = useState(false);
   const [volume, setVolume] = useState(DEFAULT_VOLUME);
+  const [trackIndex, setTrackIndex] = useState(0);
+  const [currentTime, setCurrentTime] = useState(0);
+  const [duration, setDuration] = useState(0);
+  const resumeAfterTrackChange = useRef(false);
+  const track = tracks[trackIndex];
 
   useEffect(() => {
     const audio = audioRef.current;
@@ -59,6 +70,25 @@ export function MusicPlayer({ track }: { track: MusicTrack }) {
     setVolume(savedVolume);
     setMuted(savedMuted);
   }, []);
+
+  useEffect(() => {
+    const audio = audioRef.current;
+    if (!audio || !tracks.length || !track) return;
+    audio.pause();
+    audio.currentTime = 0;
+    setCurrentTime(0);
+    setDuration(0);
+    if (resumeAfterTrackChange.current) {
+      resumeAfterTrackChange.current = false;
+      void audio.play().catch(() => setPlaying(false));
+    }
+  }, [trackIndex, track, tracks.length]);
+
+  function selectTrack(index: number) {
+    if (tracks.length < 2) return;
+    resumeAfterTrackChange.current = playing;
+    setTrackIndex((index + tracks.length) % tracks.length);
+  }
 
   function toggleMute() {
     const audio = audioRef.current;
@@ -100,6 +130,8 @@ export function MusicPlayer({ track }: { track: MusicTrack }) {
     }
   }
 
+  if (!track) return null;
+
   return (
     <aside
       aria-label="Background music"
@@ -109,49 +141,93 @@ export function MusicPlayer({ track }: { track: MusicTrack }) {
         ref={audioRef}
         src={track.src}
         preload="none"
-        loop
         aria-hidden="true"
         onPlay={() => setPlaying(true)}
         onPause={() => setPlaying(false)}
+        onLoadedMetadata={(event) => setDuration(Number.isFinite(event.currentTarget.duration) ? event.currentTarget.duration : 0)}
+        onDurationChange={(event) => setDuration(Number.isFinite(event.currentTarget.duration) ? event.currentTarget.duration : 0)}
+        onTimeUpdate={(event) => setCurrentTime(event.currentTarget.currentTime)}
+        onEnded={() => {
+          if (tracks.length > 1) selectTrack(trackIndex + 1);
+          else setPlaying(false);
+        }}
+        onError={() => {
+          setPlaying(false);
+          setDuration(0);
+          setCurrentTime(0);
+        }}
       />
 
-      <div className="border-border bg-surface/95 flex items-center gap-1.5 rounded-full border p-1 shadow-lg backdrop-blur">
-        <button
-          type="button"
-          onClick={togglePlayback}
-          aria-pressed={playing}
-          aria-label={playing ? "Pause background music" : "Play background music"}
-          className="text-fg hover:bg-surface-raised min-h-11 rounded-full px-3 text-xs font-medium transition-colors duration-[var(--duration-fast)]"
-        >
-          {playing ? "Pause" : "Play"}
-        </button>
-
-        <span className="text-fg-muted max-w-[8rem] truncate text-xs sm:max-w-[12rem]">
-          {track.title}
-        </span>
-
-        <button
-          type="button"
-          onClick={toggleMute}
-          aria-pressed={muted}
-          aria-label={muted ? "Unmute music" : "Mute music"}
-          className="text-fg-muted hover:text-fg min-h-11 rounded-full px-2 text-xs transition-colors duration-[var(--duration-fast)]"
-        >
-          {muted ? "Unmute" : "Mute"}
-        </button>
-
-        <label className="hidden items-center gap-2 pr-2 md:flex">
-          <span className="sr-only">Music volume</span>
+      <div className="border-border bg-surface/95 flex w-[min(22rem,calc(100vw-2rem))] flex-col gap-2 rounded-2xl border p-3 shadow-lg backdrop-blur">
+        <div className="flex min-w-0 items-center justify-between gap-2">
+          <div className="min-w-0">
+            <p className="text-fg truncate text-sm font-medium">{track.title}</p>
+            {track.credit && <p className="text-fg-muted truncate text-xs">{track.credit}</p>}
+          </div>
+          <span className="text-fg-muted shrink-0 text-xs">{trackIndex + 1} / {tracks.length}</span>
+        </div>
+        <div className="flex items-center gap-2">
+          <label className="sr-only" htmlFor="music-seek">Playback position</label>
           <input
+            id="music-seek"
+            aria-label="Playback position"
             type="range"
             min={0}
-            max={1}
-            step={0.01}
-            value={volume}
-            onChange={(event) => changeVolume(Number(event.target.value))}
-            className="accent-accent w-20"
+            max={duration || 0}
+            step={1}
+            value={Math.min(currentTime, duration || 0)}
+            disabled={!duration}
+            onChange={(event) => {
+              const next = Number(event.target.value);
+              if (Number.isFinite(next) && audioRef.current) {
+                audioRef.current.currentTime = next;
+                setCurrentTime(next);
+              }
+            }}
+            className="accent-accent min-w-0 flex-1"
           />
-        </label>
+          <span className="text-fg-muted w-[5.5rem] text-right text-xs tabular-nums">
+            {formatTime(currentTime)} / {formatTime(duration)}
+          </span>
+        </div>
+        <div className="flex items-center justify-between gap-2">
+          <div className="flex items-center gap-1">
+            <button type="button" onClick={() => selectTrack(trackIndex - 1)} aria-label="Previous track" className="text-fg-muted hover:text-fg min-h-11 min-w-11 rounded-full text-xs">Prev</button>
+            <button
+              type="button"
+              onClick={togglePlayback}
+              aria-pressed={playing}
+              aria-label={playing ? "Pause background music" : "Play background music"}
+              className="bg-accent text-accent-fg min-h-11 rounded-full px-4 text-xs font-medium transition-colors duration-[var(--duration-fast)] motion-reduce:transition-none"
+            >
+              {playing ? "Pause" : "Play"}
+            </button>
+            <button type="button" onClick={() => selectTrack(trackIndex + 1)} aria-label="Next track" className="text-fg-muted hover:text-fg min-h-11 min-w-11 rounded-full text-xs">Next</button>
+          </div>
+
+          <button
+            type="button"
+            onClick={toggleMute}
+            aria-pressed={muted}
+            aria-label={muted ? "Unmute music" : "Mute music"}
+            className="text-fg-muted hover:text-fg min-h-11 rounded-full px-2 text-xs transition-colors duration-[var(--duration-fast)] motion-reduce:transition-none"
+          >
+            {muted ? "Unmute" : "Mute"}
+          </button>
+
+          <label className="flex items-center gap-2 pr-2">
+            <span className="sr-only">Music volume</span>
+            <input
+              type="range"
+              min={0}
+              max={1}
+              step={0.01}
+              value={volume}
+              onChange={(event) => changeVolume(Number(event.target.value))}
+              className="accent-accent w-16 sm:w-20"
+            />
+          </label>
+        </div>
       </div>
     </aside>
   );
