@@ -22,13 +22,19 @@ function supabaseImageHost(): { protocol: "http" | "https"; hostname: string } |
 
 const imageHost = supabaseImageHost();
 
+/** Public Storage objects live at this path on any Supabase project. */
+const STORAGE_PATH = "/storage/v1/object/public/**";
+
 const nextConfig: NextConfig = {
   output: "standalone",
   reactStrictMode: true,
   images: {
     remotePatterns: imageHost
-      ? [{ ...imageHost, pathname: "/storage/v1/object/public/**" }]
-      : [],
+      ? [{ ...imageHost, pathname: STORAGE_PATH }]
+      : // No URL at build time (a missing build arg). Accept Supabase Storage so
+        // an ISR page rendered with the runtime env is not left with broken
+        // covers; with the URL set, the exact host is pinned instead.
+        [{ protocol: "https", hostname: "*.supabase.co", pathname: STORAGE_PATH }],
   },
 };
 
