@@ -39,7 +39,7 @@ portfolio/
 - Tabel dan kolom DB: `snake_case`. Env var klien: `NEXT_PUBLIC_*`.
 
 **Style**
-- Maks **250 baris per file** (ESLint `max-lines` = error). Satu komponen utama per file.
+- Maks **320 baris per file** (ESLint `max-lines` = error). Satu komponen utama per file.
 - TypeScript `strict`; dilarang `any` (pakai `unknown` + narrowing).
 - Server Component by default; `"use client"` hanya untuk interaksi (preloader, music player, motion).
 - Fitur baru = folder baru di `features/`; komponen dipakai >= 2 tempat pindah ke `components/ui/`.

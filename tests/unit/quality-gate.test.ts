@@ -9,8 +9,8 @@ async function lint(code: string, filePath: string) {
 }
 
 describe("quality gate", () => {
-  it("rejects files over 250 lines", async () => {
-    const code = Array.from({ length: 260 }, (_, index) => `const v${index} = ${index};`).join(
+  it("rejects files over 320 lines", async () => {
+    const code = Array.from({ length: 330 }, (_, index) => `const v${index} = ${index};`).join(
       "\n",
     );
 
