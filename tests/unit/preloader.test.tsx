@@ -37,7 +37,10 @@ describe("Preloader", () => {
   it("covers the page on the first visit and counts up", async () => {
     const { container } = render(<Preloader />);
 
-    expect(container.querySelector(".preloader")).toHaveAttribute("aria-hidden", "true");
+    expect(container.querySelector(".preloader")).toHaveAttribute("role", "status");
+    expect(container.querySelector(".preloader-wordmark")).toHaveAttribute("aria-hidden", "true");
+    expect(container.querySelector('[role="progressbar"]')).toHaveAttribute("aria-valuenow", "0");
+    expect(container.querySelector(".preloader-progress-fill")).not.toBeNull();
     expect(container.querySelector(".preloader-count")?.textContent).toBe("0%");
 
     await waitFor(() =>
@@ -57,6 +60,15 @@ describe("Preloader", () => {
 
     expect(container.querySelector(".preloader")).toBeNull();
     expect(container.textContent).toBe("");
+  });
+
+  it("decodes the wordmark and exposes an accessible progress bar", async () => {
+    const { container } = render(<Preloader />);
+
+    expect(container.querySelector(".preloader-wordmark")?.textContent).toHaveLength(8);
+    expect(container.querySelector('[role="progressbar"]')).toHaveAttribute("aria-valuemin", "0");
+    expect(container.querySelector('[role="progressbar"]')).toHaveAttribute("aria-valuemax", "100");
+    expect(container.querySelector('[role="progressbar"]')).toHaveAttribute("aria-valuenow", "0");
   });
 
   it("never runs twice in the same session", async () => {

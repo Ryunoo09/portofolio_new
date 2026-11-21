@@ -1,6 +1,5 @@
 "use client";
 
-import { useEffect, useState } from "react";
 import type { Skill } from "@/types/content";
 import { SkillIcon } from "./skill-icons";
 
@@ -9,19 +8,6 @@ type SkillsMarqueeProps = {
 };
 
 export function SkillsMarquee({ skills }: SkillsMarqueeProps) {
-  const [userPaused, setUserPaused] = useState(false);
-  const [pageHidden, setPageHidden] = useState(false);
-
-  useEffect(() => {
-    const onVisibilityChange = () => setPageHidden(document.hidden);
-    onVisibilityChange();
-    document.addEventListener("visibilitychange", onVisibilityChange);
-    return () => document.removeEventListener("visibilitychange", onVisibilityChange);
-  }, []);
-
-  const paused = userPaused || pageHidden;
-  const label = userPaused ? "Resume skills animation" : "Pause skills animation";
-
   const half = Math.ceil(skills.length / 2);
   const row1 = skills.slice(0, half);
   const row2 = skills.slice(half);
@@ -29,7 +15,6 @@ export function SkillsMarquee({ skills }: SkillsMarqueeProps) {
   return (
     <div
       className="skills-marquee relative py-2"
-      data-paused={paused}
     >
       <div aria-hidden="true" className="skills-marquee-window min-w-0 space-y-3.5">
         {/* Row 1: Left */}
@@ -65,18 +50,6 @@ export function SkillsMarquee({ skills }: SkillsMarqueeProps) {
             ))}
           </div>
         )}
-      </div>
-
-      <div className="mt-8 flex justify-center">
-        <button
-          type="button"
-          aria-label={label}
-          onClick={() => setUserPaused((value) => !value)}
-          className="skills-marquee-toggle border-border bg-surface text-fg-muted hover:text-fg hover:border-border-strong focus-visible:text-fg flex items-center gap-2 rounded-full border px-4 py-1.5 font-mono text-xs transition-colors"
-        >
-          <span aria-hidden="true">{paused ? "▶" : "❚❚"}</span>
-          <span>{paused ? "Resume animation" : "Pause animation"}</span>
-        </button>
       </div>
     </div>
   );

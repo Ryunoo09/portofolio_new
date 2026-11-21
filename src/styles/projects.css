@@ -25,6 +25,13 @@
               background-color var(--duration-base) var(--ease-out);
 }
 
+@media (min-width: 64rem) {
+  .projects-container .project-card {
+    transform-origin: center top;
+    will-change: transform, opacity;
+  }
+}
+
 @media (min-width: 48rem) {
   .project-card {
     padding: 2rem;

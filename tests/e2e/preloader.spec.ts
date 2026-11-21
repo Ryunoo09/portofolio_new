@@ -8,6 +8,7 @@ const OVERLAY = ".preloader";
  */
 test.beforeEach(async ({ page }) => {
   await page.addInitScript(() => {
+    sessionStorage.clear();
     const trace = { appeared: false, goneAtEnd: true };
     (window as unknown as { __preloaderTrace: typeof trace }).__preloaderTrace = trace;
 

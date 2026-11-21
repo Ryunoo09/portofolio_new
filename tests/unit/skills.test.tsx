@@ -1,5 +1,5 @@
 import { readFileSync } from "node:fs";
-import { fireEvent, render, screen } from "@testing-library/react";
+import { render, screen } from "@testing-library/react";
 import { describe, expect, it } from "vitest";
 import { Skills } from "@/features/skills";
 import type { Skill } from "@/types/content";
@@ -48,18 +48,10 @@ describe("Skills", () => {
     expect(marquee?.textContent).toContain("TypeScript");
   });
 
-  it("stops the marquee from a keyboard-reachable control", () => {
+  it("renders no pause control for the continuously moving marquee", () => {
     render(<Skills skills={seeded} />);
 
-    const marquee = document.querySelector(".skills-marquee");
-    const toggle = screen.getByRole("button", { name: "Pause skills animation" });
-
-    expect(marquee).toHaveAttribute("data-paused", "false");
-
-    fireEvent.click(toggle);
-
-    expect(marquee).toHaveAttribute("data-paused", "true");
-    expect(screen.getByRole("button", { name: "Resume skills animation" })).toBeVisible();
+    expect(screen.queryByRole("button", { name: /skills animation/i })).toBeNull();
   });
 
   it("says skills are coming instead of rendering an empty section", () => {
