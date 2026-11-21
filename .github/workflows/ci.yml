@@ -133,8 +133,11 @@ jobs:
           load: true
           tags: portfolio-web:ci
           # Baked at build time: image host allow-list and absolute metadata URLs.
+          # NEXT_PUBLIC values are public (they appear in the HTML), so either a
+          # Variable or a Secret is accepted: an empty build arg strips the host
+          # from next/image's allow-list and breaks every cover.
           build-args: |
-            NEXT_PUBLIC_SUPABASE_URL=${{ secrets.NEXT_PUBLIC_SUPABASE_URL }}
+            NEXT_PUBLIC_SUPABASE_URL=${{ vars.NEXT_PUBLIC_SUPABASE_URL || secrets.NEXT_PUBLIC_SUPABASE_URL }}
             NEXT_PUBLIC_SITE_URL=${{ vars.NEXT_PUBLIC_SITE_URL }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
