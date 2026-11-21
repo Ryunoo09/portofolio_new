@@ -17,9 +17,18 @@ test.describe("experience accordion", () => {
     const firstButton = cards.first().locator("button.exp-card-header");
     await expect(firstButton).toHaveAttribute("aria-expanded", "true");
 
-    // Clicking toggles expansion state
-    await firstButton.click();
-    await expect(firstButton).toHaveAttribute("aria-expanded", "false");
+    // The button is in the server HTML, but its handler only exists after React
+    // hydrates, and a click before then does nothing. Poll a click until the
+    // handler answers, so the toggle below is not racing hydration.
+    await expect
+      .poll(
+        async () => {
+          await firstButton.click();
+          return firstButton.getAttribute("aria-expanded");
+        },
+        { timeout: 15_000 },
+      )
+      .toBe("false");
 
     // Click again to reopen
     await firstButton.click();

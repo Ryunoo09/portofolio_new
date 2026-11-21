@@ -61,6 +61,24 @@ curl -sI https://<domain> | grep -Ei 'content-security-policy|strict-transport|x
 
 ## 3. Deploy
 
+Every push to `main` deploys itself. CI runs the checks, builds and pushes the
+image to GHCR, then the `deploy` job SSHes to the VPS and runs
+`TAG=<sha> ./scripts/deploy.sh`. The VPS never builds anything.
+
+One-time setup for the `deploy` job — repo **Settings → Secrets and variables →
+Actions**:
+
+| Name                    | Kind   | Value                                                       |
+| ----------------------- | ------ | ----------------------------------------------------------- |
+| `VPS_HOST`              | secret | VPS host or IP                                              |
+| `VPS_USER`              | secret | user that can run Docker (e.g. `deploy`)                    |
+| `VPS_SSH_KEY`           | secret | private key of a key pair whose public half is in `authorized_keys` |
+| `VPS_SSH_KNOWN_HOSTS`   | secret | output of `ssh-keyscan -t ed25519 <host>` (pins the host key) |
+| `VPS_PATH`              | var    | repo clone on the VPS (default `/opt/portofolio`)           |
+
+Add required reviewers under **Settings → Environments → production** to make a
+deploy wait for approval. Manual deploy still works:
+
 ```sh
 ./scripts/deploy.sh            # latest image
 TAG=<commit-sha> ./scripts/deploy.sh   # pin a specific build

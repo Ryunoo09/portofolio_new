@@ -17,6 +17,9 @@ export function ExperienceTimeline({ experiences }: ExperienceTimelineProps) {
   const [activeId, setActiveId] = useState<string | null>(
     experiences[0]?.id ?? null,
   );
+  // Once the visitor opens or closes a card themselves, scrolling must not
+  // reopen it behind their back.
+  const userToggled = useRef(false);
 
   useEffect(() => {
     if (experiences.length === 0) return;
@@ -50,12 +53,18 @@ export function ExperienceTimeline({ experiences }: ExperienceTimelineProps) {
         const item = experiences[index];
         if (!item) return;
 
+        // Scrolling opens the card in view until the visitor takes over; after
+        // that the accordion keeps whatever they chose.
+        const openOnScroll = () => {
+          if (!userToggled.current) setActiveId(item.id);
+        };
+
         const st = ScrollTrigger.create({
           trigger: el,
           start: "top 65%",
           end: "bottom 35%",
-          onEnter: () => setActiveId(item.id),
-          onEnterBack: () => setActiveId(item.id),
+          onEnter: openOnScroll,
+          onEnterBack: openOnScroll,
         });
         triggers.push(st);
       });
@@ -72,6 +81,7 @@ export function ExperienceTimeline({ experiences }: ExperienceTimelineProps) {
   }, [experiences]);
 
   const handleToggle = (id: string) => {
+    userToggled.current = true;
     setActiveId((current) => (current === id ? null : id));
   };
 
