@@ -1,0 +1,80 @@
+@layer components {
+  /*
+   * Tech stack hands over to contact (owner request, 21 Nov 2026).
+   *
+   * The same shape as the hero: the stack block pins, the contact block is a
+   * raised card that slides up over it, and the pinned content recedes (blur +
+   * scale) while the card arrives. Desktop only; phones keep the plain flow.
+   * Decoration, so nothing here changes what a crawler or a no-JS visitor sees.
+   *
+   * The recede is driven by the *card's* view timeline, not the pinned block's:
+   * a sticky subject never advances its own view() progress, so the timeline
+   * has to come from the block that really scrolls (and be scoped here, on the
+   * ancestor both blocks share).
+   */
+  .stack-hold {
+    position: relative;
+    timeline-scope: --stack-hold-card;
+  }
+
+  .stack-hold-card {
+    position: relative;
+    z-index: 20;
+    view-timeline-name: --stack-hold-card;
+    background: var(--bg);
+    border-top: 1px solid var(--border);
+    border-radius: 2.5rem 2.5rem 0 0;
+    box-shadow: 0 -25px 60px rgb(0 0 0 / 0.85);
+  }
+
+  @media (min-width: 48rem) {
+    .stack-hold-card {
+      border-radius: 3rem 3rem 0 0;
+    }
+  }
+
+  @media (min-width: 64rem) {
+    .stack-hold-panel {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      display: flex;
+      min-height: 100svh;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    /* A full screen of card, so it covers the pinned stack exactly like the
+       reference: the stack unsticks only once it is hidden. */
+    .stack-hold-card {
+      display: flex;
+      min-height: 100svh;
+      flex-direction: column;
+      justify-content: center;
+    }
+  }
+
+  /* transform/opacity/blur only, so nothing else on the page can move. */
+  @media (min-width: 64rem) and (prefers-reduced-motion: no-preference) {
+    @supports ((animation-timeline: view()) and (animation-range: entry)) {
+      /*
+       * Runs over exactly the screen the card takes to rise from the bottom
+       * edge to the top one, so the stack is at its dimmest the moment it is
+       * covered, whatever the card's height turns out to be.
+       */
+      .stack-hold-panel #skills {
+        animation: stack-recede linear both;
+        animation-timeline: --stack-hold-card;
+        animation-range: entry 0 entry 100svh;
+      }
+    }
+  }
+
+  @keyframes stack-recede {
+    to {
+      opacity: 0.45;
+      filter: blur(10px);
+      transform: translateY(-2rem) scale(0.95);
+    }
+  }
+}

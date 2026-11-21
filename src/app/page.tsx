@@ -44,9 +44,15 @@ export default async function HomePage() {
         <div className="section-rule" aria-hidden="true" />
         <ProjectsList projects={projects} />
         <div className="section-rule" aria-hidden="true" />
-        <Skills skills={skills} />
-        <div className="section-rule" aria-hidden="true" />
-        <Contact profile={profile} socials={socials} settings={settings} />
+        <div className="stack-hold">
+          <div className="stack-hold-panel">
+            <Skills skills={skills} />
+          </div>
+          <div className="section-rule" aria-hidden="true" />
+          <div className="stack-hold-card">
+            <Contact profile={profile} socials={socials} settings={settings} />
+          </div>
+        </div>
       </div>
     </>
   );

@@ -4,12 +4,11 @@
  * The strip repeats names that are already readable in the screen-reader list,
  * so it is decoration: aria-hidden, no links inside, never the only copy of a name.
  * Motion is opt-in (prefers-reduced-motion: no-preference), only `transform`
- * animates, and the strip stops while a pointer or focus is on it (US-05).
+ * animates, and it never stops while the pointer is over it (owner decision,
+ * 21 Nov 2026).
  *
- * shortcut: no visible pause control, by owner decision (18 Nov 2026). WCAG
- * 2.2.2 wants one for motion that runs longer than five seconds, so this stays
- * a known gap; the hover/focus pause is the only stop. Add the button if the
- * owner changes their mind.
+ * shortcut: no visible pause control either. WCAG 2.2.2 wants one for motion
+ * that runs longer than five seconds, so this stays a known, accepted gap.
  */
 .skills-marquee {
   position: relative;
@@ -56,11 +55,6 @@
   .skills-marquee-track--reverse {
     animation-duration: 55s;
     animation-direction: reverse;
-  }
-
-  /* US-05: stop on hover or focus, then resume without a restart. */
-  .skills-marquee-window:is(:hover, :focus-within) .skills-marquee-track {
-    animation-play-state: paused;
   }
 }
 
