@@ -1,6 +1,6 @@
 [
   {
-    "cover_path": null,
+    "cover_path": "projects/ftth_aifi/cover.Webp",
     "description_md": "## Problem\n\nThe previous version of the app was hard to use and its flow was confusing. It had no way to request an extra FAT pole, no AI to verify that a sales visit really happened, and no validation of customer identity, so the reported data could not be trusted.\n\n## Role & constraints\n\nSolo full-stack work from March to August 2026, as my final-year thesis. The code is private. I owned the backend, the Flutter app, the PostgreSQL schema, and the computer-vision model at the same time.\n\n## Approach\n\nI added OTP-based customer validation and a computer-vision module built on YOLO26 and PaddleOCR that detects and reads visit evidence, so a visit is confirmed by the system instead of by the salesperson's word. I simplified the business flow, added a request path for extra FAT poles, and rebuilt the interface in Flutter. FastAPI serves the API, PostgreSQL stores the data, and Redis handles caching for the reads that repeat most.\n\n## Result\n\nVisits are verified automatically and customers are confirmed with OTP, which removes the manual spot-checks. The hardest part was carrying backend, frontend, and the AI model in one project.",
     "id": "44444444-4444-4444-8444-444444444401",
     "is_private": true,
@@ -16,7 +16,7 @@
     "year": 2026
   },
   {
-    "cover_path": null,
+    "cover_path": "projects/mini_erp/cover.Webp",
     "description_md": "## Problem\n\nMaterial records from raw material to finished goods were split across tools, so the position of a batch was hard to trace and some movements went unrecorded. Customs documents had to match the Bea Cukai format, where a manual check is easy to get wrong. Delivery notes were issued by hand, container and fleet positions could not be followed, and production data never reached finance, so costing was slow.\n\n## Role & constraints\n\nFull-stack work in a team of three, from January to April 2026, on a freelance engagement. The code is private.\n\n## Approach\n\nOne platform ties production, inventory, distribution, and finance together. Every material movement is recorded, so origin and position can be traced at any time. The Customs API integration validates and reshapes the input data before it leaves the system, which keeps the documents defensible. Delivery notes are issued automatically and connect to a field-staff mobile app that tracks containers and the fleet in real time. Production and logistics data sync into a finance module for costing and period recaps.\n\n## Result\n\nEvery stage of manufacturing is traceable, customs input is validated against the required format, and finance figures come from the same data instead of a manual retype.\n\n## Lessons\n\nConnecting to the Bea Cukai API and matching its exact data format was the real work: warehouse data has to pass validation before it is sent, or the customs document is not valid.",
     "id": "44444444-4444-4444-8444-444444444402",
     "is_private": true,
@@ -32,7 +32,7 @@
     "year": 2026
   },
   {
-    "cover_path": null,
+    "cover_path": "projects/dse_ai/cover.Webp",
     "description_md": "## Problem\n\nField sales often missed their targets with no visibility, and some reported visits to locations they never visited. Managers had no way to check a claim.\n\n## Role & constraints\n\nBackend developer in a team of four, from August to December 2025, during my internship at PT Indosat Ooredoo Hutchison. The code is private.\n\n## Approach\n\nSales log their visits in the app and the system verifies each one with AI detection, so a visit is an event the system confirms rather than a line the salesperson types. The backend exposes the visit and reporting endpoints and stores them in PostgreSQL.\n\n## Result\n\nVisit reports are no longer manual and are more accurate because they are verified by detection, which cuts false reporting. Used by 100 to 500 users across the sales team.",
     "id": "44444444-4444-4444-8444-444444444403",
     "is_private": true,
@@ -48,7 +48,7 @@
     "year": 2025
   },
   {
-    "cover_path": null,
+    "cover_path": "projects/elang_hub/cover.Webp",
     "description_md": "## Problem\n\nSales did not know or forgot when and where to visit, managers could not follow activity in real time, and the daily report was still written by hand.\n\n## Role & constraints\n\nBackend developer in a team of seven, from August to December 2025, during my internship. The code is private.\n\n## Approach\n\nThe system schedules visits on a Google Map, groups working areas by village, and supports tandem routes where two salespeople visit together. A daily-report dashboard shows each area's performance to managers, so the report is generated from recorded activity instead of a manual recap.\n\n## Result\n\nDaily reports are automatic, sales visits are easier to plan, and managers can follow area performance without asking for numbers. Used by 200 to 500 users across the sales team.",
     "id": "44444444-4444-4444-8444-444444444404",
     "is_private": true,
@@ -61,22 +61,6 @@
     "summary": "Sales visit scheduling on Google Maps with a daily-report dashboard for managers.",
     "tech": ["PHP", "Laravel", "PostgreSQL", "REST APIs"],
     "title": "Elang HUB — Sales Visit Scheduling and Reporting",
-    "year": 2025
-  },
-  {
-    "cover_path": null,
-    "description_md": "## Problem\n\nFTTH sales had to enter visit data by hand, with no system built for it.\n\n## Role & constraints\n\nBackend developer in a team of two, from August to December 2025, during my internship. The code is private. This was the first version, built to a short deadline with the focus on getting the core features running.\n\n## Approach\n\nSales check in to log a visit, see which homes are already visited or subscribed, and view a map of FAT poles that still have spare installation slots. I designed the PostgreSQL schema and the endpoints, with authentication and per-role access. The UI stayed deliberately basic in this version.\n\n## Result\n\nField reporting became easy for sales, and about 100 to 200 users used it for a month before it was stopped because of inconsistent data from a third-party vendor.\n\n## Lessons\n\nThird-party data that changes without notice is a dependency you have to design around, not just call.",
-    "id": "44444444-4444-4444-8444-444444444405",
-    "is_private": true,
-    "is_published": true,
-    "live_url": null,
-    "repo_url": null,
-    "role": "Backend Developer",
-    "slug": "aifi",
-    "sort_order": 5,
-    "summary": "FTTH visit-entry app: check-ins, customer homes, and a FAT pole map with spare installation slots.",
-    "tech": ["Python", "FastAPI", "PostgreSQL", "REST APIs"],
-    "title": "AIFI — FTTH Sales Visit Data Entry",
     "year": 2025
   },
   {
@@ -96,7 +80,7 @@
     "year": 2025
   },
   {
-    "cover_path": null,
+    "cover_path": "projects/big_data/cover.Webp",
     "description_md": "## Problem\n\nPredicting drinking-water quality in Indonesia against the Ministry of Health (Kemenkes RI) indicators was not available automatically, and the dataset was far too large to process by hand.\n\n## Role & constraints\n\nData-science work in a team of two, from June to July 2025, as a course project. The code is private.\n\n## Approach\n\nI built an end-to-end PySpark pipeline over more than 1.2 million rows: cleaning, handling anomalous values, imputing nulls, and pivoting the features into a model-ready shape. A logistic-regression classifier in Spark MLlib predicts whether a water sample is safe to drink, evaluated with accuracy and AUC.\n\n## Result\n\nAccuracy of 88.62 percent and an AUC of 0.86, with the whole pipeline reproducible instead of a one-off notebook.\n\n## Lessons\n\nCleaning data at this scale, across many features, is where most of the work and most of the risk lives.",
     "id": "44444444-4444-4444-8444-444444444407",
     "is_private": true,
@@ -112,7 +96,7 @@
     "year": 2025
   },
   {
-    "cover_path": null,
+    "cover_path": "projects/sirata/cover.Webp",
     "description_md": "## Problem\n\nCampus letters were still written in Microsoft Word with a fixed template, and signatures were still processed on paper.\n\n## Role & constraints\n\nBackend developer in a team of eight, from June 2024 to January 2025, as a course project. The code is public.\n\n## Approach\n\nThe system lets a user create an official letter from a template at any time, administrators across departments track the process, and approval happens online so departments can reach the central admin without a phone call.\n\n## Result\n\nLetter creation dropped from 10 minutes to 2 minutes, and a letter can be reached from anywhere instead of only from the office.\n\n## Lessons\n\nCollecting the right templates from each department was harder than the code, and the paper signature that is scanned afterwards still has to fit into the flow.",
     "id": "44444444-4444-4444-8444-444444444408",
     "is_private": false,
@@ -128,7 +112,7 @@
     "year": 2024
   },
   {
-    "cover_path": null,
+    "cover_path": "projects/campevent/cover.Webp",
     "description_md": "## Problem\n\nEvent organisers struggled to promote their events and sell tickets, and users had no single place to find an event and buy a ticket.\n\n## Role & constraints\n\nFull-stack work in a team of four, from July to August 2024, built for a competition. The code is public.\n\n## Approach\n\nOrganisers register an event and sell tickets; users search, read the details, price, and how to buy, and then purchase. I built the backend and the event pages.\n\n## Result\n\nOrganisers can publish and sell in one place, and users have one place to find an event and buy a ticket.\n\n## Lessons\n\nStudying how ticketing systems handle capacity and payment first saved rework later.",
     "id": "44444444-4444-4444-8444-444444444409",
     "is_private": false,

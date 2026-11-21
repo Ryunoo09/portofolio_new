@@ -55,7 +55,6 @@ describe("data fallback", () => {
       "mini-erp-lwa",
       "dse-ai",
       "elang-hub",
-      "aifi",
       "chatbot-report-automation",
       "analisis-prediktif-kualitas-air",
       "sirata",
@@ -115,7 +114,7 @@ describe("data fallback on database failure", () => {
     expect(results[0]).toHaveProperty("full_name");
     expect(results[1]).toHaveLength(2);
     expect(results[2]).toHaveLength(2);
-    expect(results[3]).toHaveLength(9);
+    expect(results[3]).toHaveLength(8);
     expect(results[4]).toHaveLength(28);
     expect(results[5]).toHaveProperty("music");
   });
