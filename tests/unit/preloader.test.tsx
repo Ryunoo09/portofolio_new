@@ -55,11 +55,30 @@ describe("Preloader", () => {
     expect(container.querySelector(".preloader")).not.toBeNull();
 
     await act(async () => {
-      vi.advanceTimersByTime(1300);
+      vi.advanceTimersByTime(1500);
     });
 
     expect(container.querySelector(".preloader")).toBeNull();
     expect(container.textContent).toBe("");
+  });
+
+  it("stays up for the whole intro instead of hiding on the first tick", async () => {
+    vi.useFakeTimers();
+    const { container } = render(<Preloader />);
+
+    await act(async () => {
+      vi.advanceTimersByTime(500);
+    });
+
+    // Writing the session flag during the intro made `skip()` true on the next
+    // render, so the overlay was removed after ~100 ms and the CSS exit never ran.
+    expect(container.querySelector(".preloader")).not.toBeNull();
+
+    await act(async () => {
+      vi.advanceTimersByTime(1000);
+    });
+
+    expect(container.querySelector(".preloader")).toBeNull();
   });
 
   it("decodes the wordmark and exposes an accessible progress bar", async () => {
@@ -76,7 +95,7 @@ describe("Preloader", () => {
     const first = render(<Preloader />);
 
     await act(async () => {
-      vi.advanceTimersByTime(1300);
+      vi.advanceTimersByTime(1500);
     });
 
     expect(sessionStorage.getItem(PRELOADER_KEY)).toBe("1");
@@ -96,8 +115,16 @@ describe("Preloader", () => {
     expect(sessionStorage.getItem(PRELOADER_KEY)).toBeNull();
   });
 
-  it("marks the session only once it actually shows the overlay", () => {
+  it("marks the session only after the overlay has been shown", async () => {
+    vi.useFakeTimers();
     render(<Preloader />);
+
+    // Writing the flag up front flipped `skip()` on the next render.
+    expect(sessionStorage.getItem(PRELOADER_KEY)).toBeNull();
+
+    await act(async () => {
+      vi.advanceTimersByTime(1500);
+    });
 
     expect(sessionStorage.getItem(PRELOADER_KEY)).toBe("1");
   });

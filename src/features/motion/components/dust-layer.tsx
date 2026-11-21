@@ -3,14 +3,17 @@
 import { useEffect, useRef } from "react";
 import { usePrefersReducedMotion } from "../hooks/use-prefers-reduced-motion";
 
-/** Cheap on phones, still alive behind a projector. */
+/** Cheap on phones, still alive behind a projector. PRD US-08: at most 60. */
 const MIN_DOTS = 28;
-const MAX_DOTS = 80;
+const MAX_DOTS = 60;
 const AREA_PER_DOT = 18_000;
 const MAX_DPR = 2;
 
-/** 60 fps for smooth drifting motion. */
-const FRAME_MS = 16;
+/**
+ * PRD US-08: 30 fps. 32 ms (not 33.3) so a 60 Hz frame delta of 32 ms still
+ * paints: with a strict 33 ms threshold the field drops to ~20 fps.
+ */
+const FRAME_MS = 32;
 
 type Dot = {
   x: number;
@@ -28,7 +31,7 @@ function randomDot(width: number, height: number): Dot {
   return {
     x: Math.random() * width,
     y: Math.random() * height,
-    radius: 0.8 + Math.random() * 1.6,
+    radius: 1 + Math.random() * 2,
     vx: (Math.random() - 0.5) * 0.5,
     vy: -(0.15 + Math.random() * 0.4),
     alpha: 0.18 + Math.random() * 0.42,

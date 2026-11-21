@@ -81,15 +81,19 @@ export function Preloader() {
   useEffect(() => {
     if (!visible) return;
 
-    try {
-      sessionStorage.setItem(PRELOADER_KEY, "1");
-    } catch {
-      // Blocked storage only means the intro may repeat; never a crash.
-    }
-
     const ticker = window.setInterval(() => setStep((value) => Math.min(STEPS, value + 1)), TICK_MS);
     const done = window.setTimeout(() => setStep(STEPS), DURATION_MS);
-    const dismiss = window.setTimeout(() => setDismissed(true), PRELOADER_DURATION_MS);
+    const dismiss = window.setTimeout(() => {
+      // Mark the session only now: writing it up front makes `skip()` true on
+      // the next render, which removed the overlay after ~100 ms.
+      try {
+        sessionStorage.setItem(PRELOADER_KEY, "1");
+      } catch {
+        // Blocked storage only means the intro may repeat; never a crash.
+      }
+
+      setDismissed(true);
+    }, PRELOADER_DURATION_MS);
 
     return () => {
       window.clearInterval(ticker);

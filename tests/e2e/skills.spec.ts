@@ -18,7 +18,7 @@ test.describe("skills", () => {
     }
   });
 
-test("keeps both marquee tracks moving", async ({ page }) => {
+test("pauses both marquee tracks while hovered", async ({ page }) => {
     await page.goto("/");
 
     const tracks = page.locator(".skills-marquee-track");
@@ -33,9 +33,15 @@ test("keeps both marquee tracks moving", async ({ page }) => {
     await page.locator(".skills-marquee-window").hover();
     await expect
       .poll(() => tracks.first().evaluate((node) => getComputedStyle(node).animationPlayState))
-      .toBe("running");
+      .toBe("paused");
     await expect
       .poll(() => tracks.nth(1).evaluate((node) => getComputedStyle(node).animationPlayState))
+      .toBe("paused");
+
+    // Leaving resumes the strip; it must never stay stuck after a hover.
+    await page.mouse.move(0, 0);
+    await expect
+      .poll(() => tracks.first().evaluate((node) => getComputedStyle(node).animationPlayState))
       .toBe("running");
   });
 
