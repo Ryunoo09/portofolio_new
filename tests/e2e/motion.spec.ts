@@ -22,6 +22,10 @@ async function sampleReveal(page: import("@playwright/test").Page, selector: str
         return { opacity: Number(style.opacity), transform: style.transform };
       };
 
+      // The page scrolls smoothly; jump instead so the trigger is genuinely
+      // below the fold right away and the sample is not racing the scroll.
+      document.documentElement.style.scrollBehavior = "auto";
+
       // Reset scroll state first so the trigger is genuinely below the fold.
       window.scrollTo(0, 0);
 
