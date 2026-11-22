@@ -1,0 +1,63 @@
+.section-head:has(#contact-title) h2 {
+  font-size: clamp(2.5rem, 7vw, 6rem);
+  line-height: 1;
+  margin-bottom: 2rem;
+}
+
+.contact-gradient {
+  color: transparent;
+  background: linear-gradient(100deg, var(--accent-soft), var(--accent), var(--accent-soft));
+  background-size: 220% 100%;
+  background-clip: text;
+  animation: contact-gradient-flow 7s linear infinite;
+}
+
+.contact-email-link {
+  display: inline-flex;
+  min-height: 3.1rem;
+  align-items: center;
+  justify-content: center;
+  gap: 0.875rem;
+  padding: 0.65rem 1.8rem;
+  border: 1px solid var(--fg);
+  border-radius: 9999px;
+  background: #f4f8fc;
+  color: #101216;
+  font-size: 1.1rem;
+  font-weight: 600;
+  transition: transform 160ms ease-out;
+}
+
+.contact-email-link:focus-visible {
+  outline: 3px solid var(--accent);
+  outline-offset: 3px;
+}
+
+.contact-email-link:active {
+  transform: scale(0.98);
+}
+
+.contact-social-card svg {
+  display: block;
+}
+
+.contact-social-card {
+  width: 3rem;
+  height: 3rem;
+  padding: 0;
+  border-radius: 9999px;
+  color: var(--fg-muted);
+  transition: color 160ms ease-out, border-color 160ms ease-out;
+}
+
+.contact-social-card:hover {
+  color: var(--fg);
+}
+
+@keyframes contact-gradient-flow {
+  to { background-position: 220% 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .contact-gradient { animation: none; }
+}

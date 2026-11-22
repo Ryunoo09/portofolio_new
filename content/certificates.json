@@ -1,0 +1,102 @@
+[
+  {
+    "id": "backend-javascript",
+    "title": "Belajar Back-end Pemula dengan JavaScript",
+    "issuer": "Dicoding Academy",
+    "year": 2025,
+    "summary": "Built a Node.js REST API with Hapi, deployed a web service, and tested endpoints with Postman.",
+    "image_path": "https://tgrzltdlgakmxvpdlpcb.supabase.co/storage/v1/object/public/media/certificates/backend_javascript.webp",
+    "verification_url": "https://www.dicoding.com/certificates/98XWE34L9XM3",
+    "sort_order": 1
+  },
+  {
+    "id": "javascript-fundamentals",
+    "title": "Belajar Dasar Pemrograman JavaScript",
+    "issuer": "Dicoding Academy",
+    "year": 2025,
+    "summary": "Covered JavaScript fundamentals, asynchronous programming, functional and object-oriented patterns, and code quality.",
+    "image_path": "https://tgrzltdlgakmxvpdlpcb.supabase.co/storage/v1/object/public/media/certificates/dasar_javascript.webp",
+    "verification_url": "https://www.dicoding.com/certificates/MEPJQ78DLX3V",
+    "sort_order": 2
+  },
+  {
+    "id": "aws-cloud-gen-ai",
+    "title": "Belajar Dasar Cloud dan Gen AI di AWS",
+    "issuer": "Dicoding Academy",
+    "year": 2025,
+    "summary": "Studied AWS cloud foundations, architecture, security, cost management, machine learning, and generative AI.",
+    "image_path": "https://tgrzltdlgakmxvpdlpcb.supabase.co/storage/v1/object/public/media/certificates/dasar_cloud_gen_ai.webp",
+    "verification_url": "https://www.dicoding.com/certificates/RVZKW2N9OZD5",
+    "sort_order": 3
+  },
+  {
+    "id": "data-science",
+    "title": "Belajar Dasar Data Science",
+    "issuer": "Dicoding Academy",
+    "year": 2025,
+    "summary": "Learned data science workflows, analysis, SQL, Python, R, visualization, and machine learning fundamentals.",
+    "image_path": "https://tgrzltdlgakmxvpdlpcb.supabase.co/storage/v1/object/public/media/certificates/dasar_data_science.webp",
+    "verification_url": "https://www.dicoding.com/certificates/NVP75L65OXR0",
+    "sort_order": 4
+  },
+  {
+    "id": "python-programming",
+    "title": "Memulai Pemrograman dengan Python",
+    "issuer": "Dicoding Academy",
+    "year": 2025,
+    "summary": "Practiced Python fundamentals, object-oriented programming, testing, PEP 8, and common development libraries.",
+    "image_path": "https://tgrzltdlgakmxvpdlpcb.supabase.co/storage/v1/object/public/media/certificates/memulai_dengan_python.webp",
+    "verification_url": "https://www.dicoding.com/certificates/L4PQ1ML97XO1",
+    "sort_order": 5
+  },
+  {
+    "id": "data-visualization",
+    "title": "Belajar Dasar Visualisasi Data",
+    "issuer": "Dicoding Academy",
+    "year": 2023,
+    "summary": "Explored data preparation, chart design, visual perception, and data storytelling with Google Sheets.",
+    "image_path": "https://tgrzltdlgakmxvpdlpcb.supabase.co/storage/v1/object/public/media/certificates/dasar_visual.webp",
+    "verification_url": "https://www.dicoding.com/certificates/1OP81ND28ZQK",
+    "sort_order": 6
+  },
+  {
+    "id": "generative-ai",
+    "title": "Belajar Penggunaan Generative AI",
+    "issuer": "Dicoding Academy",
+    "year": 2025,
+    "summary": "Studied generative AI, large language models, responsible use, and Gemini in Google Workspace.",
+    "image_path": "https://tgrzltdlgakmxvpdlpcb.supabase.co/storage/v1/object/public/media/certificates/penggunaan_gen_ai.webp",
+    "verification_url": "https://www.dicoding.com/certificates/ERZREQ90QXYV",
+    "sort_order": 7
+  },
+  {
+    "id": "practical-ai",
+    "title": "AI Praktis untuk Produktivitas",
+    "issuer": "Dicoding Academy",
+    "year": 2025,
+    "summary": "Learned practical AI tools and prompt engineering with attention to responsible and secure use.",
+    "image_path": "https://tgrzltdlgakmxvpdlpcb.supabase.co/storage/v1/object/public/media/certificates/ai_praktis.webp",
+    "verification_url": "https://www.dicoding.com/certificates/GRX535NLKZ0M",
+    "sort_order": 8
+  },
+  {
+    "id": "big-data-analyst",
+    "title": "Big Data Analyst",
+    "issuer": "Solusi247",
+    "year": 2025,
+    "summary": "Certified in big data analytics foundations, data processing, analytical tools, and decision-support insights.",
+    "image_path": "https://tgrzltdlgakmxvpdlpcb.supabase.co/storage/v1/object/public/media/certificates/big_data.webp",
+    "verification_url": "https://drive.google.com/file/d/1LulID8eAcOq3BaSYKh6-dHhZdgBiK46v/view?usp=drive_link",
+    "sort_order": 9
+  },
+  {
+    "id": "mtcna",
+    "title": "MTCNA (MikroTik Certified Network Associate)",
+    "issuer": "MikroTik",
+    "year": 2026,
+    "summary": "Covered MikroTik network configuration, routing, IP addressing, firewall, DHCP, DNS, and router management.",
+    "image_path": "https://tgrzltdlgakmxvpdlpcb.supabase.co/storage/v1/object/public/media/certificates/mtcna.webp",
+    "verification_url": "https://drive.google.com/file/d/1RI91OnXilQFhLWXbRHyQiC9itWNjMEKm/view?usp=drive_link",
+    "sort_order": 10
+  }
+]

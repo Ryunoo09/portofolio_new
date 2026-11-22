@@ -1,11 +1,11 @@
 [
   {
     "bullets": [
-      "Built and deployed WhatsApp and Telegram daily-report chatbots on n8n that surface real-time outlet performance.",
-      "Refactored the backend architecture of Elang Hub and added its core visit-scheduling features.",
-      "Designed the end-to-end PostgreSQL backend for the AIFI FTTH visit-input app.",
-      "Optimised the DSE AI backend for real-time outlet visit tracking, removing manual reporting.",
-      "Shipped and tested REST APIs in Python (FastAPI) and PHP (Laravel) used by up to 500 active field users."
+      "Built WhatsApp and Telegram bots in n8n to send daily outlet-performance reports.",
+      "Restructured Elang Hub's backend and added visit-scheduling features.",
+      "Built the PostgreSQL backend for the AIFI FTTH visit-input app.",
+      "Updated the DSE AI backend to track outlet visits and reduce manual reporting.",
+      "Built and tested Python (FastAPI) and PHP (Laravel) REST APIs used by up to 500 field users."
     ],
     "end_date": "2025-12-01",
     "id": "33333333-3333-4333-8333-333333333301",
@@ -18,9 +18,9 @@
   },
   {
     "bullets": [
-      "Built an integrated mini-ERP and logistics platform with Laravel, React, and TypeScript, tracing material from raw to warehouse.",
+      "Built a Laravel, React, and TypeScript mini-ERP and logistics platform to track materials from raw stock to warehouse.",
       "Integrated the Customs (Bea Cukai) API and validated input data against the required document format.",
-      "Shipped automatic delivery-note generation and a finance module for costing and period recaps."
+      "Added automatic delivery notes and a finance module for costing and period reports."
     ],
     "end_date": "2026-04-01",
     "id": "33333333-3333-4333-8333-333333333302",

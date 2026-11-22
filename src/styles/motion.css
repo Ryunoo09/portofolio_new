@@ -1,13 +1,12 @@
 /*
- * Ambient dust (US-08). Painted by `DustLayer` on a fixed canvas behind the
- * page: no layout box, no pointer target, and no pixels at all under reduced
- * motion.
+ * Ambient dust (US-08). Fixed canvas overlays page content without blocking
+ * input; reduced-motion users get no rendered dust.
  */
 .dust-layer {
   position: fixed;
   inset: 0;
   display: block;
-  z-index: -1;
+  z-index: 60;
   pointer-events: none;
 }
 

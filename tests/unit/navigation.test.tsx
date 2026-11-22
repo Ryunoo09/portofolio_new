@@ -1,5 +1,5 @@
 import { act, fireEvent, render, screen } from "@testing-library/react";
-import { describe, expect, it } from "vitest";
+import { describe, expect, it, vi } from "vitest";
 import { MobileMenu } from "@/features/navigation";
 
 const cv = { en: "/cv/en.pdf", id: "/cv/id.pdf" };
@@ -43,6 +43,30 @@ function makeQuery(query: string): MediaQueryList {
 }
 
 describe("MobileMenu", () => {
+  it("includes a Certificates section link", () => {
+    render(<MobileMenu cv={cv} />);
+    fireEvent.click(screen.getByRole("button", { name: "Menu" }));
+
+    const link = screen.getByRole("link", { name: "Certificates" });
+
+    expect(link).toHaveAttribute("href", "#certificates");
+  });
+
+  it("scrolls to the selected section without changing the URL", () => {
+    const scrollIntoView = vi.fn();
+    const section = document.createElement("section");
+    section.id = "certificates";
+    section.scrollIntoView = scrollIntoView;
+    document.body.append(section);
+    render(<MobileMenu cv={cv} />);
+    fireEvent.click(screen.getByRole("button", { name: "Menu" }));
+    fireEvent.click(screen.getByRole("link", { name: "Certificates" }));
+
+    expect(scrollIntoView).toHaveBeenCalledWith({ behavior: "smooth", block: "start" });
+    expect(window.location.hash).toBe("");
+    section.remove();
+  });
+
   it("starts closed and exposes the trigger state", () => {
     render(<MobileMenu cv={cv} />);
 

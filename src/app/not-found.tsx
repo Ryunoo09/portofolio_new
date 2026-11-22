@@ -12,7 +12,7 @@ export default function NotFound() {
       <p className="text-fg-muted mb-4 font-mono text-xs tracking-[0.2em] uppercase">Error 404</p>
       <Heading level="h1">This page does not exist</Heading>
       <p className="text-fg-muted mt-4 max-w-2xl text-base">
-        The link may be outdated. Everything lives on the home page.
+        This page may have moved. Return to the homepage to browse the portfolio.
       </p>
       <div className="mt-8">
         <ButtonLink href="/">Back to the home page</ButtonLink>

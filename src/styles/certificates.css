@@ -1,0 +1,65 @@
+.certificate-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 18rem), 1fr));
+  gap: 1.25rem;
+}
+
+.certificate-card {
+  min-width: 0;
+  overflow: hidden;
+  border: 1px solid var(--border);
+  border-radius: 1rem;
+  background: var(--surface);
+}
+
+.certificate-image,
+.certificate-image-placeholder {
+  display: block;
+  width: 100%;
+  aspect-ratio: 640 / 450;
+  object-fit: cover;
+}
+
+.certificate-image-placeholder {
+  display: grid;
+  place-items: center;
+  border-bottom: 1px solid var(--border);
+  background: radial-gradient(ellipse at top, var(--surface-raised), var(--bg));
+  color: var(--fg-muted);
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+}
+
+.certificate-content {
+  display: grid;
+  align-content: start;
+  gap: 0.75rem;
+  padding: 1.25rem;
+}
+
+.certificate-meta {
+  color: var(--accent-soft);
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.certificate-content h3 {
+  color: var(--fg);
+  font-family: var(--font-display), serif;
+  font-size: 1.5rem;
+  line-height: 1.15;
+}
+
+.certificate-content a {
+  width: fit-content;
+  color: var(--accent-soft);
+  font-size: 0.875rem;
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
+}
+
+.certificate-content a:hover {
+  color: var(--fg);
+}
