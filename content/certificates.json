@@ -1,5 +1,15 @@
 [
   {
+    "id": "aws-ai-practitioner",
+    "title": "AWS Certified AI Practitioner (AIP) — Complete Bootcamp 2026",
+    "issuer": "Udemy",
+    "year": 2026,
+    "summary": "Mastered core AI/ML concepts and AWS generative AI services, including Amazon Bedrock, SageMaker, foundation models, and responsible AI governance.",
+    "image_path": "https://tgrzltdlgakmxvpdlpcb.supabase.co/storage/v1/object/public/media/certificates/ai_practitioner.webp",
+    "verification_url": "https://ude.my/UC-7b87931b-80e4-4c48-b5d4-261266c662fe",
+    "sort_order": 1
+  },
+  {
     "id": "backend-javascript",
     "title": "Belajar Back-end Pemula dengan JavaScript",
     "issuer": "Dicoding Academy",
@@ -7,7 +17,7 @@
     "summary": "Built a Node.js REST API with Hapi, deployed a web service, and tested endpoints with Postman.",
     "image_path": "https://tgrzltdlgakmxvpdlpcb.supabase.co/storage/v1/object/public/media/certificates/backend_javascript.webp",
     "verification_url": "https://www.dicoding.com/certificates/98XWE34L9XM3",
-    "sort_order": 1
+    "sort_order": 2
   },
   {
     "id": "javascript-fundamentals",
@@ -17,7 +27,7 @@
     "summary": "Covered JavaScript fundamentals, asynchronous programming, functional and object-oriented patterns, and code quality.",
     "image_path": "https://tgrzltdlgakmxvpdlpcb.supabase.co/storage/v1/object/public/media/certificates/dasar_javascript.webp",
     "verification_url": "https://www.dicoding.com/certificates/MEPJQ78DLX3V",
-    "sort_order": 2
+    "sort_order": 3
   },
   {
     "id": "aws-cloud-gen-ai",
@@ -27,7 +37,7 @@
     "summary": "Studied AWS cloud foundations, architecture, security, cost management, machine learning, and generative AI.",
     "image_path": "https://tgrzltdlgakmxvpdlpcb.supabase.co/storage/v1/object/public/media/certificates/dasar_cloud_gen_ai.webp",
     "verification_url": "https://www.dicoding.com/certificates/RVZKW2N9OZD5",
-    "sort_order": 3
+    "sort_order": 4
   },
   {
     "id": "data-science",
@@ -37,7 +47,7 @@
     "summary": "Learned data science workflows, analysis, SQL, Python, R, visualization, and machine learning fundamentals.",
     "image_path": "https://tgrzltdlgakmxvpdlpcb.supabase.co/storage/v1/object/public/media/certificates/dasar_data_science.webp",
     "verification_url": "https://www.dicoding.com/certificates/NVP75L65OXR0",
-    "sort_order": 4
+    "sort_order": 5
   },
   {
     "id": "python-programming",
@@ -47,7 +57,7 @@
     "summary": "Practiced Python fundamentals, object-oriented programming, testing, PEP 8, and common development libraries.",
     "image_path": "https://tgrzltdlgakmxvpdlpcb.supabase.co/storage/v1/object/public/media/certificates/memulai_dengan_python.webp",
     "verification_url": "https://www.dicoding.com/certificates/L4PQ1ML97XO1",
-    "sort_order": 5
+    "sort_order": 6
   },
   {
     "id": "data-visualization",
@@ -57,7 +67,7 @@
     "summary": "Explored data preparation, chart design, visual perception, and data storytelling with Google Sheets.",
     "image_path": "https://tgrzltdlgakmxvpdlpcb.supabase.co/storage/v1/object/public/media/certificates/dasar_visual.webp",
     "verification_url": "https://www.dicoding.com/certificates/1OP81ND28ZQK",
-    "sort_order": 6
+    "sort_order": 7
   },
   {
     "id": "generative-ai",
@@ -67,7 +77,7 @@
     "summary": "Studied generative AI, large language models, responsible use, and Gemini in Google Workspace.",
     "image_path": "https://tgrzltdlgakmxvpdlpcb.supabase.co/storage/v1/object/public/media/certificates/penggunaan_gen_ai.webp",
     "verification_url": "https://www.dicoding.com/certificates/ERZREQ90QXYV",
-    "sort_order": 7
+    "sort_order": 8
   },
   {
     "id": "practical-ai",
@@ -77,7 +87,7 @@
     "summary": "Learned practical AI tools and prompt engineering with attention to responsible and secure use.",
     "image_path": "https://tgrzltdlgakmxvpdlpcb.supabase.co/storage/v1/object/public/media/certificates/ai_praktis.webp",
     "verification_url": "https://www.dicoding.com/certificates/GRX535NLKZ0M",
-    "sort_order": 8
+    "sort_order": 9
   },
   {
     "id": "big-data-analyst",
@@ -87,7 +97,7 @@
     "summary": "Certified in big data analytics foundations, data processing, analytical tools, and decision-support insights.",
     "image_path": "https://tgrzltdlgakmxvpdlpcb.supabase.co/storage/v1/object/public/media/certificates/big_data.webp",
     "verification_url": "https://drive.google.com/file/d/1LulID8eAcOq3BaSYKh6-dHhZdgBiK46v/view?usp=drive_link",
-    "sort_order": 9
+    "sort_order": 10
   },
   {
     "id": "mtcna",
@@ -97,6 +107,6 @@
     "summary": "Covered MikroTik network configuration, routing, IP addressing, firewall, DHCP, DNS, and router management.",
     "image_path": "https://tgrzltdlgakmxvpdlpcb.supabase.co/storage/v1/object/public/media/certificates/mtcna.webp",
     "verification_url": "https://drive.google.com/file/d/1RI91OnXilQFhLWXbRHyQiC9itWNjMEKm/view?usp=drive_link",
-    "sort_order": 10
+    "sort_order": 11
   }
 ]

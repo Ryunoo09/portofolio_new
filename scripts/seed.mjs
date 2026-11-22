@@ -29,6 +29,7 @@ const tables = [
   ["projects", "projects"],
   ["project_media", "project-media"],
   ["skills", "skills"],
+  ["certificates", "certificates"],
 ];
 
 let failed = false;

@@ -1,6 +1,6 @@
 import { expect, test } from "@playwright/test";
 
-const SECTIONS = ["home", "about", "experience", "projects", "skills", "contact"] as const;
+const SECTIONS = ["home", "about", "experience", "projects", "certificates", "skills", "contact"] as const;
 
 for (const viewport of [
   { name: "mobile", width: 390, height: 844 },
@@ -20,13 +20,13 @@ for (const viewport of [
 
         const menuButton = page.getByRole("button", { name: "Menu" });
         if (await menuButton.isVisible()) {
-          await menuButton.click();
-          const link = page
-            .locator("#mobile-menu")
-            .getByRole("link", { name: id, exact: false })
-            .first();
-          await expect(link).toBeVisible();
-          await link.click();
+          const dockLink = page.locator(`.nav-dock-mobile .nav-dock a[href="#${id}"]`);
+          if (await dockLink.isVisible()) {
+            await dockLink.click();
+          } else {
+            await menuButton.click();
+            await page.locator(`#mobile-menu a[href="#${id}"]`).click();
+          }
         } else {
           await page
             .getByRole("navigation", { name: "Sections" })
@@ -92,7 +92,7 @@ test("mobile menu closes with Escape and returns focus", async ({ page }) => {
 
   const menu = page.locator("#mobile-menu");
   await expect(menu).toBeVisible();
-  await expect(page.getByRole("link", { name: "Home", exact: true }).last()).toBeFocused();
+  await expect(menu.locator('a[href="#home"]')).toBeFocused();
 
   await page.keyboard.press("Escape");
   await expect(menu).toBeHidden();

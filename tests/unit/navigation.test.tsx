@@ -1,6 +1,7 @@
 import { act, fireEvent, render, screen } from "@testing-library/react";
 import { describe, expect, it, vi } from "vitest";
 import { MobileMenu } from "@/features/navigation";
+import { NAV_SECTIONS } from "@/lib/sections";
 
 const cv = { en: "/cv/en.pdf", id: "/cv/id.pdf" };
 
@@ -43,11 +44,19 @@ function makeQuery(query: string): MediaQueryList {
 }
 
 describe("MobileMenu", () => {
+  it("shows every section icon and a menu trigger", () => {
+    render(<MobileMenu cv={cv} />);
+
+    const nav = screen.getByRole("navigation", { name: "Sections" });
+    expect(nav.querySelectorAll("a")).toHaveLength(NAV_SECTIONS.length);
+    expect(screen.getByRole("button", { name: "Menu" })).toBeInTheDocument();
+  });
+
   it("includes a Certificates section link", () => {
     render(<MobileMenu cv={cv} />);
     fireEvent.click(screen.getByRole("button", { name: "Menu" }));
 
-    const link = screen.getByRole("link", { name: "Certificates" });
+    const link = document.querySelector('#mobile-menu a[href="#certificates"]');
 
     expect(link).toHaveAttribute("href", "#certificates");
   });
@@ -60,7 +69,9 @@ describe("MobileMenu", () => {
     document.body.append(section);
     render(<MobileMenu cv={cv} />);
     fireEvent.click(screen.getByRole("button", { name: "Menu" }));
-    fireEvent.click(screen.getByRole("link", { name: "Certificates" }));
+    const certificatesLink = document.querySelector('#mobile-menu a[href="#certificates"]');
+    if (!certificatesLink) throw new Error("Certificates menu link missing");
+    fireEvent.click(certificatesLink);
 
     expect(scrollIntoView).toHaveBeenCalledWith({ behavior: "smooth", block: "start" });
     expect(window.location.hash).toBe("");
@@ -74,7 +85,7 @@ describe("MobileMenu", () => {
 
     expect(trigger).toHaveAttribute("aria-expanded", "false");
     expect(trigger).toHaveAttribute("aria-controls", "mobile-menu");
-    expect(screen.queryByRole("navigation", { name: "Sections" })).not.toBeInTheDocument();
+    expect(document.querySelector("#mobile-menu")).toHaveAttribute("hidden");
   });
 
   it("opens, focuses the first link, and closes on Escape returning focus", () => {
@@ -84,12 +95,12 @@ describe("MobileMenu", () => {
     fireEvent.click(trigger);
 
     expect(trigger).toHaveAttribute("aria-expanded", "true");
-    const firstLink = screen.getAllByRole("link", { name: "Home" })[0];
+    const firstLink = document.querySelector('#mobile-menu a[href="#home"]');
     expect(firstLink).toHaveFocus();
 
     fireEvent.keyDown(document, { key: "Escape" });
 
-    expect(screen.queryByRole("navigation", { name: "Sections" })).not.toBeInTheDocument();
+    expect(document.querySelector("#mobile-menu")).toHaveAttribute("hidden");
     expect(trigger).toHaveFocus();
   });
 
@@ -97,9 +108,11 @@ describe("MobileMenu", () => {
     render(<MobileMenu cv={cv} />);
 
     fireEvent.click(screen.getByRole("button", { name: "Menu" }));
-    fireEvent.click(screen.getAllByRole("link", { name: "Projects" })[0]);
+    const projectsLink = document.querySelector('#mobile-menu a[href="#projects"]');
+    if (!projectsLink) throw new Error("Projects menu link missing");
+    fireEvent.click(projectsLink);
 
-    expect(screen.queryByRole("navigation", { name: "Sections" })).not.toBeInTheDocument();
+    expect(document.querySelector("#mobile-menu")).toHaveAttribute("hidden");
   });
 
   it("closes when the viewport is wide enough for the desktop nav", async () => {
@@ -107,12 +120,12 @@ describe("MobileMenu", () => {
     render(<MobileMenu cv={cv} />);
 
     fireEvent.click(screen.getByRole("button", { name: "Menu" }));
-    expect(screen.getByRole("navigation", { name: "Sections" })).toBeInTheDocument();
+    expect(document.querySelector("#mobile-menu")).not.toHaveAttribute("hidden");
 
     await act(async () => {
       window.dispatchEvent(new Event("resize"));
     });
 
-    expect(screen.queryByRole("navigation", { name: "Sections" })).not.toBeInTheDocument();
+    expect(document.querySelector("#mobile-menu")).toHaveAttribute("hidden");
   });
 });

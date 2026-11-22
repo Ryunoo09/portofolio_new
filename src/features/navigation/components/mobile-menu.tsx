@@ -5,6 +5,7 @@ import { useEffect, useEffectEvent, useRef, useState } from "react";
 import { CvDownloadMenu } from "@/components/cv-download-menu";
 import type { CvLinks } from "@/lib/cv";
 import { NAV_SECTIONS } from "@/lib/sections";
+import { NavIcon, type NavIconName } from "./nav-icons";
 
 /** Mobile-only disclosure. Not a modal: no focus trap, Escape returns focus to the trigger. */
 export function MobileMenu({ cv }: { cv: CvLinks }) {
@@ -42,8 +43,28 @@ export function MobileMenu({ cv }: { cv: CvLinks }) {
   }, [open]);
 
   return (
-    <div className="relative pointer-events-auto md:hidden">
+    <div className="nav-dock-mobile relative pointer-events-auto md:hidden">
       <div className="nav-dock">
+        <nav aria-label="Sections">
+          <ul className="nav-dock-list">
+            {NAV_SECTIONS.map((section) => (
+              <li key={section.id}>
+                <Link
+                  href={`#${section.id}`}
+                  onClick={(event) => {
+                    event.preventDefault();
+                    document.getElementById(section.id)?.scrollIntoView({ behavior: "smooth", block: "start" });
+                  }}
+                  aria-label={section.label}
+                  title={section.label}
+                  className="nav-dock-item"
+                >
+                  <NavIcon name={section.icon as NavIconName} />
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </nav>
         <button
           ref={triggerRef}
           type="button"
