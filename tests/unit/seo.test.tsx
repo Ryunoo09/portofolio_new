@@ -2,12 +2,12 @@ import { renderToString } from "react-dom/server";
 import { describe, expect, it } from "vitest";
 import { PersonJsonLd } from "@/features/seo";
 import { SITE_DESCRIPTION, SITE_NAME, SITE_TITLE } from "@/lib/seo";
-import { fallbackProfile, fallbackSocialLinks } from "@/data/fallback";
-import type { Profile, SocialLink } from "@/types/content";
+import { fallbackProfile, fallbackSkills, fallbackSocialLinks } from "@/data/fallback";
+import type { Profile, Skill, SocialLink } from "@/types/content";
 
 /** Reads the JSON-LD payload out of the rendered script element. */
-function readJsonLd(profile: Profile, socials: SocialLink[]): Record<string, unknown> {
-  const markup = renderToString(<PersonJsonLd profile={profile} socials={socials} />);
+function readJsonLd(profile: Profile, socials: SocialLink[], skills?: Skill[]): Record<string, unknown> {
+  const markup = renderToString(<PersonJsonLd profile={profile} socials={socials} skills={skills} />);
   const match = /<script type="application\/ld\+json">([\s\S]*)<\/script>/.exec(markup);
 
   if (!match) throw new Error("no JSON-LD script found");
@@ -67,5 +67,16 @@ describe("PersonJsonLd", () => {
     const unsafe: SocialLink = { ...fallbackSocialLinks[0], url: "javascript:alert(1)" };
 
     expect(readJsonLd(fallbackProfile, [unsafe]).sameAs).toEqual([]);
+  });
+
+  it("includes alumniOf and knowsAbout when skills are provided", () => {
+    const data = readJsonLd(fallbackProfile, fallbackSocialLinks, fallbackSkills);
+
+    expect(data.alumniOf).toEqual({
+      "@type": "CollegeOrUniversity",
+      name: "Politeknik Negeri Semarang",
+    });
+    expect(Array.isArray(data.knowsAbout)).toBe(true);
+    expect((data.knowsAbout as string[]).length).toBeGreaterThan(0);
   });
 });

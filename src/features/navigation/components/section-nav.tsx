@@ -16,7 +16,7 @@ export function SectionNav({ cv }: { cv: CvLinks }) {
   const activeIndex = NAV_SECTIONS.findIndex((section) => section.id === active);
 
   return (
-    <nav aria-label="Sections" className="nav-dock hidden md:flex">
+    <nav aria-label="Sections" className="nav-dock nav-dock-desktop hidden md:flex">
       <ul className="nav-dock-list">
         {NAV_SECTIONS.map((section) => (
           <li key={section.id}>

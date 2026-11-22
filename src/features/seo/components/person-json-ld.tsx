@@ -1,10 +1,11 @@
 import { isHttpUrl } from "@/lib/url";
 import { SITE_NAME, SITE_URL } from "@/lib/seo";
-import type { Profile, SocialLink } from "@/types/content";
+import type { Profile, Skill, SocialLink } from "@/types/content";
 
 type PersonJsonLdProps = {
   profile: Profile;
   socials: SocialLink[];
+  skills?: Skill[];
 };
 
 /**
@@ -15,8 +16,9 @@ type PersonJsonLdProps = {
  * The payload is built as a string and injected with `dangerouslySetInnerHTML`,
  * which is safe here because `JSON.stringify` output is escaped for `<` below.
  */
-export function PersonJsonLd({ profile, socials }: PersonJsonLdProps) {
+export function PersonJsonLd({ profile, socials, skills }: PersonJsonLdProps) {
   const sameAs = socials.map((social) => social.url).filter(isHttpUrl);
+  const knowsAbout = skills?.map((skill) => skill.name).filter(Boolean);
 
   const data = {
     "@context": "https://schema.org",
@@ -25,8 +27,13 @@ export function PersonJsonLd({ profile, socials }: PersonJsonLdProps) {
     jobTitle: profile.headline,
     url: SITE_URL,
     sameAs,
+    alumniOf: {
+      "@type": "CollegeOrUniversity",
+      name: "Politeknik Negeri Semarang",
+    },
     ...(profile.location_text ? { address: { "@type": "PostalAddress", addressLocality: profile.location_text } } : {}),
     ...(profile.summary_short ? { description: profile.summary_short } : {}),
+    ...(knowsAbout && knowsAbout.length > 0 ? { knowsAbout } : {}),
   };
 
   // `</script>` inside a string would end the tag early, and U+2028/U+2029 are

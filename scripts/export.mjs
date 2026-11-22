@@ -26,6 +26,7 @@ const tables = [
   ["projects", "projects", "sort_order"],
   ["project_media", "project-media", "sort_order"],
   ["skills", "skills", "sort_order"],
+  ["certificates", "certificates", "sort_order"],
 ];
 
 // jsonb does not preserve key order, so sort keys to keep export diffs stable.

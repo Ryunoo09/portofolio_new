@@ -41,12 +41,12 @@ beforeEach(() => {
 });
 
 describe("data fallback", () => {
-  it("returns all 10 certificates in sort order", async () => {
+  it("returns all 11 certificates in sort order", async () => {
     const certificates = await getCertificates();
 
-    expect(certificates).toHaveLength(10);
+    expect(certificates).toHaveLength(11);
     expect(certificates.map(({ sort_order }) => sort_order)).toEqual(
-      Array.from({ length: 10 }, (_, index) => index + 1),
+      Array.from({ length: 11 }, (_, index) => index + 1),
     );
     expect(certificates.map(({ title, year }) => [title, year])).toContainEqual([
       "MTCNA (MikroTik Certified Network Associate)",
@@ -135,7 +135,7 @@ describe("data fallback on database failure", () => {
     expect(results[1]).toHaveLength(2);
     expect(results[2]).toHaveLength(2);
     expect(results[3]).toHaveLength(10);
-    expect(results[4]).toHaveLength(10);
+    expect(results[4]).toHaveLength(11);
     expect(results[5]).toHaveLength(28);
     expect(results[6]).toHaveProperty("music");
   });

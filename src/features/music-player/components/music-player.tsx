@@ -170,7 +170,22 @@ export function MusicPlayer({ tracks }: { tracks: MusicTrack[] }) {
         </div>
         {expanded && (
           <div className="mt-2 flex flex-col gap-2 border-border border-t pt-2">
-            {track.credit && <p className="text-fg-muted truncate text-xs">{track.credit}</p>}
+            {track.credit && (
+              <p className="text-fg-muted truncate text-xs">
+                {track.creditUrl ? (
+                  <a
+                    href={track.creditUrl}
+                    target="_blank"
+                    rel="noreferrer noopener"
+                    className="hover:text-fg underline underline-offset-2"
+                  >
+                    {track.title ? `${track.title} — ${track.credit}` : track.credit}
+                  </a>
+                ) : (
+                  <>{track.title ? `${track.title} — ${track.credit}` : track.credit}</>
+                )}
+              </p>
+            )}
             <div className="flex items-center gap-2">
               <label className="sr-only" htmlFor="music-seek">Playback position</label>
               <input id="music-seek" aria-label="Playback position" type="range" min={0} max={duration || 0} step={1} value={Math.min(currentTime, duration || 0)} disabled={!duration} onChange={(event) => {

@@ -33,6 +33,23 @@ export const metadata: Metadata = {
     template: `%s · ${SITE_NAME}`,
   },
   description: SITE_DESCRIPTION,
+  keywords: [
+    "Rakha Yuda Wicaksono",
+    "Rakha Yuda",
+    "Rakha",
+    "Software Engineer",
+    "Backend Developer",
+    "Fullstack Developer",
+    "FastAPI",
+    "Laravel",
+    "Next.js",
+    "TypeScript",
+    "Indonesia",
+    "Brebes",
+    "Portfolio",
+  ],
+  authors: [{ name: SITE_NAME, url: SITE_URL }],
+  creator: SITE_NAME,
   alternates: { canonical: "/" },
   openGraph: {
     type: "website",
@@ -74,22 +91,6 @@ export default async function RootLayout({ children }: Readonly<{ children: Reac
         <footer className="border-border border-t">
           <div className="text-fg-muted mx-auto w-full max-w-[var(--container-max)] px-6 pt-8 pb-24 text-center text-sm sm:pb-8">
             © {new Date().getFullYear()} {SITE_NAME}
-            {music && (
-              <p className="mt-2">
-                Music: {music.map((track, index) => (
-                  <span key={track.src}>
-                    {index > 0 && "; "}
-                    {track.creditUrl ? (
-                      <a href={track.creditUrl} target="_blank" rel="noreferrer noopener" className="hover:text-fg underline underline-offset-2">
-                        {track.title}{track.credit && ` — ${track.credit}`}
-                      </a>
-                    ) : (
-                      <>{track.title}{track.credit && ` — ${track.credit}`}</>
-                    )}
-                  </span>
-                ))}
-              </p>
-            )}
           </div>
         </footer>
 

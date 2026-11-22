@@ -43,6 +43,34 @@
   pointer-events: auto;
 }
 
+@media (max-width: 47.99rem) {
+  .nav-dock-desktop {
+    display: none !important;
+  }
+}
+
+@media (min-width: 48rem) {
+  .nav-dock-mobile {
+    display: none !important;
+  }
+}
+
+@media (max-width: 24rem) {
+  .nav-dock {
+    gap: 0.125rem;
+    padding: 0.25rem;
+  }
+
+  .nav-dock-list {
+    gap: 0.125rem;
+  }
+
+  .nav-dock-item {
+    width: 2.125rem;
+    height: 2.125rem;
+  }
+}
+
 .nav-dock-list {
   display: flex;
   align-items: center;
