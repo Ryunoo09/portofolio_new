@@ -22,6 +22,13 @@ export function SectionNav({ cv }: { cv: CvLinks }) {
           <li key={section.id}>
             <Link
               href={`#${section.id}`}
+              onClick={(event) => {
+                event.preventDefault();
+                document.getElementById(section.id)?.scrollIntoView({
+                  behavior: "smooth",
+                  block: "start",
+                });
+              }}
               aria-current={active === section.id ? "true" : undefined}
               aria-label={section.label}
               title={section.label}

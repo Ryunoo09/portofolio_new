@@ -40,7 +40,7 @@ export function Hero({ profile, cv }: HeroProps) {
         </div>
       </div>
 
-      <HeroVisual />
+      <HeroVisual avatarPath={profile.avatar_path} alt={`Portrait of ${profile.full_name}`} />
     </section>
   );
 }

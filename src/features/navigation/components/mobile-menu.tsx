@@ -101,7 +101,14 @@ export function MobileMenu({ cv }: { cv: CvLinks }) {
               <Link
                 ref={index === 0 ? firstLinkRef : undefined}
                 href={`#${section.id}`}
-                onClick={() => setOpen(false)}
+                onClick={(event) => {
+                  event.preventDefault();
+                  document.getElementById(section.id)?.scrollIntoView({
+                    behavior: "smooth",
+                    block: "start",
+                  });
+                  setOpen(false);
+                }}
                 className="text-fg-muted hover:text-fg block py-2 text-sm"
               >
                 {section.label}

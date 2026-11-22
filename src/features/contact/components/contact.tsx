@@ -1,12 +1,11 @@
-import { CvDownloadMenu } from "@/components/cv-download-menu";
-import { ButtonLink, Section } from "@/components/ui";
+import { Section } from "@/components/ui";
 import { RevealRows } from "@/features/motion";
-import { cvLinks } from "@/lib/cv";
 import type { Profile, SiteSettings, SocialLink } from "@/types/content";
-import { publicPhone, publicWhatsapp, telHref, whatsappHref } from "../channels";
+import { publicWhatsapp, whatsappHref } from "../channels";
 import { isEmailAddress, toCharCodes } from "../email";
 import { EmailLink } from "./email-link";
 import { SocialLinks } from "./social-links";
+import "../contact.css";
 
 type ContactProps = {
   profile: Profile;
@@ -26,58 +25,62 @@ type ContactProps = {
 export function Contact({ profile, socials, settings }: ContactProps) {
   const email = profile.email_public?.trim() ?? "";
   const hasEmail = isEmailAddress(email);
-  const phone = publicPhone(settings);
   const whatsapp = publicWhatsapp(settings);
 
   return (
     <Section
       id="contact"
-      eyebrow="Contact"
-      title="Contact"
-      description="Open to software engineering roles. Email is the fastest way to reach me."
-      layout="split"
+      title={<ContactHeading />}
+      description="For project enquiries or professional opportunities, get in touch by email or through my profiles."
+      align="center"
+      className="py-20 sm:py-28"
     >
       <RevealRows selector="[data-reveal]" distance={22} duration={0.6} stagger={0.08} blur={12}>
-        <div className="flex flex-wrap items-center gap-3" data-reveal>
-          {hasEmail && <EmailLink codes={toCharCodes(email)} />}
-          <CvDownloadMenu cv={cvLinks(settings)} />
+        <div className="flex flex-col items-center gap-8" data-reveal>
+          <div className="flex flex-wrap justify-center gap-3">
+            {hasEmail && <EmailLink codes={toCharCodes(email)} />}
+          </div>
+
+          <SocialLinks
+            links={[
+              ...socials,
+              ...(whatsapp
+                ? [
+                    {
+                      id: "whatsapp",
+                      label: "WhatsApp",
+                      url: whatsappHref(whatsapp),
+                      icon: null,
+                      sort_order: Number.MAX_SAFE_INTEGER,
+                    },
+                  ]
+                : []),
+            ]}
+          />
         </div>
 
         {!hasEmail && (
           <p className="text-fg-muted mt-4 max-w-[60ch] text-sm" data-reveal>
-            The email address is being updated. The links below still reach me.
+            Email is temporarily unavailable. You can reach me through the links below.
           </p>
         )}
 
-        <div className="mt-8" data-reveal>
-          <SocialLinks links={socials} />
-        </div>
-
-        {(phone || whatsapp) && (
-          <div className="mt-8 flex flex-wrap gap-3" data-reveal>
-            {phone && (
-              <ButtonLink href={telHref(phone)} variant="ghost" aria-label={`Call ${phone}`}>
-                {phone}
-              </ButtonLink>
-            )}
-            {whatsapp && (
-              <ButtonLink href={whatsappHref(whatsapp)} external variant="ghost">
-                WhatsApp
-                <span aria-hidden="true">↗</span>
-                <span className="sr-only"> (opens in a new tab)</span>
-              </ButtonLink>
-            )}
-          </div>
-        )}
       </RevealRows>
 
       {/* Outside the reveal wrapper, so it keeps its own spacer spacing. */}
       <noscript>
         <p className="text-fg-muted mt-6 max-w-[60ch] text-sm">
-          The email button needs JavaScript to hide the address from scrapers. Enable it, or use
-          the profile links above.
+          Enable JavaScript to reveal the email link, or contact me through one of the profile links above.
         </p>
       </noscript>
     </Section>
+  );
+}
+
+function ContactHeading() {
+  return (
+    <>
+      Get in <span className="contact-gradient">Touch.</span>
+    </>
   );
 }

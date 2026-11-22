@@ -29,6 +29,35 @@ function settingsWith(contact: Record<string, unknown>): SiteSettings {
 }
 
 describe("Contact", () => {
+  it("presents contact as a centered invitation without an eyebrow", () => {
+    const { container } = render(<Contact profile={profile} socials={[]} settings={{}} />);
+
+    expect(screen.getByRole("heading", { name: "Get in Touch." })).toBeVisible();
+    expect(container.querySelector("#contact-title .contact-gradient")).toHaveTextContent("Touch.");
+    expect(screen.queryByText("(006) // GET IN TOUCH")).toBeNull();
+    expect(container.querySelector("#contact header")).toHaveClass("text-center");
+    expect(screen.getByText(/For project enquiries/)).toBeVisible();
+  });
+
+  it("shows round social cards with stored destinations and enabled WhatsApp", () => {
+    render(
+      <Contact
+        profile={profile}
+        socials={[github, { ...github, id: "s2", label: "LinkedIn", url: "https://linkedin.com/in/example" }]}
+        settings={settingsWith({ whatsapp: "+62 812-3456-7890", whatsapp_public: true })}
+      />,
+    );
+
+    for (const [name, href] of [
+      ["GitHub", "https://github.com/example"],
+      ["LinkedIn", "https://linkedin.com/in/example"],
+      ["WhatsApp", "https://wa.me/6281234567890"],
+    ]) {
+      expect(screen.getByRole("link", { name: new RegExp(name) })).toHaveAttribute("href", href);
+      expect(screen.getByRole("link", { name: new RegExp(name) })).toHaveClass("contact-social-card");
+    }
+  });
+
   it("builds the mailto in the browser and never prints the address", () => {
     const { container } = render(<Contact profile={profile} socials={[]} settings={{}} />);
 
@@ -36,6 +65,18 @@ describe("Contact", () => {
 
     expect(link).toHaveAttribute("href", "mailto:hello@example.com");
     // The address is not readable text anywhere on the page.
+    expect(container.textContent).not.toContain("hello@example.com");
+  });
+
+  it("shows an envelope email capsule without CV links", () => {
+    const { container } = render(
+      <Contact profile={profile} socials={[]} settings={{ cv: { en: "en.pdf", id: "id.pdf" } }} />,
+    );
+
+    const email = screen.getByRole("link", { name: /Email me/ });
+    expect(email).toHaveClass("contact-email-link");
+    expect(email.querySelector("svg")).toHaveAttribute("aria-hidden", "true");
+    expect(screen.queryByRole("link", { name: /Download CV/ })).toBeNull();
     expect(container.textContent).not.toContain("hello@example.com");
   });
 
@@ -49,7 +90,7 @@ describe("Contact", () => {
     );
 
     expect(screen.queryByRole("link", { name: /Email me/ })).toBeNull();
-    expect(screen.getByText(/email address is being updated/i)).toBeVisible();
+    expect(screen.getByText(/email is temporarily unavailable/i)).toBeVisible();
     expect(screen.getByRole("link", { name: /GitHub/ })).toBeVisible();
   });
 
@@ -93,7 +134,7 @@ describe("Contact", () => {
     expect(screen.queryByRole("link", { name: /Call/ })).toBeNull();
   });
 
-  it("shows a flagged phone and WhatsApp with usable links", () => {
+  it("shows enabled WhatsApp but keeps phone number hidden", () => {
     render(
       <Contact
         profile={profile}
@@ -107,10 +148,7 @@ describe("Contact", () => {
       />,
     );
 
-    expect(screen.getByRole("link", { name: "Call +62 812-3456-7890" })).toHaveAttribute(
-      "href",
-      "tel:+6281234567890",
-    );
+    expect(screen.queryByRole("link", { name: /Call/ })).toBeNull();
     expect(screen.getByRole("link", { name: /WhatsApp/ })).toHaveAttribute(
       "href",
       "https://wa.me/6281234567890",
@@ -129,19 +167,12 @@ describe("Contact", () => {
     expect(screen.queryByRole("link", { name: /Call/ })).toBeNull();
   });
 
-  it("offers the CV in both languages next to the email", () => {
+  it("omits CV links from Contact", () => {
     render(
       <Contact profile={profile} socials={[]} settings={{ cv: { en: "en.pdf", id: "id.pdf" } }} />,
     );
 
-    expect(screen.getByRole("link", { name: "Download CV in English" })).toHaveAttribute(
-      "href",
-      "/en.pdf",
-    );
-    expect(screen.getByRole("link", { name: "Download CV in Indonesian" })).toHaveAttribute(
-      "href",
-      "/id.pdf",
-    );
+    expect(screen.queryByRole("link", { name: /Download CV/ })).toBeNull();
   });
 });
 

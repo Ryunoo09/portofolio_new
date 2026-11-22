@@ -66,5 +66,16 @@ export type Skill = {
   sort_order: number;
 };
 
+export type Certificate = {
+  id: string;
+  title: string;
+  issuer: string;
+  year: number;
+  summary: string;
+  image_path: string | null;
+  verification_url: string | null;
+  sort_order: number;
+};
+
 /** Rows from site_settings, keyed by setting name. Values are JSON. */
 export type SiteSettings = Record<string, unknown>;

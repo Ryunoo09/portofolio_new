@@ -1,6 +1,6 @@
 import type { SVGProps } from "react";
 
-export type NavIconName = "home" | "user" | "briefcase" | "code" | "cpu" | "mail";
+export type NavIconName = "home" | "user" | "briefcase" | "code" | "award" | "cpu" | "mail";
 
 type NavIconProps = {
   name: NavIconName;
@@ -62,6 +62,13 @@ export function NavIcon({ name, ...props }: NavIconProps) {
           <line x1="20" y1="14" x2="23" y2="14" />
           <line x1="1" y1="9" x2="4" y2="9" />
           <line x1="1" y1="14" x2="4" y2="14" />
+        </svg>
+      );
+    case "award":
+      return (
+        <svg {...common}>
+          <circle cx="12" cy="8" r="6" />
+          <path d="m8.2 13-1.2 9 5-3 5 3-1.2-9" />
         </svg>
       );
     case "mail":

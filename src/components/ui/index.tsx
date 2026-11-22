@@ -7,7 +7,7 @@ export type HeadingLevel = "h1" | "h2" | "h3";
 
 const headingStyles: Record<HeadingLevel, string> = {
   h1: "font-display text-4xl tracking-tight sm:text-5xl md:text-6xl",
-  h2: "font-display text-3xl tracking-tight sm:text-4xl",
+  h2: "font-display text-4xl tracking-tight sm:text-5xl",
   h3: "text-fg text-lg font-medium tracking-tight",
 };
 

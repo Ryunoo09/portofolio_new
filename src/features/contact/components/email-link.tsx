@@ -1,7 +1,6 @@
 "use client";
 
 import { useSyncExternalStore } from "react";
-import { buttonClassName } from "@/components/ui";
 
 type EmailLinkProps = {
   /** Character codes, so the address never travels as plain text. */
@@ -30,8 +29,12 @@ export function EmailLink({ codes }: EmailLinkProps) {
   const address = hydrated ? String.fromCharCode(...codes) : null;
 
   return (
-    <a href={address ? `mailto:${address}` : undefined} className={buttonClassName("primary")}>
-      Email me
+    <a href={address ? `mailto:${address}` : undefined} className="contact-email-link">
+      <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="size-6">
+        <rect x="3" y="5" width="18" height="14" rx="2" />
+        <path d="m3 7 9 6 9-6" />
+      </svg>
+      <span>Email me</span>
       <span className="sr-only"> (opens your email app)</span>
     </a>
   );

@@ -72,31 +72,8 @@ export default async function RootLayout({ children }: Readonly<{ children: Reac
         <main id="main">{children}</main>
 
         <footer className="border-border border-t">
-          <div className="text-fg-muted mx-auto w-full max-w-[var(--container-max)] px-6 pt-8 pb-24 text-sm sm:pb-8">
+          <div className="text-fg-muted mx-auto w-full max-w-[var(--container-max)] px-6 pt-8 pb-24 text-center text-sm sm:pb-8">
             © {new Date().getFullYear()} {SITE_NAME}
-            {music && (
-              <p className="mt-2">
-                Music:{" "}
-                {music.map((track, index) => (
-                  <span key={track.src}>
-                    {index > 0 && "; "}
-                    {track.creditUrl ? (
-                      <a
-                        href={track.creditUrl}
-                        target="_blank"
-                        rel="noreferrer noopener"
-                        className="hover:text-fg underline underline-offset-2"
-                      >
-                        {track.title}
-                      </a>
-                    ) : (
-                      track.title
-                    )}
-                    {track.credit && <> · {track.credit}</>}
-                  </span>
-                ))}
-              </p>
-            )}
           </div>
         </footer>
 

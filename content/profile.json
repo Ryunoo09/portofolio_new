@@ -1,5 +1,5 @@
 {
-  "about_md": "I am a Computer Engineering Technology graduate from Politeknik Negeri Semarang (GPA 3.84, cum laude) who builds backends real people depend on, not just code that runs on my own laptop.\n\nAt PT Indosat Ooredoo Hutchison (Circle Java) I built and optimised field-sales backends with FastAPI and Laravel, used by up to 500 active users, and shipped WhatsApp and Telegram daily-report chatbots that surface real-time outlet performance.\n\nOutside work I combine backend, data, and AI: FTTH sales-data validation with YOLO26 and PaddleOCR, a PySpark pipeline over 1.2 million rows for drinking-water quality prediction, and an ESP32 soil-monitoring device. I like automating slow, error-prone manual work and replacing it with something that can be measured.",
+  "about_md": "I graduated from Politeknik Negeri Semarang with a degree in Computer Engineering Technology (GPA 3.84, cum laude). I build backend systems used in day-to-day operations.\n\nAt PT Indosat Ooredoo Hutchison (Circle Java), I worked on field-sales backends in FastAPI and Laravel for up to 500 active users. I also built WhatsApp and Telegram chatbots that send daily reports on outlet performance.\n\nMy projects include FTTH sales-data checks using YOLO26 and PaddleOCR, a PySpark pipeline that predicts drinking-water quality from 1.2 million rows, and an ESP32 soil-monitoring device. I focus on replacing repetitive manual work with processes teams can track and verify.",
   "avatar_path": null,
   "cv_path": null,
   "email_public": "rakhayuda04@gmail.com",
@@ -7,6 +7,6 @@
   "headline": "Software Engineer & Backend Developer",
   "id": "11111111-1111-4111-8111-111111111111",
   "location_text": "Brebes, Central Java, Indonesia",
-  "summary_short": "Software engineer working end to end: data modelling, APIs, and applied AI that hold up in the field.",
-  "tagline": "I turn manual, error-prone processes into systems people actually use."
+  "summary_short": "Software engineer focused on backend systems, APIs, data, and applied AI.",
+  "tagline": "I build software that replaces repetitive manual work."
 }

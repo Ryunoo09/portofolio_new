@@ -16,6 +16,7 @@ const {
   getExperiences,
   getProjects,
   getProject,
+  getCertificates,
   getSkills,
   getSiteSettings,
 } = await import("@/data");
@@ -40,6 +41,22 @@ beforeEach(() => {
 });
 
 describe("data fallback", () => {
+  it("returns all 10 certificates in sort order", async () => {
+    const certificates = await getCertificates();
+
+    expect(certificates).toHaveLength(10);
+    expect(certificates.map(({ sort_order }) => sort_order)).toEqual(
+      Array.from({ length: 10 }, (_, index) => index + 1),
+    );
+    expect(certificates.map(({ title, year }) => [title, year])).toContainEqual([
+      "MTCNA (MikroTik Certified Network Associate)",
+      2026,
+    ]);
+    expect(certificates.every(({ image_path }) => image_path?.startsWith(
+      "https://tgrzltdlgakmxvpdlpcb.supabase.co/storage/v1/object/public/media/certificates/",
+    ))).toBe(true);
+  });
+
   it("returns seed profile when Supabase is not configured", async () => {
     const profile = await getProfile();
 
@@ -109,6 +126,7 @@ describe("data fallback on database failure", () => {
       getSocialLinks(),
       getExperiences(),
       getProjects(),
+      getCertificates(),
       getSkills(),
       getSiteSettings(),
     ]);
@@ -117,8 +135,9 @@ describe("data fallback on database failure", () => {
     expect(results[1]).toHaveLength(2);
     expect(results[2]).toHaveLength(2);
     expect(results[3]).toHaveLength(10);
-    expect(results[4]).toHaveLength(28);
-    expect(results[5]).toHaveProperty("music");
+    expect(results[4]).toHaveLength(10);
+    expect(results[5]).toHaveLength(28);
+    expect(results[6]).toHaveProperty("music");
   });
 
   it("falls back when the client throws", async () => {

@@ -2,6 +2,7 @@ import type { SupabaseClient } from "@supabase/supabase-js";
 import { hasSupabaseConfig, getSupabaseClient } from "@/lib/supabase";
 import type {
   Experience,
+  Certificate,
   Profile,
   Project,
   ProjectMedia,
@@ -12,6 +13,7 @@ import type {
 } from "@/types/content";
 import {
   fallbackExperiences,
+  fallbackCertificates,
   fallbackProfile,
   fallbackProjectMedia,
   fallbackProjects,
@@ -91,6 +93,18 @@ export async function getExperiences(): Promise<Experience[]> {
   });
 
   return (experiences ?? fallbackExperiences).slice().sort(newestFirst);
+}
+
+export async function getCertificates(): Promise<Certificate[]> {
+  const certificates = await attempt<Certificate[]>(async (db) => {
+    const { data, error } = await db.from("certificates").select("*").order("sort_order");
+    return {
+      data: data as Certificate[] | null,
+      error: error ? { message: error.message } : null,
+    };
+  });
+
+  return (certificates ?? fallbackCertificates).slice().sort(bySortOrder);
 }
 
 export async function getProjects(): Promise<Project[]> {
