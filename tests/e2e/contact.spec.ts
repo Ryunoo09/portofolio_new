@@ -69,14 +69,14 @@ test.describe("contact", () => {
     }
   });
 
-  test("offers both CV languages from the hero, the header, and contact", async ({ page }) => {
+  test("offers both CV languages from the hero and header", async ({ page }) => {
     await page.goto("/");
 
     const menus = page
       .locator("details:visible")
       .filter({ has: page.locator("summary", { hasText: "Download CV" }) });
 
-    await expect(menus).toHaveCount(3);
+    await expect(menus).toHaveCount(2);
 
     for (const menu of await menus.all()) {
       await menu.locator("summary").click();

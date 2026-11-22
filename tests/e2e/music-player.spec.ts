@@ -84,9 +84,10 @@ test.describe("music player", () => {
     );
   });
 
-  test("shows the required credit in the footer", async ({ page }) => {
+  test("shows the required credit in the player", async ({ page }) => {
     await page.goto("/");
 
+    await page.getByRole("button", { name: "Expand music player" }).click();
     const credit = page.getByRole("link", { name: "Lights — RoaMusic" });
 
     await expect(credit).toHaveAttribute(
