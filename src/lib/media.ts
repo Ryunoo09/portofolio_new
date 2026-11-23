@@ -12,7 +12,10 @@ const BUCKET = "media";
  * the content/*.json fallback still shows images.
  */
 export function mediaUrl(path: string): string {
-  const clean = path.replace(/^\/+/, "");
+  const clean = path
+    .split("/")
+    .filter((segment) => segment !== "" && segment !== "." && segment !== "..")
+    .join("/");
   const base = getSupabaseUrlOrNull()?.replace(/\/+$/, "");
 
   return base ? `${base}/storage/v1/object/public/${BUCKET}/${clean}` : `/${clean}`;

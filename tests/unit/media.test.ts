@@ -24,6 +24,14 @@ describe("mediaUrl", () => {
     );
   });
 
+  it("drops traversal segments so a stored path cannot leave the bucket", () => {
+    vi.stubEnv("NEXT_PUBLIC_SUPABASE_URL", "https://example.supabase.co");
+
+    expect(mediaUrl("../../../rest/v1/projects")).toBe(
+      "https://example.supabase.co/storage/v1/object/public/media/rest/v1/projects",
+    );
+  });
+
   it("serves from public/ when Supabase is not configured", () => {
     vi.stubEnv("NEXT_PUBLIC_SUPABASE_URL", "");
 
