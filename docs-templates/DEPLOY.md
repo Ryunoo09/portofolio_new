@@ -54,11 +54,15 @@ cp .env.example .env      # then fill in the real values
 3. **Advanced**: paste `docker/npm.conf` — it rate-limits `/api/revalidate`; the
    security headers come from the app, not the proxy. Add its `limit_req_zone`
    line to the proxy container's `/data/nginx/custom/http.conf` first.
+   If the domain is Cloudflare orange-cloud proxied, `$binary_remote_addr` is the
+   Cloudflare edge IP, not the visitor, so the limit would key on the edge. For a
+   per-visitor limit also add to `/data/nginx/custom/http.conf`:
+   `set_real_ip_from <Cloudflare ranges>;` and `real_ip_header CF-Connecting-IP;`.
 
 Verify the headers after the certificate is issued (they are sent by the app):
 
 ```sh
-curl -sI https://<domain> | grep -Ei 'content-security-policy|strict-transport|x-content-type|referrer-policy|permissions-policy'
+curl -sI https://<domain> | grep -Ei 'content-security-policy|strict-transport|x-content-type|x-frame-options|referrer-policy|permissions-policy|x-powered-by'
 ```
 
 ## 3. Deploy
