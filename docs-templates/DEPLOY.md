@@ -1,11 +1,11 @@
 # Deploy to the VPS (Nginx Proxy Manager in front)
 
 The VPS already runs Nginx Proxy Manager (NPM) in Docker. This app is a second
-container on NPM's network; NPM terminates TLS and adds the security headers.
+container on NPM's network; NPM terminates TLS and the app sets the security headers.
 CI builds the image and pushes it to GHCR, so the VPS only pulls.
 
 ```
-Browser → Cloudflare/DNS → NPM (80/443, TLS, headers) → web:3000 (Next.js)
+Browser → Cloudflare/DNS → NPM (80/443, TLS) → web:3000 (Next.js, security headers)
 ```
 
 ## 1. One-time VPS setup
@@ -51,9 +51,11 @@ cp .env.example .env      # then fill in the real values
      or attach NPM and this stack to the same network first.
    - Websockets Support: on · Block Common Exploits: on
 2. **SSL**: Request a new Let's Encrypt certificate, Force SSL, HTTP/2, HSTS.
-3. **Advanced**: paste `docker/npm.conf` (CSP, nosniff, Referrer-Policy, Permissions-Policy).
+3. **Advanced**: paste `docker/npm.conf` — it rate-limits `/api/revalidate`; the
+   security headers come from the app, not the proxy. Add its `limit_req_zone`
+   line to the proxy container's `/data/nginx/custom/http.conf` first.
 
-Verify the headers after the certificate is issued:
+Verify the headers after the certificate is issued (they are sent by the app):
 
 ```sh
 curl -sI https://<domain> | grep -Ei 'content-security-policy|strict-transport|x-content-type|referrer-policy|permissions-policy'
