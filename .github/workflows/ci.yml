@@ -111,7 +111,8 @@ jobs:
       - run: pnpm audit --audit-level=high
 
   docker:
-    needs: quality
+    # A failing high-severity audit blocks the image build and deploy.
+    needs: [quality, audit]
     if: github.event_name == 'push'
     runs-on: ubuntu-latest
     steps:
@@ -167,7 +168,7 @@ jobs:
   # The tag is the commit SHA, so a bad deploy rolls back with
   # `TAG=<previous-sha> ./scripts/deploy.sh`.
   deploy:
-    needs: [docker, lighthouse]
+    needs: [docker, lighthouse, audit]
     if: github.event_name == 'push'
     runs-on: ubuntu-latest
     # Add required reviewers under Settings > Environments to gate production.
