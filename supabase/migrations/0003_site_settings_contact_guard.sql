@@ -4,6 +4,10 @@
 -- control against a leaked/rotated anon key; this CHECK is.
 -- The flag comparisons use `is not distinct from` on purpose: `NULL = 'true'`
 -- is NULL and a NULL CHECK passes, so an absent flag must count as not public.
+-- A number counts as stored only when its value is a non-empty string, so a JSON
+-- null, a missing key and "" all mean "no number stored". The presence test
+-- `value ? 'phone'` was rejected: it fires on the canonical seed row
+-- ({"phone":null,...}) and blocks `add constraint` and `pnpm db:seed`.
 begin;
 
 alter table public.site_settings
@@ -13,9 +17,9 @@ alter table public.site_settings
   add constraint site_settings_contact_public_only check (
     key <> 'contact'
     or (
-      (not (value ? 'phone')    or value->>'phone_public'    is not distinct from 'true')
+      (coalesce(btrim(value->>'phone'), '') = '' or value->>'phone_public' is not distinct from 'true')
       and
-      (not (value ? 'whatsapp') or value->>'whatsapp_public' is not distinct from 'true')
+      (coalesce(btrim(value->>'whatsapp'), '') = '' or value->>'whatsapp_public' is not distinct from 'true')
     )
   );
 
