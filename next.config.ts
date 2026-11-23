@@ -39,9 +39,7 @@ const csp = [
   "img-src 'self' data: https://*.supabase.co",
   "media-src 'self' https://*.supabase.co",
   "font-src 'self' data:",
-  process.env.NODE_ENV === "production"
-    ? "connect-src 'self'"
-    : "connect-src 'self' ws: wss:",
+  process.env.NODE_ENV === "production" ? "connect-src 'self'" : "connect-src 'self' ws: wss:",
   "object-src 'none'",
   "frame-src 'none'",
   "frame-ancestors 'none'",
