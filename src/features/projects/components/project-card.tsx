@@ -3,7 +3,7 @@ import Link from "next/link";
 import { Tag } from "@/components/ui";
 import { mediaUrl } from "@/lib/media";
 import type { Project } from "@/types/content";
-import { hasPublicLink } from "../links";
+import { hasPublicLink, publicLinks } from "../links";
 
 const MAX_TAGS = 5;
 
@@ -16,6 +16,7 @@ type ProjectCardProps = {
 export function ProjectCard({ project, index, reversed = false }: ProjectCardProps) {
   const formattedIndex = String(index + 1).padStart(2, "0");
   const titleId = `project-title-${project.id}`;
+  const { repo: repoUrl, live: liveUrl } = publicLinks(project);
 
   return (
     <article className="project-card group">
@@ -123,9 +124,9 @@ export function ProjectCard({ project, index, reversed = false }: ProjectCardPro
               Case study →
             </Link>
 
-            {project.live_url && (
+            {liveUrl && (
               <a
-                href={project.live_url}
+                href={liveUrl}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-fg-muted hover:text-fg transition-colors"
@@ -134,9 +135,9 @@ export function ProjectCard({ project, index, reversed = false }: ProjectCardPro
               </a>
             )}
 
-            {project.repo_url && (
+            {repoUrl && (
               <a
-                href={project.repo_url}
+                href={repoUrl}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-fg-muted hover:text-fg transition-colors"

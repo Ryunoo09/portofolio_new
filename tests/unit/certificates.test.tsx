@@ -30,4 +30,14 @@ describe("Certificates", () => {
       "noopener noreferrer",
     );
   });
+
+  it("drops a verification URL that is not http(s)", () => {
+    render(
+      <Certificates
+        certificates={[{ ...certificates[0], verification_url: "javascript:alert(1)" }]}
+      />,
+    );
+
+    expect(screen.queryByRole("link", { name: "Verify certificate" })).toBeNull();
+  });
 });
