@@ -100,8 +100,6 @@ jobs:
 
   audit:
     runs-on: ubuntu-latest
-    # Advisory until launch (plan step 12); flip to blocking before deploy.
-    continue-on-error: true
     steps:
       - uses: actions/checkout@v4
       - uses: pnpm/action-setup@v4
