@@ -151,6 +151,42 @@ jobs:
           docker logs web
           curl -fsS http://127.0.0.1:3100/api/health
 
+          # The e2e and unit suites run the development branch of the CSP
+          # (`connect-src 'self' ws: wss:`). Only the built image proves the
+          # production headers actually ship, so assert them here.
+          HEADERS=$(curl -fsSI http://127.0.0.1:3100/)
+
+          failed=0
+          for header in content-security-policy strict-transport-security \
+            x-content-type-options x-frame-options referrer-policy permissions-policy; do
+            if ! printf '%s\n' "$HEADERS" | grep -qi "^${header}:"; then
+              printf 'MISSING header from the built image: %s\n' "$header"
+              failed=1
+            fi
+          done
+
+          if printf '%s\n' "$HEADERS" | grep -qi '^x-powered-by:'; then
+            printf 'UNEXPECTED header from the built image: x-powered-by\n'
+            failed=1
+          fi
+
+          if ! printf '%s\n' "$HEADERS" | grep -qi "connect-src 'self';"; then
+            printf "CSP is missing the production branch: connect-src 'self';\n"
+            failed=1
+          fi
+
+          if printf '%s\n' "$HEADERS" | grep -qi 'ws:'; then
+            printf 'CSP still carries the development branch (ws:)\n'
+            failed=1
+          fi
+
+          if [ "$failed" -ne 0 ]; then
+            printf '%s\n' '--- headers received from the built image ---'
+            printf '%s\n' "$HEADERS"
+            exit 1
+          fi
+          printf '%s\n' 'security headers verified on the built image'
+
       - uses: docker/login-action@v3
         with:
           registry: ghcr.io

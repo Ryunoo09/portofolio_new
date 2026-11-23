@@ -51,9 +51,27 @@ cp .env.example .env      # then fill in the real values
      or attach NPM and this stack to the same network first.
    - Websockets Support: on · Block Common Exploits: on
 2. **SSL**: Request a new Let's Encrypt certificate, Force SSL, HTTP/2, HSTS.
-3. **Advanced**: paste `docker/npm.conf` — it rate-limits `/api/revalidate`; the
-   security headers come from the app, not the proxy. Add its `limit_req_zone`
-   line to the proxy container's `/data/nginx/custom/http.conf` first.
+3. **Advanced** — do these two in order, A then B, or the proxy will not reload.
+
+   **Step A — declare the rate-limit zone in the NPM container, reload NPM first.**
+   `docker/npm.conf` uses `limit_req zone=revalidate`, and that zone must exist in
+   the `http` context or `nginx -t` fails and NPM cannot reload ANY proxy host.
+   Add this line to the NPM container's `/data/nginx/custom/http.conf`:
+
+   ```nginx
+   limit_req_zone $binary_remote_addr zone=revalidate:10m rate=10r/m;
+   ```
+
+   Then reload NPM (restart the NPM container, or use its UI). Confirm the zone
+   loaded before touching a Proxy Host.
+
+   **Step B — paste `docker/npm.conf` into the Proxy Host's Advanced tab.**
+   Replace whatever is there: the old block that set the security headers must be
+   gone, byte for byte. The security headers are **not** configured in NPM any
+   more — they come from the app (`next.config.ts` `headers()`). If the old
+   `add_header` block stays live, the app and the proxy send two CSP headers and
+   browsers enforce the intersection, which breaks images and fonts.
+
    If the domain is Cloudflare orange-cloud proxied, `$binary_remote_addr` is the
    Cloudflare edge IP, not the visitor, so the limit would key on the edge. For a
    per-visitor limit also add to `/data/nginx/custom/http.conf`:
