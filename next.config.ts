@@ -32,14 +32,18 @@ const STORAGE_PATH = "/storage/v1/object/public/**";
  * `connect-src` stays 'self': Supabase is queried server-side only, so the
  * browser never needs it. Dev keeps a websocket origin for HMR.
  */
+const isProd = process.env.NODE_ENV === "production";
+
 const csp = [
   "default-src 'self'",
-  "script-src 'self' 'unsafe-inline'",
+  // React's dev build calls eval() to rebuild callstacks; production never does,
+  // so the relaxation stays out of the shipped header.
+  isProd ? "script-src 'self' 'unsafe-inline'" : "script-src 'self' 'unsafe-inline' 'unsafe-eval'",
   "style-src 'self' 'unsafe-inline'",
   "img-src 'self' data: https://*.supabase.co",
   "media-src 'self' https://*.supabase.co",
   "font-src 'self' data:",
-  process.env.NODE_ENV === "production" ? "connect-src 'self'" : "connect-src 'self' ws: wss:",
+  isProd ? "connect-src 'self'" : "connect-src 'self' ws: wss:",
   "object-src 'none'",
   "frame-src 'none'",
   "frame-ancestors 'none'",
