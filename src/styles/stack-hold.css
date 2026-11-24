@@ -54,7 +54,7 @@
     }
   }
 
-  /* transform/opacity/blur only, so nothing else on the page can move. */
+  /* transform/opacity only, so nothing else on the page can move. */
   @media (min-width: 64rem) and (prefers-reduced-motion: no-preference) {
     @supports ((animation-timeline: view()) and (animation-range: entry)) {
       /*
@@ -73,7 +73,6 @@
   @keyframes stack-recede {
     to {
       opacity: 0.45;
-      filter: blur(10px);
       transform: translateY(-2rem) scale(0.95);
     }
   }

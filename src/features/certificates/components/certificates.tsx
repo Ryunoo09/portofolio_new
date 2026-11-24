@@ -9,7 +9,7 @@ export function Certificates({ certificates }: { certificates: Certificate[] }) 
       {certificates.length === 0 ? (
         <p className="text-fg-muted text-sm">Certificates are being added.</p>
       ) : (
-        <RevealRows selector="li" distance={18} duration={0.5} stagger={0.06} blur={8}>
+        <RevealRows selector="li" distance={18} duration={0.6} stagger={0.08}>
           <ul className="certificate-grid">
             {certificates.map((certificate) => (
               <CertificateCard key={certificate.id} certificate={certificate} />

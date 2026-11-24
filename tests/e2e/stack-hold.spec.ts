@@ -10,7 +10,7 @@ type Snapshot = {
   cardTop: number;
   cardZ: number;
   cardRadius: string;
-  blur: number;
+  opacity: number;
   transform: string;
   animation: string;
 };
@@ -28,7 +28,6 @@ async function sample(page: import("@playwright/test").Page): Promise<Snapshot> 
       const panelStyle = getComputedStyle(panelEl);
       const cardStyle = getComputedStyle(cardEl);
       const recedeStyle = getComputedStyle(recedeEl);
-      const blur = /blur\(([\d.]+)px\)/.exec(recedeStyle.filter);
 
       return {
         panelTop: Math.round(panelEl.getBoundingClientRect().top),
@@ -36,7 +35,7 @@ async function sample(page: import("@playwright/test").Page): Promise<Snapshot> 
         cardTop: Math.round(cardEl.getBoundingClientRect().top),
         cardZ: Number(cardStyle.zIndex),
         cardRadius: cardStyle.borderTopLeftRadius,
-        blur: blur ? Number(blur[1]) : 0,
+        opacity: Number(recedeStyle.opacity),
         transform: recedeStyle.transform,
         animation: recedeStyle.animationName,
       };
@@ -85,9 +84,9 @@ test.describe("tech stack hands over to contact", () => {
     expect(end.cardZ).toBeGreaterThan(0);
     expect(parseFloat(end.cardRadius)).toBeGreaterThan(0);
 
-    // The stack recedes: it blurs and shrinks as the card arrives.
-    expect(end.blur).toBeGreaterThan(start.blur);
-    expect(end.blur).toBeGreaterThanOrEqual(6);
+    // The stack recedes: it dims and shrinks as the card arrives.
+    expect(end.opacity).toBeLessThan(start.opacity);
+    expect(end.opacity).toBeLessThanOrEqual(0.6);
     expect(end.transform).not.toBe(start.transform);
   });
 
@@ -101,7 +100,7 @@ test.describe("tech stack hands over to contact", () => {
 
     expect(snapshot.panelPosition).toBe("static");
     expect(snapshot.animation).toBe("none");
-    expect(snapshot.blur).toBe(0);
+    expect(snapshot.opacity).toBe(1);
   });
 
   test.describe("with reduced motion", () => {
@@ -118,7 +117,7 @@ test.describe("tech stack hands over to contact", () => {
       const snapshot = await sample(page);
 
       expect(snapshot.animation).toBe("none");
-      expect(snapshot.blur).toBe(0);
+      expect(snapshot.opacity).toBe(1);
       expect(snapshot.transform).toBe("none");
     });
   });

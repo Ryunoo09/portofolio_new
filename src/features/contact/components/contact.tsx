@@ -35,7 +35,7 @@ export function Contact({ profile, socials, settings }: ContactProps) {
       align="center"
       className="py-20 sm:py-28"
     >
-      <RevealRows selector="[data-reveal]" distance={22} duration={0.6} stagger={0.08} blur={12}>
+      <RevealRows selector="[data-reveal]" distance={22} duration={0.6} stagger={0.08}>
         <div className="flex flex-col items-center gap-8" data-reveal>
           <div className="flex flex-wrap justify-center gap-3">
             {hasEmail && <EmailLink codes={toCharCodes(email)} />}

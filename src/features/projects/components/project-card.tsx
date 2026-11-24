@@ -121,7 +121,7 @@ export function ProjectCard({ project, index, reversed = false }: ProjectCardPro
               href={`/projects/${project.slug}`}
               className="text-accent hover:text-accent-soft transition-colors font-medium inline-flex items-center gap-1"
             >
-              Case study →
+              Case study <span aria-hidden="true" className="project-arrow">→</span>
             </Link>
 
             {liveUrl && (

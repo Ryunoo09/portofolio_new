@@ -1,6 +1,6 @@
 "use client";
 
-import { Fragment, useEffect, useRef } from "react";
+import { Fragment, type CSSProperties, useEffect, useRef } from "react";
 import { usePrefersReducedMotion } from "../hooks/use-prefers-reduced-motion";
 import { revealOnScroll } from "../lib/reveal";
 
@@ -20,6 +20,9 @@ type RevealWordsProps = {
  * Words are real text nodes separated by real spaces, all of them rendered on the
  * server, so the heading keeps its accessible name, its line wrapping, and its
  * text for crawlers. No library: the split is `text.split`.
+ *
+ * `--word-index` is published per word so a CSS entrance (the hero, which sits
+ * above the fold and is not scroll-triggered) can stagger without JavaScript.
  */
 export function RevealWords({
   text,
@@ -47,7 +50,11 @@ export function RevealWords({
     <span ref={ref} data-reveal-words="">
       {words.map((word, index) => (
         <Fragment key={`${word}-${index}`}>
-          <span className="reveal-word" data-word="">
+          <span
+            className="reveal-word"
+            data-word=""
+            style={{ "--word-index": index } as CSSProperties}
+          >
             {word}
           </span>
           {index < words.length - 1 ? " " : null}

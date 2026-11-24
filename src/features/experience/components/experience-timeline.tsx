@@ -90,19 +90,22 @@ export function ExperienceTimeline({ experiences }: ExperienceTimelineProps) {
       {experiences.length === 0 ? (
         <p className="text-fg-muted text-sm">Experience is being updated.</p>
       ) : (
-        <RevealRows selector="li" distance={20} duration={0.55} stagger={0.07} blur={8}>
-          <ol ref={containerRef} className="exp-accordion">
-            {experiences.map((item, index) => (
-              <li key={item.id}>
-                <ExperienceCard
-                  item={item}
-                  index={index}
-                  isOpen={activeId === item.id}
-                  onToggle={() => handleToggle(item.id)}
-                />
-              </li>
-            ))}
-          </ol>
+        <RevealRows selector="li" distance={20} duration={0.6} stagger={0.08}>
+          <div className="exp-timeline">
+            <span className="exp-progress" aria-hidden="true" />
+            <ol ref={containerRef} className="exp-accordion">
+              {experiences.map((item, index) => (
+                <li key={item.id}>
+                  <ExperienceCard
+                    item={item}
+                    index={index}
+                    isOpen={activeId === item.id}
+                    onToggle={() => handleToggle(item.id)}
+                  />
+                </li>
+              ))}
+            </ol>
+          </div>
         </RevealRows>
       )}
     </Section>

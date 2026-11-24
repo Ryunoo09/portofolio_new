@@ -133,3 +133,43 @@
     transform: translateY(-1rem) scaleX(1);
   }
 }
+
+/*
+ * Music player equalizer. Four bars resting at 35% height; while a track plays
+ * they breathe on a `scaleY` loop (compositor only). The bars are decorative:
+ * the play button and the track title carry the state for assistive tech.
+ */
+.player-equalizer i {
+  display: block;
+  width: 2px;
+  height: 1.125rem;
+  border-radius: 9999px;
+  background: var(--accent);
+  transform: scaleY(0.35);
+  transform-origin: bottom;
+  transition: transform 200ms var(--ease-out);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .player-equalizer[data-playing] i {
+    animation: player-eq 500ms ease-in-out infinite alternate;
+  }
+
+  .player-equalizer[data-playing] i:nth-child(2) {
+    animation-duration: 620ms;
+  }
+
+  .player-equalizer[data-playing] i:nth-child(3) {
+    animation-duration: 740ms;
+  }
+
+  .player-equalizer[data-playing] i:nth-child(4) {
+    animation-duration: 860ms;
+  }
+}
+
+@keyframes player-eq {
+  to {
+    transform: scaleY(1);
+  }
+}

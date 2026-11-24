@@ -71,12 +71,18 @@
       scroll-behavior: auto;
     }
 
+    /*
+     * Spatial motion is dropped, colour/opacity feedback is kept: the guide is
+     * explicit that reduced motion should not turn every transition off.
+     * Components that own a spatial transition also declare their own
+     * `transition: none`, which wins on specificity.
+     */
     *,
     *::before,
     *::after {
       animation-duration: 0.01ms !important;
       animation-iteration-count: 1 !important;
-      transition-duration: 0.01ms !important;
+      transition-property: color, background-color, border-color, outline-color, fill, stroke, opacity !important;
     }
   }
 }
