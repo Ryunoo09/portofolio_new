@@ -137,7 +137,7 @@ export function MusicPlayer({ tracks }: { tracks: MusicTrack[] }) {
   return (
     <aside
       aria-label="Background music"
-      className="fixed right-4 bottom-[max(1rem,env(safe-area-inset-bottom))] z-[var(--z-player)] max-w-[calc(100vw-2rem)]"
+      className="music-player fixed right-4 bottom-[max(1rem,env(safe-area-inset-bottom))] z-[var(--z-player)] max-w-[calc(100vw-2rem)]"
     >
       <audio ref={audioRef} src={track.src} preload="none" aria-hidden="true" onPlay={() => setPlaying(true)} onPause={() => setPlaying(false)} onLoadedMetadata={(event) => setDuration(Number.isFinite(event.currentTarget.duration) ? event.currentTarget.duration : 0)} onDurationChange={(event) => setDuration(Number.isFinite(event.currentTarget.duration) ? event.currentTarget.duration : 0)} onTimeUpdate={(event) => setCurrentTime(event.currentTarget.currentTime)} onEnded={() => tracks.length > 1 ? selectTrack(trackIndex + 1) : setPlaying(false)} onError={() => { setPlaying(false); setDuration(0); setCurrentTime(0); }} />
 

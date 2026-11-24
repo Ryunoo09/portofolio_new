@@ -90,7 +90,7 @@ export function ExperienceTimeline({ experiences }: ExperienceTimelineProps) {
       {experiences.length === 0 ? (
         <p className="text-fg-muted text-sm">Experience is being updated.</p>
       ) : (
-        <RevealRows selector="li" distance={20} duration={0.6} stagger={0.08}>
+        <RevealRows selector="li" distance={20} duration={0.6} stagger={0.1}>
           <div className="exp-timeline">
             <span className="exp-progress" aria-hidden="true" />
             <ol ref={containerRef} className="exp-accordion">
