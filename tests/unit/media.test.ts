@@ -24,6 +24,45 @@ describe("mediaUrl", () => {
     );
   });
 
+  it("drops traversal segments so a stored path cannot leave the bucket", () => {
+    vi.stubEnv("NEXT_PUBLIC_SUPABASE_URL", "https://example.supabase.co");
+    vi.stubEnv("NEXT_PUBLIC_SUPABASE_ANON_KEY", "anon");
+
+    expect(mediaUrl("../../../rest/v1/projects")).toBe(
+      "https://example.supabase.co/storage/v1/object/public/media/rest/v1/projects",
+    );
+  });
+
+  it("drops percent-encoded dot segments", () => {
+    vi.stubEnv("NEXT_PUBLIC_SUPABASE_URL", "https://example.supabase.co");
+
+    expect(mediaUrl("%2e%2e/%2e%2e/rest/v1/projects")).toBe(
+      "https://example.supabase.co/storage/v1/object/public/media/rest/v1/projects",
+    );
+    expect(mediaUrl(".%2e/%2E./rest/v1/projects")).toBe(
+      "https://example.supabase.co/storage/v1/object/public/media/rest/v1/projects",
+    );
+  });
+
+  it("returns the bucket prefix for an empty path", () => {
+    vi.stubEnv("NEXT_PUBLIC_SUPABASE_URL", "https://example.supabase.co");
+
+    expect(mediaUrl("")).toBe(
+      "https://example.supabase.co/storage/v1/object/public/media/",
+    );
+  });
+
+  it("drops a leading dot segment and collapses empty segments", () => {
+    vi.stubEnv("NEXT_PUBLIC_SUPABASE_URL", "https://example.supabase.co");
+
+    expect(mediaUrl("./covers/one.webp")).toBe(
+      "https://example.supabase.co/storage/v1/object/public/media/covers/one.webp",
+    );
+    expect(mediaUrl("covers//one.webp")).toBe(
+      "https://example.supabase.co/storage/v1/object/public/media/covers/one.webp",
+    );
+  });
+
   it("serves from public/ when Supabase is not configured", () => {
     vi.stubEnv("NEXT_PUBLIC_SUPABASE_URL", "");
 

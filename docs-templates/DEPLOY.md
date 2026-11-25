@@ -1,11 +1,11 @@
 # Deploy to the VPS (Nginx Proxy Manager in front)
 
 The VPS already runs Nginx Proxy Manager (NPM) in Docker. This app is a second
-container on NPM's network; NPM terminates TLS and adds the security headers.
+container on NPM's network; NPM terminates TLS and the app sets the security headers.
 CI builds the image and pushes it to GHCR, so the VPS only pulls.
 
 ```
-Browser → Cloudflare/DNS → NPM (80/443, TLS, headers) → web:3000 (Next.js)
+Browser → Cloudflare/DNS → NPM (80/443, TLS) → web:3000 (Next.js, security headers)
 ```
 
 ## 1. One-time VPS setup
@@ -51,12 +51,36 @@ cp .env.example .env      # then fill in the real values
      or attach NPM and this stack to the same network first.
    - Websockets Support: on · Block Common Exploits: on
 2. **SSL**: Request a new Let's Encrypt certificate, Force SSL, HTTP/2, HSTS.
-3. **Advanced**: paste `docker/npm.conf` (CSP, nosniff, Referrer-Policy, Permissions-Policy).
+3. **Advanced** — do these two in order, A then B, or the proxy will not reload.
 
-Verify the headers after the certificate is issued:
+   **Step A — declare the rate-limit zone in the NPM container, reload NPM first.**
+   `docker/npm.conf` uses `limit_req zone=revalidate`, and that zone must exist in
+   the `http` context or `nginx -t` fails and NPM cannot reload ANY proxy host.
+   Add this line to the NPM container's `/data/nginx/custom/http.conf`:
+
+   ```nginx
+   limit_req_zone $binary_remote_addr zone=revalidate:10m rate=10r/m;
+   ```
+
+   Then reload NPM (restart the NPM container, or use its UI). Confirm the zone
+   loaded before touching a Proxy Host.
+
+   **Step B — paste `docker/npm.conf` into the Proxy Host's Advanced tab.**
+   Replace whatever is there: the old block that set the security headers must be
+   gone, byte for byte. The security headers are **not** configured in NPM any
+   more — they come from the app (`next.config.ts` `headers()`). If the old
+   `add_header` block stays live, the app and the proxy send two CSP headers and
+   browsers enforce the intersection, which breaks images and fonts.
+
+   If the domain is Cloudflare orange-cloud proxied, `$binary_remote_addr` is the
+   Cloudflare edge IP, not the visitor, so the limit would key on the edge. For a
+   per-visitor limit also add to `/data/nginx/custom/http.conf`:
+   `set_real_ip_from <Cloudflare ranges>;` and `real_ip_header CF-Connecting-IP;`.
+
+Verify the headers after the certificate is issued (they are sent by the app):
 
 ```sh
-curl -sI https://<domain> | grep -Ei 'content-security-policy|strict-transport|x-content-type|referrer-policy|permissions-policy'
+curl -sI https://<domain> | grep -Ei 'content-security-policy|strict-transport|x-content-type|x-frame-options|referrer-policy|permissions-policy|x-powered-by'
 ```
 
 ## 3. Deploy

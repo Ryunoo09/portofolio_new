@@ -112,6 +112,25 @@ describe("ProjectsList", () => {
     expect(screen.getByText("Private build")).toBeVisible();
   });
 
+  it("drops outbound links that are not http(s)", () => {
+    render(
+      <ProjectsList
+        projects={[
+          make({
+            id: "x",
+            slug: "x",
+            title: "X",
+            repo_url: "javascript:alert(1)",
+            live_url: "data:text/html,x",
+          }),
+        ]}
+      />,
+    );
+
+    expect(screen.queryByRole("link", { name: /Code/ })).toBeNull();
+    expect(screen.queryByRole("link", { name: /Live/ })).toBeNull();
+  });
+
   it("renders no preview when a project has no cover image", () => {
     const { container } = render(
       <ProjectsList projects={[make({ id: "a", slug: "a", title: "A" })]} />,

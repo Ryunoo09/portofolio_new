@@ -12,7 +12,13 @@ const BUCKET = "media";
  * the content/*.json fallback still shows images.
  */
 export function mediaUrl(path: string): string {
-  const clean = path.replace(/^\/+/, "");
+  // Drop empty and dot segments. The percent-encoded spellings (`%2e`, `.%2e`,
+  // `%2e.`, `%2e%2e`) are included because the URL parser treats them as dot
+  // segments and normalises them away, which would escape the bucket prefix.
+  const clean = path
+    .split("/")
+    .filter((segment) => segment !== "" && !/^(?:\.|%2e){1,2}$/i.test(segment))
+    .join("/");
   const base = getSupabaseUrlOrNull()?.replace(/\/+$/, "");
 
   return base ? `${base}/storage/v1/object/public/${BUCKET}/${clean}` : `/${clean}`;

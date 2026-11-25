@@ -75,26 +75,57 @@
   @keyframes hero-exit {
     to {
       opacity: 0;
-      filter: blur(6px);
       transform: translateY(-2rem) scale(0.98);
     }
   }
 
   /*
-   * The one orchestrated entrance on the page: the CV button rises 8px once.
-   * Static by default; motion is opt-in so reduced motion never animates.
+   * Hero entrance: name, pitch, and actions arrive once the preloader is gone
+   * (`HeroEnter` sets `data-entered`). The h1 splits into words, each staggered
+   * by `--word-index`. Only `opacity` and `transform` animate, and the section
+   * stays fully visible when the script or the attribute never arrives.
    */
-  .hero-cta {
-    @media (prefers-reduced-motion: no-preference) {
-      animation: hero-cta-in var(--duration-slow) var(--ease-out) both;
-      animation-delay: 120ms;
+  @media (prefers-reduced-motion: no-preference) {
+    #home[data-entered] .hero-rise {
+      animation: hero-rise 800ms var(--ease-out) both;
+    }
+
+    #home[data-entered] .hero-owner {
+      animation-delay: 0ms;
+    }
+
+    #home[data-entered] .hero-pitch {
+      animation-delay: 240ms;
+    }
+
+    /* Fade only: the CTA row must not move, so its box stays inside the fold. */
+    #home[data-entered] .hero-actions {
+      animation: hero-fade 800ms var(--ease-out) 360ms both;
+    }
+
+    #home[data-entered] .hero-title .reveal-word {
+      animation: hero-word-in 900ms var(--ease-out) both;
+      animation-delay: calc(80ms + var(--word-index, 0) * 45ms);
     }
   }
 
-  @keyframes hero-cta-in {
+  @keyframes hero-rise {
     from {
       opacity: 0;
-      translate: 0 8px;
+      transform: translateY(24px);
+    }
+  }
+
+  @keyframes hero-fade {
+    from {
+      opacity: 0;
+    }
+  }
+
+  @keyframes hero-word-in {
+    from {
+      opacity: 0;
+      transform: translateY(24px);
     }
   }
 }

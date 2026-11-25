@@ -137,13 +137,22 @@ export function MusicPlayer({ tracks }: { tracks: MusicTrack[] }) {
   return (
     <aside
       aria-label="Background music"
-      className="fixed right-4 bottom-[max(1rem,env(safe-area-inset-bottom))] z-[var(--z-player)] max-w-[calc(100vw-2rem)]"
+      className="music-player fixed right-4 bottom-[max(1rem,env(safe-area-inset-bottom))] z-[var(--z-player)] max-w-[calc(100vw-2rem)]"
     >
       <audio ref={audioRef} src={track.src} preload="none" aria-hidden="true" onPlay={() => setPlaying(true)} onPause={() => setPlaying(false)} onLoadedMetadata={(event) => setDuration(Number.isFinite(event.currentTarget.duration) ? event.currentTarget.duration : 0)} onDurationChange={(event) => setDuration(Number.isFinite(event.currentTarget.duration) ? event.currentTarget.duration : 0)} onTimeUpdate={(event) => setCurrentTime(event.currentTarget.currentTime)} onEnded={() => tracks.length > 1 ? selectTrack(trackIndex + 1) : setPlaying(false)} onError={() => { setPlaying(false); setDuration(0); setCurrentTime(0); }} />
 
       <div className="border-border bg-surface/95 w-[min(25rem,calc(100vw-2rem))] rounded-2xl border p-2 shadow-lg backdrop-blur">
         <div className="flex min-w-0 items-center gap-1.5 sm:gap-2">
-          <span aria-hidden="true" className="bg-accent/15 text-accent grid size-10 shrink-0 place-items-center rounded-full text-lg">♫</span>
+          <span
+            aria-hidden="true"
+            className="player-equalizer bg-accent/15 flex size-10 shrink-0 items-end justify-center gap-[3px] rounded-full pb-3"
+            data-playing={playing ? "true" : undefined}
+          >
+            <i />
+            <i />
+            <i />
+            <i />
+          </span>
           <div className="min-w-0 flex-1">
             <p className="text-fg truncate text-sm font-semibold leading-tight">{track.title}</p>
             <p className="text-fg-muted mt-0.5 text-xs tabular-nums leading-none">{formatTime(currentTime)} / {formatTime(duration)}</p>

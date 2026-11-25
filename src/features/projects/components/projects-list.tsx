@@ -20,7 +20,7 @@ export function ProjectsList({ projects }: ProjectsListProps) {
         <p className="text-fg-muted text-sm">Projects are being added.</p>
       ) : (
         <ProjectsStack>
-          <RevealRows selector="li" distance={32} duration={0.65} stagger={0.12} blur={8}>
+          <RevealRows selector="li" distance={24} duration={0.6} stagger={0.08}>
             <ol className="projects-container">
               {projects.map((project, index) => (
                 <li key={project.id}>

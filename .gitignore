@@ -36,3 +36,10 @@ yarn-debug.log*
 yarn-error.log*
 .pnpm-debug.log*
 .vercel
+
+# graphify knowledge graph output (local only)
+graphify-out/
+
+# subagent-driven-development workspace (local scratch)
+.superpowers/
+.reanimate/

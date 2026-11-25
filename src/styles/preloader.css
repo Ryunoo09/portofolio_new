@@ -2,21 +2,56 @@
  * Preloader overlay (US-02).
  *
  * JavaScript inserts it, so a visitor without JS never sees it. It covers content
- * that is already rendered; nothing waits for it. Only opacity and transform
- * animate, and the component removes it from the DOM instead of hiding it.
+ * that is already rendered; nothing waits for it. The exit is two panels wiping
+ * apart (transform only) while the copy fades, and the component then removes the
+ * overlay from the DOM instead of leaving it hidden.
  */
 .preloader {
   position: fixed;
   inset: 0;
   z-index: var(--z-preloader);
+  pointer-events: none;
+}
+
+/*
+ * 50% each, so together they cover the viewport. The two delays come from
+ * `preloader.tsx` (`DURATION_MS`, `WIPE_MS`) as custom properties, so the wipe
+ * cannot drift from the moment the overlay unmounts; the fallbacks keep the
+ * stylesheet readable on its own.
+ */
+.preloader-panel {
+  position: absolute;
+  inset-inline: 0;
+  height: 50%;
+  background-color: var(--bg);
+  animation-duration: var(--preloader-wipe, 400ms);
+  animation-timing-function: cubic-bezier(0.65, 0, 0.35, 1);
+  animation-delay: var(--preloader-counter, 1000ms);
+  animation-fill-mode: forwards;
+}
+
+.preloader-panel-top {
+  top: 0;
+  animation-name: preloader-wipe-top;
+}
+
+.preloader-panel-bottom {
+  bottom: 0;
+  animation-name: preloader-wipe-bottom;
+}
+
+/* Above both panels, which are positioned and would otherwise paint on top. */
+.preloader-content {
+  position: relative;
+  z-index: 1;
   display: flex;
+  height: 100%;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   gap: 1.5rem;
-  background-color: var(--bg);
-  pointer-events: none;
-  animation: preloader-out 240ms var(--ease-out) 1200ms forwards;
+  animation: preloader-content-out 200ms var(--ease-out) forwards;
+  animation-delay: var(--preloader-counter, 1000ms);
 }
 
 .preloader-wordmark {
@@ -44,25 +79,22 @@
 .preloader-count {
   color: var(--fg-muted);
   font-variant-numeric: tabular-nums;
-  animation: preloader-count 240ms var(--ease-out) 1200ms forwards;
 }
 
-@media (prefers-reduced-motion: reduce) {
-  .preloader,
-  .preloader-count {
-    animation: none;
+@keyframes preloader-wipe-top {
+  to {
+    transform: translateY(-100%);
   }
 }
 
-@keyframes preloader-out {
+@keyframes preloader-wipe-bottom {
   to {
-    opacity: 0;
+    transform: translateY(100%);
   }
 }
 
-@keyframes preloader-count {
+@keyframes preloader-content-out {
   to {
     opacity: 0;
-    transform: translateY(-0.5rem);
   }
 }

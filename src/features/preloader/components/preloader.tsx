@@ -1,12 +1,12 @@
 "use client";
 
-import { useEffect, useState, useSyncExternalStore } from "react";
+import { type CSSProperties, useEffect, useState, useSyncExternalStore } from "react";
 
 /** Once per browser session: the first visit pays for the intro, then never again. */
 export const PRELOADER_KEY = "preloader-seen";
 
 /** PRD US-02: 0.8-2.0 s including the exit, so a slow device cannot stretch it. */
-const DURATION_MS = 1200;
+const DURATION_MS = 1000;
 const TICK_MS = 100;
 const STEPS = Math.ceil(DURATION_MS / TICK_MS);
 const SCRAMBLE = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
@@ -22,8 +22,12 @@ function decodeWordmark(progress: number): string {
     .join("");
 }
 
-const EXIT_MS = 240;
-const PRELOADER_DURATION_MS = DURATION_MS + EXIT_MS;
+/**
+ * Passed to CSS as `--preloader-wipe`. The overlay unmounts once both panels
+ * have left, which keeps the total inside the PRD's 0.8-2.0 s window.
+ */
+const WIPE_MS = 400;
+const PRELOADER_DURATION_MS = DURATION_MS + WIPE_MS;
 
 /**
  * Hydration flag. False for the server render and for hydration, so the overlay
@@ -105,14 +109,29 @@ export function Preloader() {
   if (!visible) return null;
 
   return (
-    <div className="preloader" role="status" aria-label="Loading portfolio">
-      <span className="preloader-wordmark" aria-hidden="true">{wordmark}</span>
-      <div className="preloader-progress" role="progressbar" aria-label="Intro animation progress" aria-valuemin={0} aria-valuemax={100} aria-valuenow={progress}>
-        <span className="preloader-progress-fill" style={{ transform: `scaleX(${progress / 100})` }} />
+    <div
+      className="preloader"
+      role="status"
+      aria-label="Loading portfolio"
+      style={
+        {
+          "--preloader-counter": `${DURATION_MS}ms`,
+          "--preloader-wipe": `${WIPE_MS}ms`,
+        } as CSSProperties
+      }
+    >
+      <span className="preloader-panel preloader-panel-top" aria-hidden="true" />
+      <span className="preloader-panel preloader-panel-bottom" aria-hidden="true" />
+
+      <div className="preloader-content">
+        <span className="preloader-wordmark" aria-hidden="true">{wordmark}</span>
+        <div className="preloader-progress" role="progressbar" aria-label="Intro animation progress" aria-valuemin={0} aria-valuemax={100} aria-valuenow={progress}>
+          <span className="preloader-progress-fill" style={{ transform: `scaleX(${progress / 100})` }} />
+        </div>
+        <p aria-hidden="true" className="preloader-count font-mono text-xs tracking-[0.2em]">
+          {progress}%
+        </p>
       </div>
-      <p aria-hidden="true" className="preloader-count font-mono text-xs tracking-[0.2em]">
-        {progress}%
-      </p>
     </div>
   );
 }

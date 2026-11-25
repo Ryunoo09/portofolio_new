@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { isHttpUrl } from "@/lib/url";
 import type { Certificate } from "@/types/content";
 
 export function CertificateCard({ certificate }: { certificate: Certificate }) {
@@ -22,7 +23,7 @@ export function CertificateCard({ certificate }: { certificate: Certificate }) {
         <p className="certificate-meta">{certificate.issuer} · {certificate.year}</p>
         <h3>{certificate.title}</h3>
         <p className="text-fg-muted text-sm leading-relaxed">{certificate.summary}</p>
-        {certificate.verification_url && (
+        {certificate.verification_url && isHttpUrl(certificate.verification_url) && (
           <a href={certificate.verification_url} target="_blank" rel="noopener noreferrer">
             Verify certificate
             <span aria-hidden="true"> ↗</span>

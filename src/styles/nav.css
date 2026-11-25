@@ -21,6 +21,23 @@
   transform: translateY(0) !important;
 }
 
+/*
+ * Entrance. Animates `translate` rather than `transform`, so the hide-on-scroll
+ * rule above keeps owning `transform` and the two never fight.
+ */
+@media (prefers-reduced-motion: no-preference) {
+  .nav-dock-shell {
+    animation: nav-in 600ms var(--ease-out) 100ms both;
+  }
+}
+
+@keyframes nav-in {
+  from {
+    translate: 0 -100%;
+    opacity: 0;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .nav-dock-shell {
     transition: none !important;
@@ -41,6 +58,13 @@
   -webkit-backdrop-filter: blur(14px);
   box-shadow: 0 10px 30px -12px rgb(0 0 0 / 0.8);
   pointer-events: auto;
+  transition: transform 300ms var(--ease-out), background-color 300ms var(--ease-out);
+}
+
+/* Past the first 50 px the dock shrinks a little and gains contrast. */
+.nav-dock-shell[data-scrolled="true"] .nav-dock {
+  transform: scale(0.95);
+  background: color-mix(in oklab, var(--bg) 60%, transparent);
 }
 
 @media (max-width: 47.99rem) {
@@ -94,6 +118,14 @@
   color: var(--fg);
 }
 
+.nav-dock-item svg {
+  transition: transform 200ms var(--ease-out);
+}
+
+.nav-dock-item:is(:hover, :focus-visible) svg {
+  transform: scale(1.15) translateY(-2px);
+}
+
 .nav-dock-item[aria-current="true"] {
   color: var(--accent);
 }
@@ -108,7 +140,7 @@
   border-radius: 9999px;
   background: var(--accent-dim);
   transform: translateX(calc(var(--nav-index, 0) * (2.5rem + 0.25rem)));
-  transition: transform 320ms var(--ease-out);
+  transition: transform 380ms cubic-bezier(0.34, 1.56, 0.64, 1);
   pointer-events: none;
   z-index: -1;
 }

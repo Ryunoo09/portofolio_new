@@ -83,6 +83,53 @@
   transform: scale(1.03);
 }
 
+/*
+ * Title hover: slides 6 px, colour follows the link, and a hairline underline
+ * grows from the left. Only `transform`/`opacity`/`color` move.
+ */
+.project-card h3 {
+  position: relative;
+  width: fit-content;
+  transition: color var(--duration-base) var(--ease-out), transform 300ms var(--ease-out);
+}
+
+.project-card h3::after {
+  content: "";
+  position: absolute;
+  inset-inline: 0;
+  bottom: -2px;
+  height: 1px;
+  background: currentColor;
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 400ms var(--ease-out);
+}
+
+.project-card:hover h3 {
+  transform: translateX(6px);
+}
+
+.project-card:hover h3::after {
+  transform: scaleX(1);
+}
+
+.project-index {
+  transition: color var(--duration-base) var(--ease-out);
+}
+
+.project-card:hover .project-index {
+  color: var(--accent-soft);
+}
+
+.project-arrow {
+  display: inline-block;
+  transition: transform 300ms var(--ease-out);
+}
+
+.project-card:hover .project-arrow {
+  transform: rotate(45deg);
+}
+
 /* Mockup placeholder when cover_path is not yet supplied */
 .project-placeholder-frame {
   position: relative;

@@ -33,7 +33,7 @@ export function Skills({ skills }: SkillsProps) {
             ))}
           </ul>
 
-          <RevealRows selector="[data-reveal]" distance={18} duration={0.5} stagger={0.09} blur={8}>
+          <RevealRows selector="[data-reveal]" distance={18} duration={0.6} stagger={0.08}>
             <div data-reveal className="w-full">
               <SkillsMarquee skills={skills} />
             </div>

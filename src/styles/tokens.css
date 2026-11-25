@@ -41,9 +41,6 @@
   --duration-base: 300ms;
   --duration-slow: 600ms;
   --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
-  --scroll-hint-duration: 2.4s;
-  --reveal-blur: 14px;
-  --reveal-distance: 24px;
 
   /* Layers */
   --z-nav: 40;
