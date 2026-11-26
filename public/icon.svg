@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512" role="img" aria-label="Rakha Yuda Wicaksono — Software Engineer">
+  <rect width="512" height="512" rx="112" fill="#0a0908"/>
+  <circle cx="256" cy="256" r="132" fill="none" stroke="#a1a1aa" stroke-width="10"/>
+  <ellipse cx="256" cy="256" rx="58" ry="132" fill="none" stroke="#78716c" stroke-width="6"/>
+  <path d="M 128 256 H 384" stroke="#78716c" stroke-width="6" fill="none"/>
+  <path d="M 152 188 C 200 206 312 206 360 188" stroke="#78716c" stroke-width="6" fill="none"/>
+  <path d="M 152 324 C 200 306 312 306 360 324" stroke="#78716c" stroke-width="6" fill="none"/>
+</svg>
