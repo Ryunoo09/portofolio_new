@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { Button } from "@/components/ui";
 import type { MusicTrack } from "../config";
 import { PlayerIcon } from "./player-icon";
 
@@ -196,15 +197,16 @@ export function MusicPlayer({ tracks }: { tracks: MusicTrack[] }) {
               </button>
             </>
           )}
-          <button
-            type="button"
+          <Button
+            variant="ghost"
+            size="icon"
             onClick={() => setExpanded((value) => !value)}
             aria-expanded={expanded}
             aria-label={expanded ? "Collapse music player" : "Expand music player"}
-            className="text-fg-muted hover:text-fg hover:bg-surface-raised/60 grid size-7 shrink-0 place-items-center rounded-full [&_svg]:size-3.5 transition-colors duration-[var(--duration-fast)] motion-reduce:transition-none"
+            className="size-7 shrink-0 rounded-full [&_svg]:size-3.5 motion-reduce:transition-none"
           >
             <PlayerIcon name={expanded ? "collapse" : "expand"} />
-          </button>
+          </Button>
         </div>
         {expanded && (
           <div className="border-border relative z-10 mt-2.5 flex flex-col gap-2.5 border-t pt-2.5">
