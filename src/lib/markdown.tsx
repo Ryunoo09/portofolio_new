@@ -1,4 +1,4 @@
-import { Fragment, type ReactNode } from "react";
+import type { ReactNode } from "react";
 
 /**
  * Minimal Markdown renderer for the small subset the owner writes in
@@ -92,7 +92,11 @@ function renderBlock(block: string, index: number): ReactNode {
   const heading = /^(#{2,3})\s+(.+)$/.exec(firstLine);
 
   if (!heading) {
-    return <p key={`p-${index}`}>{renderInline(block, `b${index}`)}</p>;
+    return (
+      <p key={`p-${index}`} className="text-fg-muted/90 text-base leading-relaxed">
+        {renderInline(block, `b${index}`)}
+      </p>
+    );
   }
 
   const isTop = heading[1] === "##";
@@ -100,20 +104,26 @@ function renderBlock(block: string, index: number): ReactNode {
   const remainder = rest.join("\n").trim();
 
   return (
-    <Fragment key={`b-${index}`}>
+    <div
+      key={`section-${index}`}
+      className="rounded-xl border border-border/80 bg-surface/40 p-6 sm:p-7 backdrop-blur-xs space-y-3.5 transition-colors hover:border-border-strong"
+    >
       <Tag
         className={
           isTop
-            ? "text-fg font-display text-2xl tracking-tight"
-            : "text-fg text-lg font-medium tracking-tight"
+            ? "text-fg font-sans text-lg sm:text-xl font-semibold tracking-tight flex items-center gap-2"
+            : "text-fg font-sans text-base sm:text-lg font-medium tracking-tight"
         }
       >
+        <span aria-hidden="true" className="size-1.5 rounded-full bg-accent inline-block" />
         {renderInline(heading[2], `h${index}`)}
       </Tag>
       {remainder.length > 0 && (
-        <p key={`p-${index}`}>{renderInline(remainder, `b${index}-rest`)}</p>
+        <p key={`p-${index}`} className="text-fg-muted/90 text-sm sm:text-base leading-relaxed">
+          {renderInline(remainder, `b${index}-rest`)}
+        </p>
       )}
-    </Fragment>
+    </div>
   );
 }
 

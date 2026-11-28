@@ -1,6 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
-import { ButtonLink, Heading, Tag } from "@/components/ui";
+import { Badge, Button, Heading } from "@/components/ui";
 import { renderMarkdown } from "@/lib/markdown";
 import { mediaUrl } from "@/lib/media";
 import type { ProjectWithMedia } from "@/types/content";
@@ -68,38 +68,75 @@ export function ProjectDetail({ project }: ProjectDetailProps) {
         </div>
       )}
 
-      <div className="mt-12 grid gap-10 lg:grid-cols-[minmax(0,65ch)_minmax(0,1fr)] lg:gap-16">
+      <div className="mt-12 grid gap-10 lg:grid-cols-[minmax(0,65ch)_minmax(0,1fr)] lg:gap-16 items-start">
         {description && (
-          <div className="text-fg-muted space-y-4 text-base leading-relaxed">
+          <div className="space-y-6">
             {renderMarkdown(description)}
           </div>
         )}
 
-        <aside className="space-y-8">
+        <aside className="space-y-6 lg:sticky lg:top-24">
           {tech.length > 0 && (
-            <div>
-              <h2 className="text-fg font-mono text-xs tracking-[0.2em] uppercase">Stack</h2>
-              <ul className="mt-3 flex flex-wrap gap-2">
+            <div className="rounded-xl border border-border/80 bg-surface/40 p-6 backdrop-blur-xs">
+              <h2 className="text-fg font-mono text-xs tracking-[0.2em] uppercase font-semibold">
+                Stack
+              </h2>
+              <ul className="mt-4 flex flex-wrap gap-2">
                 {tech.map((item, index) => (
-                  <Tag key={`${project.id}-stack-${index}`}>{item}</Tag>
+                  <li key={`${project.id}-stack-${index}`}>
+                    <Badge variant="secondary">{item}</Badge>
+                  </li>
                 ))}
               </ul>
             </div>
           )}
 
           {(repoUrl || liveUrl) && (
-            <div>
-              <h2 className="text-fg font-mono text-xs tracking-[0.2em] uppercase">Links</h2>
-              <div className="mt-3 flex flex-wrap gap-3">
-                {repoUrl && (
-                  <ButtonLink href={repoUrl} external variant="secondary">
-                    Repository
-                  </ButtonLink>
-                )}
+            <div className="rounded-xl border border-border/80 bg-surface/40 p-6 backdrop-blur-xs">
+              <h2 className="text-fg font-mono text-xs tracking-[0.2em] uppercase font-semibold">
+                Links
+              </h2>
+              <div className="mt-4 flex flex-col gap-2.5">
                 {liveUrl && (
-                  <ButtonLink href={liveUrl} external>
-                    Live site
-                  </ButtonLink>
+                  <Button asChild variant="default" className="w-full justify-center">
+                    <a href={liveUrl} target="_blank" rel="noreferrer noopener">
+                      <svg
+                        aria-hidden="true"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="2"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        className="size-4"
+                      >
+                        <circle cx="12" cy="12" r="10" />
+                        <line x1="2" y1="12" x2="22" y2="12" />
+                        <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z" />
+                      </svg>
+                      Live site
+                    </a>
+                  </Button>
+                )}
+                {repoUrl && (
+                  <Button asChild variant="secondary" className="w-full justify-center">
+                    <a href={repoUrl} target="_blank" rel="noreferrer noopener">
+                      <svg
+                        aria-hidden="true"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="2"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        className="size-4"
+                      >
+                        <polyline points="16 18 22 12 16 6" />
+                        <polyline points="8 6 2 12 8 18" />
+                      </svg>
+                      Repository
+                    </a>
+                  </Button>
                 )}
               </div>
             </div>

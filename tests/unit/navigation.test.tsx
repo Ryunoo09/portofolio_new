@@ -56,9 +56,9 @@ describe("MobileMenu", () => {
     render(<MobileMenu cv={cv} />);
     fireEvent.click(screen.getByRole("button", { name: "Menu" }));
 
-    const link = document.querySelector('#mobile-menu a[href="#certificates"]');
+    const link = document.querySelector('#mobile-menu a[href="/#certificates"]');
 
-    expect(link).toHaveAttribute("href", "#certificates");
+    expect(link).toHaveAttribute("href", "/#certificates");
   });
 
   it("scrolls to the selected section without changing the URL", () => {
@@ -69,7 +69,7 @@ describe("MobileMenu", () => {
     document.body.append(section);
     render(<MobileMenu cv={cv} />);
     fireEvent.click(screen.getByRole("button", { name: "Menu" }));
-    const certificatesLink = document.querySelector('#mobile-menu a[href="#certificates"]');
+    const certificatesLink = document.querySelector('#mobile-menu a[href="/#certificates"]');
     if (!certificatesLink) throw new Error("Certificates menu link missing");
     fireEvent.click(certificatesLink);
 
@@ -95,7 +95,7 @@ describe("MobileMenu", () => {
     fireEvent.click(trigger);
 
     expect(trigger).toHaveAttribute("aria-expanded", "true");
-    const firstLink = document.querySelector('#mobile-menu a[href="#home"]');
+    const firstLink = document.querySelector('#mobile-menu a[href="/#home"]');
     expect(firstLink).toHaveFocus();
 
     fireEvent.keyDown(document, { key: "Escape" });
@@ -108,7 +108,7 @@ describe("MobileMenu", () => {
     render(<MobileMenu cv={cv} />);
 
     fireEvent.click(screen.getByRole("button", { name: "Menu" }));
-    const projectsLink = document.querySelector('#mobile-menu a[href="#projects"]');
+    const projectsLink = document.querySelector('#mobile-menu a[href="/#projects"]');
     if (!projectsLink) throw new Error("Projects menu link missing");
     fireEvent.click(projectsLink);
 

@@ -1,5 +1,5 @@
 import Link from "next/link";
-import type { ComponentProps, ReactNode } from "react";
+import type { ReactNode } from "react";
 import { RevealWords } from "@/features/motion";
 import { cn } from "@/lib/cn";
 
@@ -111,37 +111,25 @@ export function Tag({ children, className }: TagProps) {
   );
 }
 
-const buttonBase =
-  "inline-flex items-center justify-center gap-2 rounded-md px-4 py-2.5 text-sm font-medium transition-colors duration-[var(--duration-fast)] disabled:pointer-events-none disabled:opacity-50";
+import {
+  Button as ShadcnButton,
+  type ButtonProps as ShadcnButtonProps,
+  buttonVariants as shadcnButtonVariants,
+} from "./button";
 
-const buttonVariants = {
-  primary: "bg-accent text-accent-fg hover:opacity-90",
-  secondary: "border border-border-strong text-fg hover:bg-surface-raised",
-  ghost: "text-fg-muted hover:text-fg",
-} as const;
+export { ShadcnButton as Button, shadcnButtonVariants as buttonVariants };
+export type { ShadcnButtonProps as ButtonProps };
 
-type ButtonVariant = keyof typeof buttonVariants;
+type ButtonVariantLegacy = "primary" | "secondary" | "ghost" | "default" | "outline" | "link";
 
-/**
- * Button styling for non-button elements (e.g. a download link that must not use
- * `next/link`). Keeps every accent action visually in one family.
- */
-export function buttonClassName(variant: ButtonVariant = "primary", className?: string) {
-  return cn(buttonBase, buttonVariants[variant], className);
-}
-
-type ButtonProps = Omit<ComponentProps<"button">, "className"> & {
-  variant?: ButtonVariant;
-  className?: string;
-};
-
-export function Button({ variant = "primary", className, type = "button", ...props }: ButtonProps) {
-  return <button type={type} className={buttonClassName(variant, className)} {...props} />;
+export function buttonClassName(variant: ButtonVariantLegacy = "primary", className?: string) {
+  const mappedVariant = variant === "primary" ? "default" : variant;
+  return shadcnButtonVariants({ variant: mappedVariant, className });
 }
 
 type ButtonLinkProps = {
   href: string;
-  variant?: ButtonVariant;
+  variant?: ButtonVariantLegacy;
   /** Opens in a new tab with the matching `rel`. */
   external?: boolean;
   className?: string;
@@ -157,19 +145,27 @@ export function ButtonLink({
   children,
   ...rest
 }: ButtonLinkProps) {
-  const classes = buttonClassName(variant, className);
+  const mappedVariant = variant === "primary" ? "default" : variant;
 
   if (external) {
     return (
-      <a href={href} className={classes} rel="noreferrer noopener" target="_blank" {...rest}>
-        {children}
-      </a>
+      <ShadcnButton asChild variant={mappedVariant} className={className}>
+        <a href={href} rel="noreferrer noopener" target="_blank" {...rest}>
+          {children}
+        </a>
+      </ShadcnButton>
     );
   }
 
   return (
-    <Link href={href} className={classes} {...rest}>
-      {children}
-    </Link>
+    <ShadcnButton asChild variant={mappedVariant} className={className}>
+      <Link href={href} {...rest}>
+        {children}
+      </Link>
+    </ShadcnButton>
   );
 }
+
+export { Card, CardHeader, CardFooter, CardTitle, CardDescription, CardContent } from "./card";
+export { Badge, badgeVariants } from "./badge";
+

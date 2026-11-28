@@ -1,6 +1,6 @@
 "use client";
 
-import type { CSSProperties } from "react";
+import type { CSSProperties, MouseEvent } from "react";
 import Link from "next/link";
 import { CvDownloadMenu } from "@/components/cv-download-menu";
 import type { CvLinks } from "@/lib/cv";
@@ -9,6 +9,17 @@ import { NavIcon, type NavIconName } from "./nav-icons";
 import { useActiveSection } from "../hooks/use-active-section";
 
 const ids = NAV_SECTIONS.map((section) => section.id);
+
+function handleSectionClick(event: MouseEvent<HTMLAnchorElement>, id: string) {
+  const target = document.getElementById(id);
+  if (target) {
+    event.preventDefault();
+    target.scrollIntoView({
+      behavior: "smooth",
+      block: "start",
+    });
+  }
+}
 
 /** Desktop in-page navigation. Floating icon dock with sliding active indicator. */
 export function SectionNav({ cv }: { cv: CvLinks }) {
@@ -21,14 +32,8 @@ export function SectionNav({ cv }: { cv: CvLinks }) {
         {NAV_SECTIONS.map((section) => (
           <li key={section.id}>
             <Link
-              href={`#${section.id}`}
-              onClick={(event) => {
-                event.preventDefault();
-                document.getElementById(section.id)?.scrollIntoView({
-                  behavior: "smooth",
-                  block: "start",
-                });
-              }}
+              href={`/#${section.id}`}
+              onClick={(event) => handleSectionClick(event, section.id)}
               aria-current={active === section.id ? "true" : undefined}
               aria-label={section.label}
               title={section.label}
