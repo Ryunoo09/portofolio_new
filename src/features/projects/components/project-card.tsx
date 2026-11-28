@@ -1,6 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
-import { Tag } from "@/components/ui";
+import { Button, Tag } from "@/components/ui";
 import { mediaUrl } from "@/lib/media";
 import type { Project } from "@/types/content";
 import { hasPublicLink, publicLinks } from "../links";
@@ -116,34 +116,27 @@ export function ProjectCard({ project, index, reversed = false }: ProjectCardPro
             </ul>
           )}
 
-          <div className="mt-4 flex flex-wrap items-center gap-4 text-xs font-mono">
-            <Link
-              href={`/projects/${project.slug}`}
-              className="text-accent hover:text-accent-soft transition-colors font-medium inline-flex items-center gap-1"
-            >
-              Case study <span aria-hidden="true" className="project-arrow">→</span>
-            </Link>
-
-            {liveUrl && (
-              <a
-                href={liveUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-fg-muted hover:text-fg transition-colors"
-              >
-                Live ↗
-              </a>
-            )}
+          <div className="mt-4 flex flex-wrap items-center gap-2.5">
+            <Button asChild size="sm" variant="default">
+              <Link href={`/projects/${project.slug}`}>
+                Case study <span aria-hidden="true" className="project-arrow ml-1">→</span>
+              </Link>
+            </Button>
 
             {repoUrl && (
-              <a
-                href={repoUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-fg-muted hover:text-fg transition-colors"
-              >
-                Code ↗
-              </a>
+              <Button asChild size="sm" variant="secondary">
+                <a href={repoUrl} target="_blank" rel="noopener noreferrer">
+                  Code ↗
+                </a>
+              </Button>
+            )}
+
+            {liveUrl && (
+              <Button asChild size="sm" variant="outline">
+                <a href={liveUrl} target="_blank" rel="noopener noreferrer">
+                  Live ↗
+                </a>
+              </Button>
             )}
           </div>
         </div>
