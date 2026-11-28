@@ -141,28 +141,57 @@ export function MusicPlayer({ tracks }: { tracks: MusicTrack[] }) {
     >
       <audio ref={audioRef} src={track.src} preload="none" aria-hidden="true" onPlay={() => setPlaying(true)} onPause={() => setPlaying(false)} onLoadedMetadata={(event) => setDuration(Number.isFinite(event.currentTarget.duration) ? event.currentTarget.duration : 0)} onDurationChange={(event) => setDuration(Number.isFinite(event.currentTarget.duration) ? event.currentTarget.duration : 0)} onTimeUpdate={(event) => setCurrentTime(event.currentTarget.currentTime)} onEnded={() => tracks.length > 1 ? selectTrack(trackIndex + 1) : setPlaying(false)} onError={() => { setPlaying(false); setDuration(0); setCurrentTime(0); }} />
 
-      <div className="border-border bg-surface/95 w-[min(25rem,calc(100vw-2rem))] rounded-2xl border p-2 shadow-lg backdrop-blur">
-        <div className="flex min-w-0 items-center gap-1.5 sm:gap-2">
+      <div
+        className="music-player-card border-border bg-surface/95 w-[min(25rem,calc(100vw-2rem))] overflow-hidden rounded-3xl border p-2.5 shadow-lg backdrop-blur"
+        data-playing={playing ? "true" : undefined}
+      >
+        <div className="relative z-10 flex min-w-0 items-center gap-2.5">
           <span
             aria-hidden="true"
-            className="player-equalizer bg-accent/15 flex size-10 shrink-0 items-end justify-center gap-[3px] rounded-full pb-3"
+            className="player-disc shrink-0"
             data-playing={playing ? "true" : undefined}
           >
-            <i />
-            <i />
-            <i />
-            <i />
+            <span className="player-disc-rings" />
+            <span className="player-disc-hub" />
           </span>
           <div className="min-w-0 flex-1">
-            <p className="text-fg truncate text-sm font-semibold leading-tight">{track.title}</p>
-            <p className="text-fg-muted mt-0.5 text-xs tabular-nums leading-none">{formatTime(currentTime)} / {formatTime(duration)}</p>
+            <p className="text-fg truncate text-sm font-semibold leading-tight">
+              {track.title}
+            </p>
+            <div className="text-fg-muted mt-1 flex items-center gap-1.5 font-mono text-xs leading-none">
+              <span className="tabular-nums">
+                {formatTime(currentTime)} / {formatTime(duration)}
+              </span>
+              <span
+                aria-hidden="true"
+                className="player-equalizer player-equalizer-sm shrink-0 items-end"
+                data-playing={playing ? "true" : undefined}
+              >
+                <i />
+                <i />
+                <i />
+                <i />
+                <i />
+              </span>
+            </div>
           </div>
           {!expanded && (
             <>
-              <button type="button" onClick={togglePlayback} aria-pressed={playing} aria-label={playing ? "Pause background music" : "Play background music"} className="bg-accent text-accent-fg grid size-12 shrink-0 place-items-center rounded-full transition-colors duration-[var(--duration-fast)] motion-reduce:transition-none">
+              <button
+                type="button"
+                onClick={togglePlayback}
+                aria-pressed={playing}
+                aria-label={playing ? "Pause background music" : "Play background music"}
+                className="bg-accent text-accent-fg grid size-10 shrink-0 place-items-center rounded-full shadow-[0_0_16px_color-mix(in_oklab,var(--accent)_35%,transparent)] transition-[background-color,transform] duration-[var(--duration-fast)] active:scale-95 motion-reduce:transition-none"
+              >
                 <PlayerIcon name={playing ? "pause" : "play"} />
               </button>
-              <button type="button" onClick={() => selectTrack(trackIndex + 1)} aria-label="Next track" className="text-fg-muted hover:text-fg grid size-10 shrink-0 place-items-center rounded-full">
+              <button
+                type="button"
+                onClick={() => selectTrack(trackIndex + 1)}
+                aria-label="Next track"
+                className="text-fg-muted hover:text-fg hover:bg-surface-raised/60 grid size-9 shrink-0 place-items-center rounded-full transition-colors duration-[var(--duration-fast)] motion-reduce:transition-none"
+              >
                 <PlayerIcon name="next" />
               </button>
             </>
@@ -172,13 +201,13 @@ export function MusicPlayer({ tracks }: { tracks: MusicTrack[] }) {
             onClick={() => setExpanded((value) => !value)}
             aria-expanded={expanded}
             aria-label={expanded ? "Collapse music player" : "Expand music player"}
-            className="text-fg-muted hover:text-fg grid size-10 shrink-0 place-items-center rounded-full"
+            className="text-fg-muted hover:text-fg hover:bg-surface-raised/60 grid size-9 shrink-0 place-items-center rounded-full transition-colors duration-[var(--duration-fast)] motion-reduce:transition-none"
           >
             <PlayerIcon name={expanded ? "collapse" : "expand"} />
           </button>
         </div>
         {expanded && (
-          <div className="mt-2 flex flex-col gap-2 border-border border-t pt-2">
+          <div className="border-border relative z-10 mt-2.5 flex flex-col gap-2.5 border-t pt-2.5">
             {track.credit && (
               <p className="text-fg-muted truncate text-xs">
                 {track.creditUrl ? (
