@@ -54,12 +54,4 @@
 
 .certificate-content a {
   width: fit-content;
-  color: var(--accent-soft);
-  font-size: 0.875rem;
-  text-decoration: underline;
-  text-underline-offset: 0.2em;
-}
-
-.certificate-content a:hover {
-  color: var(--fg);
 }
