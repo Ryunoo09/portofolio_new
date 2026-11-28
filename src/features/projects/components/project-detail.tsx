@@ -5,6 +5,7 @@ import { renderMarkdown } from "@/lib/markdown";
 import { mediaUrl } from "@/lib/media";
 import type { ProjectWithMedia } from "@/types/content";
 import { hasPublicLink, publicLinks } from "../links";
+import { ProjectGallery } from "./project-gallery";
 
 type ProjectDetailProps = {
   project: ProjectWithMedia;
@@ -75,7 +76,7 @@ export function ProjectDetail({ project }: ProjectDetailProps) {
           </div>
         )}
 
-        <aside className="space-y-6 lg:sticky lg:top-24">
+        <aside className="space-y-6">
           {tech.length > 0 && (
             <div className="rounded-xl border border-border/80 bg-surface/40 p-6 backdrop-blur-xs">
               <h2 className="text-fg font-mono text-xs tracking-[0.2em] uppercase font-semibold">
@@ -90,6 +91,17 @@ export function ProjectDetail({ project }: ProjectDetailProps) {
               </ul>
             </div>
           )}
+
+          <ProjectGallery
+            title={project.title}
+            images={project.media.map((item) => ({
+              id: item.id,
+              src: mediaUrl(item.path),
+              // Schema allows an empty alt; a screenshot is meaningful content,
+              // so it must not fall back to decorative silence.
+              alt: item.alt.trim() || `${project.title} screenshot`,
+            }))}
+          />
 
           {(repoUrl || liveUrl) && (
             <div className="rounded-xl border border-border/80 bg-surface/40 p-6 backdrop-blur-xs">
@@ -143,28 +155,6 @@ export function ProjectDetail({ project }: ProjectDetailProps) {
           )}
         </aside>
       </div>
-
-      {project.media.length > 0 && (
-        <div className="mt-12 space-y-6">
-          {project.media.map((item) => (
-            <div
-              key={item.id}
-              className="border-border bg-surface relative aspect-[16/9] overflow-hidden rounded-sm border"
-            >
-              <Image
-                src={mediaUrl(item.path)}
-                // Schema allows an empty alt; a screenshot is meaningful content,
-                // so it must not fall back to decorative silence.
-                alt={item.alt.trim() || `${project.title} screenshot`}
-                fill
-                sizes="(min-width: 72rem) 72rem, 100vw"
-                className="object-cover"
-                loading="lazy"
-              />
-            </div>
-          ))}
-        </div>
-      )}
     </article>
   );
 }
