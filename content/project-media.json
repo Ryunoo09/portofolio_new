@@ -1,1 +1,30 @@
-[]
+[
+  {
+    "id": "08881d10-f52c-4b82-a8e4-90585008fd54",
+    "project_id": "44444444-4444-4444-8444-444444444402",
+    "path": "projects/mini_erp/dashboard.webp",
+    "alt": "Mini-ERP dashboard showing production and inventory summaries",
+    "sort_order": 1
+  },
+  {
+    "id": "e0854cd0-dabd-4d9e-809e-d3bf3ca1f034",
+    "project_id": "44444444-4444-4444-8444-444444444402",
+    "path": "projects/mini_erp/dashboard_finance.webp",
+    "alt": "Finance dashboard with cost and revenue reporting",
+    "sort_order": 2
+  },
+  {
+    "id": "cfd5bf7f-fbea-4f51-91c6-694998b99a1b",
+    "project_id": "44444444-4444-4444-8444-444444444402",
+    "path": "projects/mini_erp/transaksi_produksi.webp",
+    "alt": "Production transaction entry screen",
+    "sort_order": 3
+  },
+  {
+    "id": "46088c65-f6da-403f-b74f-551db325bb0c",
+    "project_id": "44444444-4444-4444-8444-444444444402",
+    "path": "projects/mini_erp/report.webp",
+    "alt": "Generated operational report view",
+    "sort_order": 4
+  }
+]
