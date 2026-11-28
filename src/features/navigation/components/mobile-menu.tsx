@@ -50,10 +50,13 @@ export function MobileMenu({ cv }: { cv: CvLinks }) {
             {NAV_SECTIONS.map((section) => (
               <li key={section.id}>
                 <Link
-                  href={`#${section.id}`}
+                  href={`/#${section.id}`}
                   onClick={(event) => {
-                    event.preventDefault();
-                    document.getElementById(section.id)?.scrollIntoView({ behavior: "smooth", block: "start" });
+                    const target = document.getElementById(section.id);
+                    if (target) {
+                      event.preventDefault();
+                      target.scrollIntoView({ behavior: "smooth", block: "start" });
+                    }
                   }}
                   aria-label={section.label}
                   title={section.label}
@@ -121,13 +124,16 @@ export function MobileMenu({ cv }: { cv: CvLinks }) {
             <li key={section.id}>
               <Link
                 ref={index === 0 ? firstLinkRef : undefined}
-                href={`#${section.id}`}
+                href={`/#${section.id}`}
                 onClick={(event) => {
-                  event.preventDefault();
-                  document.getElementById(section.id)?.scrollIntoView({
-                    behavior: "smooth",
-                    block: "start",
-                  });
+                  const target = document.getElementById(section.id);
+                  if (target) {
+                    event.preventDefault();
+                    target.scrollIntoView({
+                      behavior: "smooth",
+                      block: "start",
+                    });
+                  }
                   setOpen(false);
                 }}
                 className="text-fg-muted hover:text-fg block py-2 text-sm"

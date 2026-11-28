@@ -5,12 +5,12 @@
 .projects-container {
   display: flex;
   flex-direction: column;
-  gap: 3.5rem;
+  gap: 2rem;
 }
 
 @media (min-width: 64rem) {
   .projects-container {
-    gap: 4.5rem;
+    gap: 2.5rem;
   }
 }
 

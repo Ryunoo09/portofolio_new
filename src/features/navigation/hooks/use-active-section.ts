@@ -26,10 +26,16 @@ export function useActiveSection(ids: readonly SectionId[]): SectionId | null {
           else visible.delete(entry.target.id);
         }
 
-        // The section highest in the document wins, so a short section that is
-        // barely visible never steals the highlight from the one being read.
-        const next = ids.find((id) => visible.has(id));
-        setActive(next ?? null);
+        // The active section is determined by what is most visible or topmost in view.
+        // If bottom of page is reached, or last visible section is present, prefer highest ratio
+        // or last section when both sticky panel and overlaying card are intersecting.
+        let winner: SectionId | null = null;
+        if (visible.has("contact")) {
+          winner = "contact";
+        } else {
+          winner = ids.find((id) => visible.has(id)) ?? null;
+        }
+        setActive(winner);
       },
       { rootMargin: "-20% 0px -40% 0px", threshold: [0, 0.25, 0.5, 0.75, 1] },
     );
