@@ -142,7 +142,7 @@ export function MusicPlayer({ tracks }: { tracks: MusicTrack[] }) {
       <audio ref={audioRef} src={track.src} preload="none" aria-hidden="true" onPlay={() => setPlaying(true)} onPause={() => setPlaying(false)} onLoadedMetadata={(event) => setDuration(Number.isFinite(event.currentTarget.duration) ? event.currentTarget.duration : 0)} onDurationChange={(event) => setDuration(Number.isFinite(event.currentTarget.duration) ? event.currentTarget.duration : 0)} onTimeUpdate={(event) => setCurrentTime(event.currentTarget.currentTime)} onEnded={() => tracks.length > 1 ? selectTrack(trackIndex + 1) : setPlaying(false)} onError={() => { setPlaying(false); setDuration(0); setCurrentTime(0); }} />
 
       <div
-        className="music-player-card border-border bg-surface/95 w-[min(25rem,calc(100vw-2rem))] overflow-hidden rounded-3xl border p-2.5 shadow-lg backdrop-blur"
+        className="music-player-card border-border bg-surface w-[min(25rem,calc(100vw-2rem))] overflow-hidden rounded-3xl border p-2.5 shadow-lg"
         data-playing={playing ? "true" : undefined}
       >
         <div className="relative z-10 flex min-w-0 items-center gap-2.5">
@@ -190,7 +190,7 @@ export function MusicPlayer({ tracks }: { tracks: MusicTrack[] }) {
                 type="button"
                 onClick={() => selectTrack(trackIndex + 1)}
                 aria-label="Next track"
-                className="text-fg-muted hover:text-fg hover:bg-surface-raised/60 grid size-9 shrink-0 place-items-center rounded-full transition-colors duration-[var(--duration-fast)] motion-reduce:transition-none"
+                className="text-fg-muted hover:text-fg hover:bg-surface-raised/60 grid size-7 shrink-0 place-items-center rounded-full [&_svg]:size-3.5 transition-colors duration-[var(--duration-fast)] motion-reduce:transition-none"
               >
                 <PlayerIcon name="next" />
               </button>
@@ -201,7 +201,7 @@ export function MusicPlayer({ tracks }: { tracks: MusicTrack[] }) {
             onClick={() => setExpanded((value) => !value)}
             aria-expanded={expanded}
             aria-label={expanded ? "Collapse music player" : "Expand music player"}
-            className="text-fg-muted hover:text-fg hover:bg-surface-raised/60 grid size-9 shrink-0 place-items-center rounded-full transition-colors duration-[var(--duration-fast)] motion-reduce:transition-none"
+            className="text-fg-muted hover:text-fg hover:bg-surface-raised/60 grid size-7 shrink-0 place-items-center rounded-full [&_svg]:size-3.5 transition-colors duration-[var(--duration-fast)] motion-reduce:transition-none"
           >
             <PlayerIcon name={expanded ? "collapse" : "expand"} />
           </button>
