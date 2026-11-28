@@ -119,14 +119,40 @@ export function ProjectCard({ project, index, reversed = false }: ProjectCardPro
           <div className="mt-4 flex flex-wrap items-center gap-2.5">
             <Button asChild size="sm" variant="default">
               <Link href={`/projects/${project.slug}`}>
-                Case study <span aria-hidden="true" className="project-arrow ml-1">→</span>
+                <svg
+                  aria-hidden="true"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  className="size-4"
+                >
+                  <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z" />
+                  <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z" />
+                </svg>
+                Case study
               </Link>
             </Button>
 
             {repoUrl && (
               <Button asChild size="sm" variant="secondary">
                 <a href={repoUrl} target="_blank" rel="noopener noreferrer">
-                  Code ↗
+                  <svg
+                    aria-hidden="true"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    className="size-4"
+                  >
+                    <polyline points="16 18 22 12 16 6" />
+                    <polyline points="8 6 2 12 8 18" />
+                  </svg>
+                  Code
                 </a>
               </Button>
             )}
@@ -134,7 +160,21 @@ export function ProjectCard({ project, index, reversed = false }: ProjectCardPro
             {liveUrl && (
               <Button asChild size="sm" variant="outline">
                 <a href={liveUrl} target="_blank" rel="noopener noreferrer">
-                  Live ↗
+                  <svg
+                    aria-hidden="true"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    className="size-4"
+                  >
+                    <circle cx="12" cy="12" r="10" />
+                    <line x1="2" y1="12" x2="22" y2="12" />
+                    <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z" />
+                  </svg>
+                  Live
                 </a>
               </Button>
             )}
