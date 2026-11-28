@@ -20,12 +20,12 @@ for (const viewport of [
 
         const menuButton = page.getByRole("button", { name: "Menu" });
         if (await menuButton.isVisible()) {
-          const dockLink = page.locator(`.nav-dock-mobile .nav-dock a[href="#${id}"]`);
+          const dockLink = page.locator(`.nav-dock-mobile .nav-dock a[href="/#${id}"]`);
           if (await dockLink.isVisible()) {
             await dockLink.click();
           } else {
             await menuButton.click();
-            await page.locator(`#mobile-menu a[href="#${id}"]`).click();
+            await page.locator(`#mobile-menu a[href="/#${id}"]`).click();
           }
         } else {
           await page
@@ -92,7 +92,7 @@ test("mobile menu closes with Escape and returns focus", async ({ page }) => {
 
   const menu = page.locator("#mobile-menu");
   await expect(menu).toBeVisible();
-  await expect(menu.locator('a[href="#home"]')).toBeFocused();
+  await expect(menu.locator('a[href="/#home"]')).toBeFocused();
 
   await page.keyboard.press("Escape");
   await expect(menu).toBeHidden();
